@@ -18,17 +18,15 @@ class TimesheetForm
                 Select::make('employee_id')
                     ->relationship('employee', 'first_name')
                     ->getOptionLabelFromRecordUsing(fn ($record) => "{$record->first_name} {$record->last_name}")
-                    ->searchable()
+                    ->searchable(['first_name', 'last_name'])
                     ->preload()
                     ->required(),
                 DatePicker::make('date')
                     ->required(),
                 TimePicker::make('time_in'),
                 TimePicker::make('time_out'),
-                Toggle::make('is_on_leave')
-                    ->required(),
-                Toggle::make('force_meal_allowance')
-                    ->required(),
+                Toggle::make('is_on_leave'),
+                Toggle::make('force_meal_allowance'),
                 TextInput::make('deduction')
                     ->required()
                     ->numeric()

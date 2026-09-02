@@ -1,6 +1,6 @@
 # Truant App - Employee, Compensation & Timesheet Management System
 
-**Truant App** is an enterprise management platform built using **Laravel 11** and **Filament v3**. It streamlines employee record keeping, compensation and benefits structures, change auditing, and daily employee timesheets with automated meal allowance calculation rules.
+**Truant App** is an enterprise management platform built using **Laravel 11** and **Filament v3**. It streamlines employee record keeping, compensation and benefits structures, change auditing, daily employee timesheets with automated meal allowance calculation rules, and an advanced automated Payroll processing module.
 
 ---
 
@@ -10,9 +10,7 @@
 - **Complete Employee Directory**: Full CRUD functionality to manage employee records.
 - **Detailed Attributes**:
   - First Name & Last Name
-  - Address
-  - Birthdate
-  - Mobile Number
+  - Address, Birthdate, Mobile Number
   - Username & Hashed Password Credentials
   - **Required Position Assignment**: Links each employee to an established organizational position.
 - **Top-Level Sidebar Placement**: Easily accessible directly from the main sidebar.
@@ -22,11 +20,8 @@
 ### 2. 💼 Compensations and Benefits (Position Management)
 - **Position Catalog**: Pre-configured organizational roles (e.g., *Secretary, Part Time, Production Staff, Production Head, Jr. Graphic Designer, Sr. Graphic Designer, Semi-Skilled, Labor*).
 - **Financial & Insurance Attributes**:
-  - **Base Rate** (₱)
-  - **Overtime Rate** (₱)
-  - **SSS Contribution** (₱)
-  - **Philhealth Contribution** (₱)
-  - **Pag-ibig Contribution** (₱)
+  - **Base Rate** & **Overtime Rate** (₱)
+  - **SSS, Philhealth, and Pag-ibig Contributions** (₱)
 - **📜 Comprehensive Audit Trail / Change History**:
   - Automatically captures every creation and modification on any position.
   - Tracks timestamp, active administrator identity, and transition details (`Field Name: Old Value ➔ New Value`).
@@ -44,8 +39,31 @@
 - **🌴 Leave Tracking**: `On Leave` indicator showing whether an employee was on leave for the given date.
 - **💵 Deductions & Extra Income**:
   - Numeric fields for logging penalties, deductions, or bonuses.
-  - **Interactive Hover Tooltips**: When a description is provided, a dynamic info icon (`ℹ️`) appears next to the amount. Hovering over the amount or icon displays the reason/description in a tooltip.
+  - **Interactive Hover Tooltips**: Dynamic info icon (`ℹ️`) appears next to the amount showing the reason/description.
 - **📅 Daily Table Grouping**: Automatically groups timesheet logs by date under collapsible header sections.
+
+---
+
+### 4. 💸 Automated Payroll Processing
+- **Bi-Monthly Cutoffs**: Segmented controls to toggle between the 1st–15th and 16th–30th periods.
+- **🧮 Core Computation Logic & Business Rules**:
+  - **Hourly Rate Calculation**: Standardized at `Base Rate / 8` hours.
+  - **Maximum Regular Hours**: Capped at **8 hours per day**. Any worked time exceeding 8 hours is automatically transferred to **Overtime (OT) hours**.
+  - **Midday Clamping Rule**: If an employee clocks in between **11:00 AM and 1:00 PM**, the system automatically clamps their effective start time to **1:00 PM** to account for the lunch break policy.
+  - **Lunch Break Deduction**: A **1-hour break** is automatically deducted from gross hours if the shift spans past **12:00 PM**.
+  - **Late Threshold**: Employees clocking in after **8:45 AM** are visually flagged as `Late` in the daily logs.
+  - **Government Deductions**: SSS, PhilHealth, and Pag-ibig monthly contributions configured in the Position are divided by **2** for the bi-monthly cutoffs.
+- **Dynamic KPI Dashboard**: Real-time summary cards displaying Total Net Payable, Gross Payroll, Total Work/OT Hours, and Total Employees Processed.
+- **Detailed Data Table**:
+  - High-level employee summary showing Reg/OT hours, pay, allowances, govt deductions, and Net Payable.
+  - **Responsive Layout**: Sticky positioning ensures Employee and Action columns remain visible on smaller screens.
+- **Interactive Daily Breakdown**: Collapsible rows revealing a detailed day-by-day attendance log.
+  - Highlights Late arrivals (>8:45 AM) and automatically clamps midday breaks (12:00 PM - 1:00 PM).
+- **🖨️ Printable Payslip Engine**:
+  - Integrated "Print" button on each employee's daily log.
+  - Uses an advanced Alpine.js rendering overlay to generate a clean, printer-friendly single-page document.
+  - Features a custom UI optimized for standard paper sizes (A4/Letter).
+  - Includes a full summary breakdown grid, daily attendance logs, the company header, and signature acknowledgment lines.
 
 ---
 
@@ -109,15 +127,24 @@
 ```
 app/
 ├── Filament/
+│   ├── Pages/
+│   │   └── Payroll.php             # Custom Payroll page logic and UI rendering
 │   └── Resources/
-│       ├── Employees/          # Employee directory & form/table schemas
-│       ├── Positions/          # Position resource, forms, & AuditLogsRelationManager
-│       └── Timesheets/         # Timesheet resource, meal allowance logic, & tooltips
+│       ├── Employees/              # Employee directory & form/table schemas
+│       ├── Positions/              # Position resource, forms, & AuditLogsRelationManager
+│       └── Timesheets/             # Timesheet resource, meal allowance logic, & tooltips
 ├── Models/
-│   ├── Employee.php            # Employee model & relationships
-│   ├── Position.php            # Position model & change auditor hooks
-│   ├── PositionAuditLog.php    # Audit trail model
-│   └── Timesheet.php           # Timesheet model with virtual meal allowance accessor
+│   ├── Employee.php                # Employee model & relationships
+│   ├── Position.php                # Position model & change auditor hooks
+│   ├── PositionAuditLog.php        # Audit trail model
+│   └── Timesheet.php               # Timesheet model with virtual meal allowance accessor
+├── Services/
+│   └── PayrollCalculator.php       # Core business logic for hours and pay processing
 database/
-└── migrations/                 # Schema definitions for employees, positions, audit logs, & timesheets
+└── migrations/                     # Schema definitions for employees, positions, audit logs, & timesheets
+resources/
+└── views/
+    └── filament/
+        └── pages/
+            └── payroll.blade.php   # Detailed custom blade view and Alpine print engine
 ```

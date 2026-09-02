@@ -17,9 +17,9 @@ class TimesheetsTable
     {
         return $table
             ->columns([
-                TextColumn::make('employee')
+                TextColumn::make('employee.first_name')
                     ->label('Employee Name')
-                    ->getStateUsing(fn ($record) => "{$record->employee->first_name} {$record->employee->last_name}")
+                    ->formatStateUsing(fn ($record) => "{$record->employee->first_name} {$record->employee->last_name}")
                     ->searchable(['first_name', 'last_name']),
                 TextColumn::make('date')
                     ->date()
