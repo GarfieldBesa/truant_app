@@ -89,7 +89,7 @@
             cursor: pointer;
             border: none;
             letter-spacing: .01em;
-            white-space: nowrap;
+            
         }
 
         .pr-seg-btn-on {
@@ -140,7 +140,7 @@
                 width: 100%; border-collapse: collapse; margin-bottom: 2rem;
             }
             .pr-print-tbl th, .pr-print-tbl td {
-                border: 1px solid #cbd5e1; padding: 0.35rem 0.25rem; text-align: left; font-size: 0.75rem; white-space: nowrap;
+                border: 1px solid #cbd5e1; padding: 0.35rem 0.25rem; text-align: left; font-size: 0.75rem; 
             }
             .pr-print-tbl th {
                 background: #f1f5f9 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; font-weight: 700;
@@ -384,7 +384,7 @@
             letter-spacing: .08em;
             text-transform: uppercase;
             color: #64748b;
-            white-space: nowrap;
+            
         }
 
         .dark .pr-tbl th { color: #94a3b8; }
@@ -536,7 +536,7 @@
             letter-spacing: .08em;
             text-transform: uppercase;
             color: #64748b;
-            white-space: nowrap;
+            
         }
 
         .dark .pr-sub-tbl th { color: #94a3b8; }
@@ -629,6 +629,7 @@
         .pr-num {
             font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
             font-variant-numeric: tabular-nums;
+            white-space: nowrap;
         }
 
         /* ── Empty state ──────────────────────────────────────────────────────── */
@@ -664,6 +665,65 @@
 
         .dark .pr-net-cell {
             background: linear-gradient(90deg, transparent 0%, rgba(245,158,11,.08) 100%);
+        }
+
+        /* ── Mobile Responsive Tables ─────────────────────────────────────────── */
+        @media (max-width: 1024px) {
+            .pr-tbl, .pr-tbl thead, .pr-tbl tbody, .pr-tbl th, .pr-tbl td, .pr-tbl tr { display: block; }
+            .pr-tbl thead tr { position: absolute; top: -9999px; left: -9999px; }
+            .pr-tbl tr.pr-row { margin-bottom: 1rem; border: 1px solid #e2e8f0; border-radius: .75rem; background: #ffffff; box-shadow: 0 1px 3px rgba(0,0,0,.05); }
+            .dark .pr-tbl tr.pr-row { background: #1e293b; border-color: #334155; }
+            .pr-tbl td { border: none; border-bottom: 1px solid #f1f5f9; position: relative; padding: .75rem 1rem .75rem 40% !important; text-align: right !important; min-height: 3rem; }
+            .dark .pr-tbl td { border-color: #334155; }
+            .pr-tbl td:before { position: absolute; top: 50%; transform: translateY(-50%); left: 1rem; width: 35%; padding-right: 10px; font-size: .625rem; font-weight: 700; text-transform: uppercase; color: #64748b; text-align: left; }
+            .dark .pr-tbl td:before { color: #94a3b8; }
+            .pr-tbl tr.pr-row td:last-child { border-bottom: 0; }
+            
+            .pr-tbl td:nth-of-type(1):before { content: "Employee"; }
+            .pr-tbl td:nth-of-type(2):before { content: "Daily Rate"; }
+            .pr-tbl td:nth-of-type(3):before { content: "Reg / OT Hours"; }
+            .pr-tbl td:nth-of-type(4):before { content: "Regular Pay"; }
+            .pr-tbl td:nth-of-type(5):before { content: "OT Pay"; }
+            .pr-tbl td:nth-of-type(6):before { content: "Allowances"; }
+            .pr-tbl td:nth-of-type(7):before { content: "Gross"; }
+            .pr-tbl td:nth-of-type(8):before { content: "Govt Ded."; }
+            .pr-tbl td:nth-of-type(9):before { content: "Other Ded."; }
+            .pr-tbl td:nth-of-type(10):before { content: "Net Payable"; }
+            .pr-tbl td:nth-of-type(11):before { content: "Action"; }
+
+            .pr-tbl td:nth-of-type(1) > div { justify-content: flex-end; text-align: right; }
+            .pr-tbl td:nth-of-type(1) > div > div { text-align: right; }
+            
+            /* Make action button right aligned */
+            .pr-tbl td:nth-of-type(11) > button { float: right; margin-bottom: .25rem; }
+
+            .pr-sub-tbl, .pr-sub-tbl thead, .pr-sub-tbl tbody, .pr-sub-tbl th, .pr-sub-tbl td, .pr-sub-tbl tr { display: block; }
+            .pr-sub-tbl thead tr { position: absolute; top: -9999px; left: -9999px; }
+            .pr-sub-tbl tr { margin-bottom: .75rem; border: 1px solid #e2e8f0; border-radius: .5rem; }
+            .dark .pr-sub-tbl tr { border-color: #334155; }
+            .pr-sub-tbl td { border: none; border-bottom: 1px solid #f1f5f9; position: relative; padding: .625rem 1rem .625rem 40% !important; text-align: right !important; min-height: 2.5rem; }
+            .dark .pr-sub-tbl td { border-color: #334155; }
+            .pr-sub-tbl td:before { position: absolute; top: 50%; transform: translateY(-50%); left: 1rem; width: 35%; padding-right: 10px; font-size: .6rem; font-weight: 700; text-transform: uppercase; color: #64748b; text-align: left; }
+            .dark .pr-sub-tbl td:before { color: #94a3b8; }
+            
+            .pr-sub-tbl td:nth-of-type(1):before { content: "Date"; }
+            .pr-sub-tbl td:nth-of-type(2):before { content: "Time In"; }
+            .pr-sub-tbl td:nth-of-type(3):before { content: "Time Out"; }
+            .pr-sub-tbl td:nth-of-type(4):before { content: "Gross Hrs"; }
+            .pr-sub-tbl td:nth-of-type(5):before { content: "Breaks"; }
+            .pr-sub-tbl td:nth-of-type(6):before { content: "Reg Hrs"; }
+            .pr-sub-tbl td:nth-of-type(7):before { content: "OT Hrs"; }
+            .pr-sub-tbl td:nth-of-type(8):before { content: "Reg Pay"; }
+            .pr-sub-tbl td:nth-of-type(9):before { content: "OT Pay"; }
+            .pr-sub-tbl td:nth-of-type(10):before { content: "Allowance"; }
+            .pr-sub-tbl td:nth-of-type(11):before { content: "Deduction"; }
+            .pr-sub-tbl td:nth-of-type(12):before { content: "Day Total"; }
+
+            .pr-tbl td.pr-expand-cell { padding: 0 !important; border-bottom: none !important; }
+            .pr-tbl td.pr-expand-cell:before { content: none !important; }
+            .pr-expand-inner { padding: 1rem; }
+            
+            .pr-sticky-col-left, .pr-sticky-col-right { position: static; box-shadow: none !important; }
         }
     </style>
 
@@ -891,7 +951,7 @@
                             @foreach($payrollData['employees'] as $emp)
                                 {{-- ── Employee summary row ── --}}
                                 <tr class="pr-row">
-                                    <td class="pr-sticky-col-left" style="white-space:nowrap;">
+                                    <td class="pr-sticky-col-left" style="">
                                         <div style="display:flex; align-items:center; gap:.75rem;">
                                             <div class="pr-avatar">
                                                 {{ strtoupper(substr($emp['employee_name'], 0, 1)) }}
@@ -906,7 +966,7 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="text-center" style="white-space:nowrap;">
+                                    <td class="text-center" style="">
                                         <div class="pr-num" style="font-weight:600; font-size:.8125rem;">
                                             ₱{{ number_format($emp['base_rate'], 2) }}
                                         </div>
@@ -914,7 +974,7 @@
                                             ₱{{ number_format($emp['overtime_rate'], 2) }}/hr OT
                                         </div>
                                     </td>
-                                    <td class="text-center" style="white-space:nowrap;">
+                                    <td class="text-center" style="">
                                         <div class="pr-num" style="font-weight:700;">
                                             {{ $emp['total_regular_hours'] }} hrs
                                         </div>
@@ -922,28 +982,28 @@
                                             +{{ $emp['total_ot_hours'] }} hrs OT
                                         </div>
                                     </td>
-                                    <td class="text-right pr-num" style="white-space:nowrap; color:#374151;">
+                                    <td class="text-right pr-num" style=" color:#374151;">
                                         ₱{{ number_format($emp['total_regular_pay'], 2) }}
                                     </td>
-                                    <td class="text-right pr-num" style="white-space:nowrap; color:#d97706; font-weight:600;">
+                                    <td class="text-right pr-num" style=" color:#d97706; font-weight:600;">
                                         ₱{{ number_format($emp['total_ot_pay'], 2) }}
                                     </td>
-                                    <td class="text-right pr-num" style="white-space:nowrap; color:#16a34a; font-weight:600;">
+                                    <td class="text-right pr-num" style=" color:#16a34a; font-weight:600;">
                                         +₱{{ number_format($emp['total_allowance'] + $emp['total_extra_income'], 2) }}
                                     </td>
-                                    <td class="text-right pr-num" style="white-space:nowrap; font-weight:700;">
+                                    <td class="text-right pr-num" style=" font-weight:700;">
                                         ₱{{ number_format($emp['gross_pay'], 2) }}
                                     </td>
-                                    <td class="text-right pr-num" style="white-space:nowrap; color:#dc2626;">
+                                    <td class="text-right pr-num" style=" color:#dc2626;">
                                         −₱{{ number_format($emp['total_govt_deductions'], 2) }}
                                     </td>
-                                    <td class="text-right pr-num" style="white-space:nowrap; color:#dc2626;">
+                                    <td class="text-right pr-num" style=" color:#dc2626;">
                                         −₱{{ number_format($emp['total_deductions'], 2) }}
                                     </td>
-                                    <td class="text-right pr-num pr-net-cell" style="white-space:nowrap; font-weight:900; font-size:.875rem; color:#b45309; padding-right: 3rem;">
+                                    <td class="text-right pr-num pr-net-cell" style=" font-weight:900; font-size:.875rem; color:#b45309; padding-right: 3rem;">
                                         ₱{{ number_format($emp['net_pay'], 2) }}
                                     </td>
-                                    <td class="pr-sticky-col-right text-center" style="white-space:nowrap;">
+                                    <td class="pr-sticky-col-right text-center" style="">
                                         <button type="button"
                                             @click="expanded[{{ $emp['id'] }}] = !expanded[{{ $emp['id'] }}]"
                                             class="pr-action-btn">
@@ -985,7 +1045,7 @@
                                                 </div>
                                             </div>
 
-                                            <div style="overflow-x:auto;">
+                                            <div>
                                                 <table class="pr-sub-tbl">
                                                     <thead>
                                                         <tr>
@@ -1006,7 +1066,7 @@
                                                     <tbody>
                                                         @foreach($emp['days'] as $day)
                                                             <tr style="{{ $day['is_absent'] ? 'background:rgba(239,68,68,.04);' : ($day['is_on_leave'] ? 'background:rgba(59,130,246,.04);' : '') }}">
-                                                                <td style="font-weight:600; white-space:nowrap;">
+                                                                <td style="font-weight:600; ">
                                                                     {{ Carbon\Carbon::parse($day['date'])->format('M d (D)') }}
                                                                     @if($day['is_late'])
                                                                         <span class="pr-badge pr-badge-red" style="margin-left:.3rem;">Late</span>
@@ -1018,13 +1078,13 @@
                                                                         <span class="pr-badge pr-badge-slate" style="margin-left:.3rem;">No Log</span>
                                                                     @endif
                                                                 </td>
-                                                                <td style="white-space:nowrap;">
+                                                                <td style="">
                                                                     {{ $day['time_in'] ? Carbon\Carbon::parse($day['time_in'])->format('h:i A') : '—' }}
                                                                     @if($day['time_adjusted'])
                                                                         <span style="font-size:.6rem; color:#d97706; font-weight:700;" title="Adjusted to 1:00 PM">(1:00 PM)</span>
                                                                     @endif
                                                                 </td>
-                                                                <td style="white-space:nowrap;">
+                                                                <td style="">
                                                                     {{ $day['time_out'] ? Carbon\Carbon::parse($day['time_out'])->format('h:i A') : '—' }}
                                                                 </td>
                                                                 <td class="text-center pr-num">{{ $day['gross_hours'] > 0 ? $day['gross_hours'] : '—' }}</td>

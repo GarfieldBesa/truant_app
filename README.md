@@ -1,6 +1,6 @@
 # Truant App - Employee, Compensation & Timesheet Management System
 
-**Truant App** is an enterprise management platform built using **Laravel 11** and **Filament v3**. It streamlines employee record keeping, compensation and benefits structures, change auditing, daily employee timesheets with automated meal allowance calculation rules, and an advanced automated Payroll processing module.
+**Truant App** is an enterprise management platform built using **Laravel 11** and **Filament v3**. It streamlines employee record keeping, compensation and benefits structures, change auditing, daily employee timesheets with automated meal allowance calculation rules, cash advance requests with automated timesheet deduction synchronization, and an advanced automated Payroll processing module.
 
 ---
 
@@ -54,9 +54,11 @@
   - **Late Threshold**: Employees clocking in after **8:45 AM** are visually flagged as `Late` in the daily logs.
   - **Government Deductions**: SSS, PhilHealth, and Pag-ibig monthly contributions configured in the Position are divided by **2** for the bi-monthly cutoffs.
 - **Dynamic KPI Dashboard**: Real-time summary cards displaying Total Net Payable, Gross Payroll, Total Work/OT Hours, and Total Employees Processed.
-- **Detailed Data Table**:
+- **Detailed Data Table & Mobile-Ready Responsive Design**:
   - High-level employee summary showing Reg/OT hours, pay, allowances, govt deductions, and Net Payable.
-  - **Responsive Layout**: Sticky positioning ensures Employee and Action columns remain visible on smaller screens.
+  - **Adaptive Card Layout**: Tables automatically transform into stacked, touch-friendly cards on mobile/tablet screens (< 1024px) for seamless readability without awkward horizontal scrolling.
+  - **Strict Value Formatting**: Tabular monospace numbers with non-breaking negative currencies (e.g., `-₱477.50`).
+  - **Desktop Sticky Headers/Columns**: Sticky positioning keeps employee and action columns visible on wide viewports.
 - **Interactive Daily Breakdown**: Collapsible rows revealing a detailed day-by-day attendance log.
   - Highlights Late arrivals (>8:45 AM) and automatically clamps midday breaks (12:00 PM - 1:00 PM).
 - **🖨️ Printable Payslip Engine**:
@@ -64,6 +66,18 @@
   - Uses an advanced Alpine.js rendering overlay to generate a clean, printer-friendly single-page document.
   - Features a custom UI optimized for standard paper sizes (A4/Letter).
   - Includes a full summary breakdown grid, daily attendance logs, the company header, and signature acknowledgment lines.
+
+---
+
+### 5. 💳 Cash Advance Management
+- **Request Lifecycle & Approvals**: Streamlined management of employee cash advance requests with `Pending`, `Approved`, and `Declined` statuses.
+- **🔔 Real-Time Navigation Badge**: Top-level sidebar item features a dynamic badge counter highlighting pending requests requiring administrative action.
+- **Submitted Date & Request Tracking**: Captures submission timestamps, employee profiles, requested amounts, and detailed notes/reasons.
+- **⚡ Automated Timesheet & Deduction Synchronization**:
+  - Upon admin approval, the requested cash advance amount is automatically converted into a timesheet deduction.
+  - **Cutoff Matching Rule**: Inserts the deduction into the timesheet record matching the approval date, or locates the nearest existing record within the current bi-monthly cutoff.
+  - **Auto-Provisioning**: If no timesheet record exists within the cutoff window, a blank timesheet entry is automatically initialized on the approval date.
+  - **Standardized Tagging**: Deductions are systematically labeled or appended with the description `Cash Advance`.
 
 ---
 
@@ -130,18 +144,21 @@ app/
 │   ├── Pages/
 │   │   └── Payroll.php             # Custom Payroll page logic and UI rendering
 │   └── Resources/
+│       ├── CashAdvances/           # Cash advance requests, approval workflows, & badges
 │       ├── Employees/              # Employee directory & form/table schemas
 │       ├── Positions/              # Position resource, forms, & AuditLogsRelationManager
 │       └── Timesheets/             # Timesheet resource, meal allowance logic, & tooltips
 ├── Models/
+│   ├── CashAdvance.php             # Cash advance model with approval state
 │   ├── Employee.php                # Employee model & relationships
 │   ├── Position.php                # Position model & change auditor hooks
 │   ├── PositionAuditLog.php        # Audit trail model
-│   └── Timesheet.php               # Timesheet model with virtual meal allowance accessor
+│   ├── Timesheet.php               # Timesheet model with virtual meal allowance accessor
+│   └── User.php                    # System user & authentication model
 ├── Services/
 │   └── PayrollCalculator.php       # Core business logic for hours and pay processing
 database/
-└── migrations/                     # Schema definitions for employees, positions, audit logs, & timesheets
+└── migrations/                     # Schema definitions for employees, positions, audit logs, timesheets, & cash advances
 resources/
 └── views/
     └── filament/
