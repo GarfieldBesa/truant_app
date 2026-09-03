@@ -79,6 +79,16 @@
   - **Auto-Provisioning**: If no timesheet record exists within the cutoff window, a blank timesheet entry is automatically initialized on the approval date.
   - **Standardized Tagging**: Deductions are systematically labeled or appended with the description `Cash Advance`.
 
+### 6. 🌐 Standalone Timesheet Portal & Role Access
+- **Dedicated External Portal**: Operates outside the Filament administrative dashboard at `/portal` (aliased as `/timesheet-portal`) tailored for employee daily timesheet logging.
+- **Reused Unified Login Form**: Reuses the core login form (`/admin/login`) across both administrative staff and standard employees:
+  - Administrators authenticate with their **Email** and are routed directly to the administrative dashboard (`/admin`).
+  - Employees authenticate with their **Username** and are routed directly to the **Timesheet Portal** (`/portal`).
+- **Role & Access Assignment (Edit Employee)**:
+  - Administrators can assign the `Timesheet Portal User` role or maintain the default `Standard Employee` role via a dedicated field on the employee edit form.
+  - Employees lacking portal clearance are blocked at login with clear notification feedback.
+  - The employee directory table displays real-time `Portal Access` status badges.
+
 ---
 
 ## ⚙️ Application Setup & Installation
@@ -126,7 +136,7 @@
    ```bash
    php artisan serve
    ```
-   Access the admin dashboard at `http://127.0.0.1:8000/admin`.
+   Access the admin dashboard at `http://127.0.0.1:8000/admin` and the portal at `http://127.0.0.1:8000/portal`.
 
 ---
 
@@ -142,15 +152,20 @@
 app/
 ├── Filament/
 │   ├── Pages/
+│   │   ├── Auth/
+│   │   │   └── Login.php           # Unified login page supporting admin emails & employee usernames
 │   │   └── Payroll.php             # Custom Payroll page logic and UI rendering
 │   └── Resources/
 │       ├── CashAdvances/           # Cash advance requests, approval workflows, & badges
-│       ├── Employees/              # Employee directory & form/table schemas
+│       ├── Employees/              # Employee directory, role assignments, & schemas
 │       ├── Positions/              # Position resource, forms, & AuditLogsRelationManager
 │       └── Timesheets/             # Timesheet resource, meal allowance logic, & tooltips
+├── Http/
+│   └── Controllers/
+│       └── TimesheetPortalController.php # Timesheet portal routing, access control, & logout
 ├── Models/
 │   ├── CashAdvance.php             # Cash advance model with approval state
-│   ├── Employee.php                # Employee model & relationships
+│   ├── Employee.php                # Employee authenticatable model & portal access methods
 │   ├── Position.php                # Position model & change auditor hooks
 │   ├── PositionAuditLog.php        # Audit trail model
 │   ├── Timesheet.php               # Timesheet model with virtual meal allowance accessor
@@ -161,7 +176,9 @@ database/
 └── migrations/                     # Schema definitions for employees, positions, audit logs, timesheets, & cash advances
 resources/
 └── views/
-    └── filament/
-        └── pages/
-            └── payroll.blade.php   # Detailed custom blade view and Alpine print engine
+    ├── filament/
+    │   └── pages/
+    │       └── payroll.blade.php   # Detailed custom blade view and Alpine print engine
+    └── portal/
+        └── timesheet.blade.php     # Standalone employee timesheet portal view
 ```

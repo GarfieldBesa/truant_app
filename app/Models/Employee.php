@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Employee extends Model
+class Employee extends Authenticatable
 {
     protected $fillable = [
         'first_name',
@@ -14,8 +14,14 @@ class Employee extends Model
         'mobile_number',
         'username',
         'password',
+        'role',
         'position_id',
     ];
+
+    public function hasTimesheetPortalAccess(): bool
+    {
+        return $this->role === 'timesheet_portal';
+    }
 
     protected function casts(): array
     {

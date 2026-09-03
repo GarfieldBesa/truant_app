@@ -35,6 +35,15 @@ class EmployeeForm
                     ->password()
                     ->dehydrated(fn (?string $state): bool => filled($state))
                     ->required(fn (string $operation): bool => $operation === 'create'),
+                Select::make('role')
+                    ->label('Portal Role / Access')
+                    ->options([
+                        'employee' => 'Standard Employee (No Portal Access)',
+                        'timesheet_portal' => 'Timesheet Portal User (Timesheet Entry Access)',
+                    ])
+                    ->default('employee')
+                    ->required()
+                    ->helperText('Assigning Timesheet Portal User allows this employee to log in and access the timesheet portal.'),
             ]);
     }
 }
