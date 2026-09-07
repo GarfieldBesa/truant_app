@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Employees\Schemas;
 
+use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -35,15 +36,19 @@ class EmployeeForm
                     ->password()
                     ->dehydrated(fn (?string $state): bool => filled($state))
                     ->required(fn (string $operation): bool => $operation === 'create'),
-                Select::make('role')
-                    ->label('Portal Role / Access')
+                CheckboxList::make('roles')
+                    ->label('System Access Permissions')
                     ->options([
-                        'employee' => 'Standard Employee (No Portal Access)',
-                        'timesheet_portal' => 'Timesheet Portal User (Timesheet Entry Access)',
+                        'admin' => 'Administrator Access (Full Admin Dashboard, Payroll & Approvals)',
+                        'timesheet_portal' => 'Timesheet Portal Access (Time In / Time Out, Leave & Cash Advance Requests)',
                     ])
-                    ->default('employee')
-                    ->required()
-                    ->helperText('Assigning Timesheet Portal User allows this employee to log in and access the timesheet portal.'),
+                    ->descriptions([
+                        'admin' => 'Grants full administrator privileges to log in to the admin panel, manage employees, payroll, and review requests.',
+                        'timesheet_portal' => 'Allows this employee to log in and use the standalone Timesheet Portal.',
+                    ])
+                    ->columns(1)
+                    ->columnSpanFull()
+                    ->helperText('Select the system portals and access permissions granted to this employee.'),
             ]);
     }
 }

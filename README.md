@@ -1,6 +1,6 @@
-# Truant App - Employee, Compensation & Timesheet Management System
+# truant_application - Employee, Compensation, Timesheet & Event Management System
 
-**Truant App** is an enterprise management platform built using **Laravel 11** and **Filament v3**. It streamlines employee record keeping, compensation and benefits structures, change auditing, daily employee timesheets with automated meal allowance calculation rules, cash advance requests with automated timesheet deduction synchronization, and an advanced automated Payroll processing module.
+**truant_application** is an enterprise management platform built using **Laravel 11** and **Filament v5 / Livewire 3**. It streamlines employee record keeping, compensation and benefits structures, change auditing, daily employee timesheets with automated meal allowance calculation rules, cash advance requests with automated timesheet deduction synchronization, an advanced automated Payroll processing module, and a complete Events Management system with dynamic attendee registration forms, dynamic column filtering, and printable reports.
 
 ---
 
@@ -56,7 +56,7 @@
 - **Dynamic KPI Dashboard**: Real-time summary cards displaying Total Net Payable, Gross Payroll, Total Work/OT Hours, and Total Employees Processed.
 - **Detailed Data Table & Mobile-Ready Responsive Design**:
   - High-level employee summary showing Reg/OT hours, pay, allowances, govt deductions, and Net Payable.
-  - **Adaptive Card Layout**: Tables automatically transform into stacked, touch-friendly cards on mobile/tablet screens (< 1024px) for seamless readability without awkward horizontal scrolling.
+  - **Adaptive Card Layout**: Tables automatically transform into stacked, touch-friendly cards on mobile/tablet screens (< 1024px) for seamless readability without horizontal scrolling.
   - **Strict Value Formatting**: Tabular monospace numbers with non-breaking negative currencies (e.g., `-₱477.50`).
   - **Desktop Sticky Headers/Columns**: Sticky positioning keeps employee and action columns visible on wide viewports.
 - **Interactive Daily Breakdown**: Collapsible rows revealing a detailed day-by-day attendance log.
@@ -79,31 +79,82 @@
   - **Auto-Provisioning**: If no timesheet record exists within the cutoff window, a blank timesheet entry is automatically initialized on the approval date.
   - **Standardized Tagging**: Deductions are systematically labeled or appended with the description `Cash Advance`.
 
-### 6. 🌐 Standalone Timesheet Portal & Role Access
+---
+
+### 6. 🌐 Standalone Timesheet Portal & Employee Time Tracker
 - **Dedicated External Portal**: Operates outside the Filament administrative dashboard at `/portal` (aliased as `/timesheet-portal`) tailored for employee daily timesheet logging.
 - **Reused Unified Login Form**: Reuses the core login form (`/admin/login`) across both administrative staff and standard employees:
   - Administrators authenticate with their **Email** and are routed directly to the administrative dashboard (`/admin`).
   - Employees authenticate with their **Username** and are routed directly to the **Timesheet Portal** (`/portal`).
-- **Role & Access Assignment (Edit Employee)**:
-  - Administrators can assign the `Timesheet Portal User` role or maintain the default `Standard Employee` role via a dedicated field on the employee edit form.
-  - Employees lacking portal clearance are blocked at login with clear notification feedback.
-  - The employee directory table displays real-time `Portal Access` status badges.
+- **Multi-Access Permissions Checkbox (Edit Employee)**:
+  - Administrators assign portal and system permissions using a flexible **Checkbox List** rather than a single dropdown:
+    - **Administrator Access**: Elevates the employee to an administrator, automatically syncing credentials to the administrative dashboard (`/admin`) to manage employees, positions, payroll, and approvals.
+    - **Timesheet Portal Access**: Permits the employee to log in and use the external `/portal` attendance tracker.
+  - Employees granted Administrator access can log in directly at `/admin/login` using their username and password and access the full admin dashboard.
+  - The employee directory table displays distinct status badges (`Administrator`, `Timesheet Portal`, or `Standard`).
+- **🇵🇭 Live Philippine Time Clock (PST, UTC+8)**:
+  - Prominent ticking digital clock and date display strictly locked to Philippine Standard Time (`Asia/Manila`) regardless of user machine or server timezone.
+- **⏱️ Time In & Time Out Feature with Single-Entry Validation**:
+  - Direct database persistence to the central `timesheets` table for zero-friction integration with the Payroll module.
+  - **Strict Daily Validation**: Enforces a single Time In and a single Time Out per calendar day (PH date), completely preventing duplicate entries.
+  - **Sequencing Enforcement**: Prevents Time Out attempts prior to recording a valid Time In.
+- **📝 Leave Requests & Cash Advance Submissions**:
+  - Direct modal action buttons positioned beside the Live Clock.
+  - **Leave Request Past-Date Guard**: Past dates are prohibited on both client and server (only today and future dates are selectable).
+  - **Cash Advance Requests**: Employees enter the desired amount and reason, queued for administrator approval.
+- **📑 Request History & Attendance Tabs**:
+  - **Attendance History Tab**: Cutoff log list (1st–15th & 16th–End), KPI cards, and one-click **Print DTR** button producing official Daily Time Records.
+  - **Leave Requests Tab**: Historical list of employee leave requests with duration, reason, submitted timestamp, and real-time status badges (`Pending`, `Approved`, `Declined`).
+  - **Cash Advances Tab**: History of employee cash advance requests with amounts, purpose, and status tracking.
+
+---
+
+### 7. 🌴 Leave Request Management (Admin Panel)
+- **Centralized Administration**: Dedicated resource in Filament (`/admin/leave-requests`) with real-time navigation badge counting pending requests.
+- **⚡ Automated Timesheet Synchronization**:
+  - Upon approving a leave request, timesheets for each calendar day in the requested date range are automatically created or updated with `is_on_leave = true`.
+- **Decisive Review Actions**: Interactive `Approve` and `Decline` action triggers with confirmation modals and notification alerts.
+
+---
+
+### 8. 📅 Events & Dynamic Registration Form System
+- **Full Events Lifecycle (CRUD)**:
+  - Create, edit, and delete events with Name, Event Date (future date enforcement), Registration Start Date, Registration Deadline, Event Banner, and rich-text formatted Description.
+  - Cascading deletion automatically removes associated custom forms and attendee registration records.
+- **Events List Table & Metrics**:
+  - Displays Banner thumbnail, Event Name, Event Date, Registration Period (`Start — Deadline`), real-time Status badge (`Open`, `Opens <Date>`, `Registration Closed`), and a dynamic **Registered** attendee counter badge.
+  - Grouped action dropdown containing: **Registered People**, **Customize Form**, **View Form**, **Edit**, and **Delete** (preventing table overflow).
+- **Dynamic Registration Form Builder (`/admin/events/{record}/registration-form`)**:
+  - Dedicated form title and custom **Form Banner Image** upload (PNG, JPG, WEBP).
+  - Registration window controls: Start Date, Deadline, and real-time **Registration Status: Open** toggle.
+  - **Mandatory Consent Form Agreement**: Required consent title, statement/terms, and agreement checkbox text.
+  - **Dynamic Registration Fields**: Text (Single-line), Radio Box, Selection Box (Dropdown), Textarea (Multi-line), and Upload Images.
+  - Pre-initializes with 1 visible field ("Full Name"), allowing admins to add additional custom fields on demand.
+- **Live Interactive Form Preview (`/admin/events/{record}/view-form`)**:
+  - Custom scoped CSS design system with hero banner, key date chips, and responsive form controls.
+  - Interactive submission validation ensuring all required dynamic fields and the mandatory consent agreement are met.
+- **Registered People & Attendees Roster (`/admin/events/{record}/registrations`)**:
+  - **Dynamic Table Columns**: Automatically adapts to show columns for all custom fields defined for that specific event.
+  - **Dynamic Column-Based Filtering**: Administrators select any form column from a dynamic dropdown; the filter value input automatically provides choices for radio/select fields or a search input for text fields.
+  - **Global Keyword Search & Date Range**: Search across all fields and filter by registration submission date.
+  - **🖨️ Printable Attendees Report**: One-click "Print Attendees Report" generating an official printed attendee roster with document letterhead, active filter criteria, attendee count, and crisp tabular layout.
 
 ---
 
 ## ⚙️ Application Setup & Installation
 
 ### Prerequisites
-- **PHP**: `>= 8.2` (Ensure the `php_intl` extension is enabled in `php.ini`)
+- **PHP**: `>= 8.2` (Ensure `php_intl`, `pdo_mysql`, and `fileinfo` extensions are enabled in `php.ini`)
 - **Composer**: Latest version
 - **Database**: MySQL / MariaDB
+- **Web Server**: `php artisan serve` or Nginx / Apache
 
 ### Installation Steps
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/GarfieldBesa/truant_app.git
-   cd truant_app
+   git clone https://github.com/GarfieldBesa/truant_app.git truant_application
+   cd truant_application
    ```
 
 2. **Install PHP Dependencies**:
@@ -112,12 +163,15 @@
    ```
 
 3. **Configure Environment File**:
-   Copy `.env.example` to `.env` and set your MySQL database credentials:
+   Copy `.env.example` to `.env` and set your database and server credentials:
    ```env
+   APP_NAME=truant_application
+   APP_URL=http://127.0.0.1:8000
+
    DB_CONNECTION=mysql
    DB_HOST=127.0.0.1
    DB_PORT=3306
-   DB_DATABASE=my_laravel_app
+   DB_DATABASE=truant_application
    DB_USERNAME=root
    DB_PASSWORD=
    ```
@@ -127,16 +181,21 @@
    php artisan key:generate
    ```
 
-5. **Run Migrations & Seeders**:
+5. **Link Public Storage Directory**:
+   ```bash
+   php artisan storage:link
+   ```
+
+6. **Run Migrations & Seeders**:
    ```bash
    php artisan migrate --seed
    ```
 
-6. **Start Development Server**:
+7. **Start Development Server**:
    ```bash
    php artisan serve
    ```
-   Access the admin dashboard at `http://127.0.0.1:8000/admin` and the portal at `http://127.0.0.1:8000/portal`.
+   Access the admin dashboard at `http://127.0.0.1:8000/admin` and the employee timesheet portal at `http://127.0.0.1:8000/portal`.
 
 ---
 
@@ -154,31 +213,54 @@ app/
 │   ├── Pages/
 │   │   ├── Auth/
 │   │   │   └── Login.php           # Unified login page supporting admin emails & employee usernames
-│   │   └── Payroll.php             # Custom Payroll page logic and UI rendering
+│   │   └── Payroll.php             # Custom Payroll page logic, cutoff calculations, & print engine
 │   └── Resources/
 │       ├── CashAdvances/           # Cash advance requests, approval workflows, & badges
-│       ├── Employees/              # Employee directory, role assignments, & schemas
+│       ├── Employees/              # Employee directory, multi-access permissions, & schemas
+│       ├── Events/                 # Events management module
+│       │   ├── Pages/
+│       │   │   ├── CreateEvent.php
+│       │   │   ├── EditEvent.php
+│       │   │   ├── ListEvents.php
+│       │   │   ├── CustomizeRegistrationForm.php # Dynamic form builder & consent configuration
+│       │   │   ├── ViewRegistrationForm.php      # Live interactive form preview & tester
+│       │   │   └── ViewEventRegistrations.php    # Registered attendees roster with dynamic filters & print
+│       │   ├── Schemas/
+│       │   │   └── EventForm.php   # Event schema with past-date validations & banner uploader
+│       │   └── Tables/
+│       │       └── EventsTable.php # Events table with registration count badge & action dropdown
+│       ├── LeaveRequests/          # Employee leave management, approvals, & timesheet sync
 │       ├── Positions/              # Position resource, forms, & AuditLogsRelationManager
 │       └── Timesheets/             # Timesheet resource, meal allowance logic, & tooltips
 ├── Http/
 │   └── Controllers/
-│       └── TimesheetPortalController.php # Timesheet portal routing, access control, & logout
+│       └── TimesheetPortalController.php # Timesheet portal routing, time in/out, leave/advance forms
 ├── Models/
 │   ├── CashAdvance.php             # Cash advance model with approval state
 │   ├── Employee.php                # Employee authenticatable model & portal access methods
+│   ├── Event.php                   # Event model, dates, registration status accessor, & relations
+│   ├── EventRegistration.php       # Attendee registration model with dynamic JSON data & helper
+│   ├── EventRegistrationForm.php   # Form configuration, consent terms, & dynamic fields JSON
+│   ├── LeaveRequest.php            # Leave request model with approval lifecycle
 │   ├── Position.php                # Position model & change auditor hooks
 │   ├── PositionAuditLog.php        # Audit trail model
 │   ├── Timesheet.php               # Timesheet model with virtual meal allowance accessor
-│   └── User.php                    # System user & authentication model
+│   └── User.php                    # System user, authentication, & FilamentUser panel access
 ├── Services/
-│   └── PayrollCalculator.php       # Core business logic for hours and pay processing
+│   └── PayrollCalculator.php       # Core business logic for hours, clamping, and pay processing
 database/
-└── migrations/                     # Schema definitions for employees, positions, audit logs, timesheets, & cash advances
+└── migrations/                     # Schema definitions for employees, positions, timesheets, cash advances, leaves, events, forms, & registrations
 resources/
 └── views/
     ├── filament/
-    │   └── pages/
-    │       └── payroll.blade.php   # Detailed custom blade view and Alpine print engine
+    │   ├── pages/
+    │   │   └── payroll.blade.php   # Detailed custom blade view and Alpine print engine
+    │   └── resources/
+    │       └── events/
+    │           └── pages/
+    │               ├── customize-registration-form.blade.php # Customizer notice layout
+    │               ├── view-registration-form.blade.php      # Live interactive form preview view
+    │               └── view-event-registrations.blade.php    # Attendees list with dynamic filters & print CSS
     └── portal/
-        └── timesheet.blade.php     # Standalone employee timesheet portal view
+        └── timesheet.blade.php     # Standalone employee timesheet portal view with tabs & modals
 ```

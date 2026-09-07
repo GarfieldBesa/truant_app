@@ -15,12 +15,22 @@ class Employee extends Authenticatable
         'username',
         'password',
         'role',
+        'roles',
         'position_id',
     ];
 
     public function hasTimesheetPortalAccess(): bool
     {
-        return $this->role === 'timesheet_portal';
+        $roles = (array) ($this->roles ?? []);
+
+        return in_array('timesheet_portal', $roles) || in_array('admin', $roles) || $this->role === 'timesheet_portal';
+    }
+
+    public function isAdmin(): bool
+    {
+        $roles = (array) ($this->roles ?? []);
+
+        return in_array('admin', $roles);
     }
 
     protected function casts(): array
@@ -28,7 +38,36 @@ class Employee extends Authenticatable
         return [
             'birthdate' => 'date',
             'password' => 'hashed',
+            'roles' => 'array',
         ];
+    }
+
+    protected static function booted(): void
+    {
+        static::saving(function (Employee $employee) {
+            $roles = (array) ($employee->roles ?? []);
+            if (in_array('admin', $roles)) {
+                $employee->role = 'admin';
+            } elseif (in_array('timesheet_portal', $roles)) {
+                $employee->role = 'timesheet_portal';
+            } else {
+                $employee->role = 'employee';
+            }
+        });
+
+        static::saved(function (Employee $employee) {
+            $roles = (array) ($employee->roles ?? []);
+            if (in_array('admin', $roles)) {
+                $user = User::firstOrNew(['email' => $employee->username]);
+                $user->name = "{$employee->first_name} {$employee->last_name}";
+                $user->password = $employee->password;
+                $user->save();
+            } else {
+                User::where('email', $employee->username)
+                    ->where('email', '!=', 'admin@example.com')
+                    ->delete();
+            }
+        });
     }
 
     public function position()
@@ -44,5 +83,10 @@ class Employee extends Authenticatable
     public function cashAdvances()
     {
         return $this->hasMany(CashAdvance::class);
+    }
+
+    public function leaveRequests()
+    {
+        return $this->hasMany(LeaveRequest::class);
     }
 }

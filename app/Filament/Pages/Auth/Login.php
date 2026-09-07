@@ -18,12 +18,17 @@ class Login extends BaseLogin
 {
     public function mount(): void
     {
-        if (Auth::guard('employee')->check()) {
-            redirect()->intended('/portal');
-        }
-
         if (Filament::auth()->check()) {
             redirect()->intended(Filament::getUrl());
+        }
+
+        if (Auth::guard('employee')->check()) {
+            $employee = Auth::guard('employee')->user();
+            if ($employee && $employee->isAdmin()) {
+                redirect()->intended(Filament::getUrl());
+            }
+
+            redirect()->intended('/portal');
         }
 
         $this->form->fill();
@@ -65,21 +70,36 @@ class Login extends BaseLogin
         // 2. Check if credentials match an Employee
         $employee = Employee::where('username', $login)->first();
         if ($employee && Hash::check($password, $employee->password)) {
-            if (! $employee->hasTimesheetPortalAccess()) {
-                throw ValidationException::withMessages([
-                    'data.email' => 'Your account does not have access to the timesheet portal. Please contact an administrator.',
-                ]);
+            // If employee has administrator privileges
+            if ($employee->isAdmin()) {
+                $user = User::firstOrNew(['email' => $employee->username]);
+                $user->name = "{$employee->first_name} {$employee->last_name}";
+                $user->password = $employee->password;
+                $user->save();
+
+                Filament::auth()->login($user, $remember);
+                Auth::guard('employee')->login($employee, $remember);
+                session()->regenerate();
+
+                return app(LoginResponse::class);
             }
 
-            Auth::guard('employee')->login($employee, $remember);
-            session()->regenerate();
+            // If employee has timesheet portal access
+            if ($employee->hasTimesheetPortalAccess()) {
+                Auth::guard('employee')->login($employee, $remember);
+                session()->regenerate();
 
-            return new class implements LoginResponse {
-                public function toResponse($request)
-                {
-                    return redirect()->intended('/portal');
-                }
-            };
+                return new class implements LoginResponse {
+                    public function toResponse($request)
+                    {
+                        return redirect()->intended('/portal');
+                    }
+                };
+            }
+
+            throw ValidationException::withMessages([
+                'data.email' => 'Your account does not have access permissions. Please contact an administrator.',
+            ]);
         }
 
         $this->throwFailureValidationException();

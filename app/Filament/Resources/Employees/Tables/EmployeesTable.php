@@ -30,17 +30,18 @@ class EmployeesTable
                     ->searchable(),
                 TextColumn::make('username')
                     ->searchable(),
-                TextColumn::make('role')
-                    ->label('Portal Access')
+                TextColumn::make('roles')
+                    ->label('Access Permissions')
                     ->badge()
                     ->formatStateUsing(fn (?string $state): string => match ($state) {
                         'timesheet_portal' => 'Timesheet Portal',
-                        default => 'Standard',
+                        default => $state ? ucfirst(str_replace('_', ' ', $state)) : 'No Access',
                     })
                     ->color(fn (?string $state): string => match ($state) {
                         'timesheet_portal' => 'success',
-                        default => 'gray',
+                        default => 'info',
                     })
+                    ->placeholder('No Access')
                     ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()
