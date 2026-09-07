@@ -187,6 +187,26 @@
 
 ---
 
+### 11. 👤 Registered Users Directory & Attendee Profile Inspection
+- **Child Sidebar Placement (`/admin/events/registered-users`)**:
+  - Positioned directly below **Registered Teams** under the **Events** group in the administrative sidebar.
+- **Distinct Attendee Roster**:
+  - Subquery-scoped querying groups attendees by their unique Reference Number (`registration_reference`), ensuring each user is represented as a distinct entity while maintaining full search, native pagination, and column sorting.
+  - **Key Columns**:
+    - **Attendee Name**: Bold styling, searchable across both profile data and reference codes.
+    - **Reference Number (Ref#)**: Monospace primary badge with one-click clipboard copy.
+    - **Events Registered**: Badge counter indicating total events registered across the platform.
+    - **Teams Joined**: Badge counter indicating total teams joined.
+    - **Date of Registration**: Formatted timestamp of initial registration date, sortable.
+- **Interactive Click-to-Inspect Detail Modal**:
+  - Clicking on any row (or selecting the **View All Info** action) opens a comprehensive inspection modal:
+    - **Profile Header**: Initials avatar, Full Name, Ref# badge, first registered timestamp, and quick counters for total events and teams.
+    - **Attendee Profile & Form Data**: Key-value responsive grid displaying all submitted registration details (First Name, Last Name, Jersey Size, Contact Info, image uploads, etc.).
+    - **Registered Events Table**: Tabular view of all events the attendee is registered for, event dates, admission types (Free/Paid), and registration timestamps.
+    - **Registered Teams Table**: Tabular view of all squads the attendee belongs to, event associations, team references, and dates added.
+
+---
+
 ## ⚙️ Application Setup & Installation
 
 ### Prerequisites
@@ -277,6 +297,12 @@ app/
 │       │   │   ├── Tables/
 │       │   │   │   └── RegisteredTeamsTable.php  # Team list with modal roster inspection action
 │       │   │   └── RegisteredTeamResource.php
+│       │   ├── RegisteredUsers/    # Child sidebar resource for unique registered attendees
+│       │   │   ├── Pages/
+│       │   │   │   └── ListRegisteredUsers.php
+│       │   │   ├── Tables/
+│       │   │   │   └── RegisteredUsersTable.php  # Attendee list with modal detail inspection
+│       │   │   └── RegisteredUserResource.php
 │       │   ├── Schemas/
 │       │   │   └── EventForm.php   # Event schema with admission selector, dates, & banner uploader
 │       │   └── Tables/
@@ -316,10 +342,12 @@ resources/
     │   │   └── payroll.blade.php   # Detailed custom blade view and Alpine print engine
     │   └── resources/
     │       └── events/
-    │           └── pages/
-    │               ├── customize-registration-form.blade.php # Customizer notice layout
-    │               ├── view-registration-form.blade.php      # Live interactive form preview view
-    │               └── view-event-registrations.blade.php    # Attendees list with dynamic filters & print CSS
+    │           ├── pages/
+    │           │   ├── customize-registration-form.blade.php # Customizer notice layout
+    │           │   ├── view-registration-form.blade.php      # Live interactive form preview view
+    │           │   └── view-event-registrations.blade.php    # Attendees list with dynamic filters & print CSS
+    │           └── registered-users/
+    │               └── details-modal.blade.php # Rich inspection view with events and teams
     ├── portal/
     │   └── timesheet.blade.php     # Standalone employee timesheet portal view with tabs & modals
     └── welcome.blade.php           # Public landing page with 2-card per row event grid & pagination

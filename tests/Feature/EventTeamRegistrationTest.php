@@ -392,4 +392,74 @@ class EventTeamRegistrationTest extends TestCase
         $response->assertSessionHas('error');
         $this->assertEquals(1, EventRegistration::where('event_id', $this->eventA->id)->count());
     }
+
+    public function test_admin_can_access_registered_users_page(): void
+    {
+        EventRegistration::create([
+            'event_id' => $this->eventA->id,
+            'registration_reference' => 'REG-USER-TEST',
+            'data' => [
+                'Full Name' => 'Elena Rostova',
+                'Mobile Number' => '09171234567',
+                'Email' => 'elena@example.com',
+            ],
+            'consent_agreed' => true,
+        ]);
+
+        $response = $this->actingAs($this->admin)->get('/admin/events/registered-users');
+        $response->assertStatus(200);
+        $response->assertSee('Registered Users');
+        $response->assertSee('Elena Rostova');
+        $response->assertSee('REG-USER-TEST');
+    }
+
+    public function test_registered_user_modal_displays_events_and_teams(): void
+    {
+        $regA = EventRegistration::create([
+            'event_id' => $this->eventA->id,
+            'registration_reference' => 'REG-VIP-001',
+            'data' => [
+                'Full Name' => 'Victor Vance',
+                'Role' => 'Team Captain',
+            ],
+            'consent_agreed' => true,
+        ]);
+
+        $regB = EventRegistration::create([
+            'event_id' => $this->eventB->id,
+            'registration_reference' => 'REG-VIP-001',
+            'data' => [
+                'Full Name' => 'Victor Vance',
+            ],
+            'consent_agreed' => true,
+        ]);
+
+        $teamA = EventTeam::create([
+            'event_id' => $this->eventA->id,
+            'team_name' => 'Vipers Gold',
+        ]);
+
+        EventTeamMember::create([
+            'event_team_id' => $teamA->id,
+            'event_registration_id' => $regA->id,
+            'registration_reference' => 'REG-VIP-001',
+            'member_name' => 'Victor Vance',
+        ]);
+
+        // Verify helper methods return both events and team
+        $events = $regA->getAllEventsForReference();
+        $this->assertEquals(2, $events->count());
+
+        $teams = $regA->getAllTeamsForReference();
+        $this->assertEquals(1, $teams->count());
+        $this->assertEquals('Vipers Gold', $teams->first()->team->team_name);
+
+        // Verify blade modal renders correctly
+        $view = $this->view('filament.resources.events.registered-users.details-modal', ['record' => $regA]);
+        $view->assertSee('Victor Vance');
+        $view->assertSee('REG-VIP-001');
+        $view->assertSee('Tech Tournament 2026');
+        $view->assertSee('Robotics Championship 2026');
+        $view->assertSee('Vipers Gold');
+    }
 }

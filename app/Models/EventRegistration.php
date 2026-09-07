@@ -194,4 +194,36 @@ class EventRegistration extends Model
 
         return null;
     }
+
+    public function getAllEventsForReference()
+    {
+        return static::where('registration_reference', $this->registration_reference)
+            ->with('event')
+            ->orderBy('created_at', 'asc')
+            ->get();
+    }
+
+    public function getAllTeamsForReference()
+    {
+        return EventTeamMember::where('registration_reference', $this->registration_reference)
+            ->with(['team.event'])
+            ->orderBy('created_at', 'asc')
+            ->get();
+    }
+
+    public function getCombinedData(): array
+    {
+        $all = $this->getAllEventsForReference();
+        $combined = [];
+        foreach ($all as $reg) {
+            if (is_array($reg->data)) {
+                foreach ($reg->data as $k => $v) {
+                    if (!isset($combined[$k]) || (empty($combined[$k]) && !empty($v))) {
+                        $combined[$k] = $v;
+                    }
+                }
+            }
+        }
+        return $combined;
+    }
 }
