@@ -1,6 +1,6 @@
 # truant_application - Employee, Compensation, Timesheet & Event Management System
 
-**truant_application** is an enterprise management platform built using **Laravel 11** and **Filament v5 / Livewire 3**. It streamlines employee record keeping, compensation and benefits structures, change auditing, daily employee timesheets with automated meal allowance calculation rules, cash advance requests with automated timesheet deduction synchronization, an advanced automated Payroll processing module, and a complete Events Management system with dynamic attendee registration forms, dynamic column filtering, and printable reports.
+**truant_application** is an enterprise management platform built using **Laravel 11** and **Filament v5 / Livewire 3**. It streamlines employee record keeping, compensation and benefits structures, change auditing, daily employee timesheets with automated meal allowance calculation rules, cash advance requests with automated timesheet deduction synchronization, an advanced automated Payroll processing module, a public Events landing page with admission tiers and attendee self-registration, cross-event reference number (Ref#) reuse, official Team Registration and squad roster management, dynamic registration form builders, and printable reports.
 
 ---
 
@@ -120,10 +120,11 @@
 ### 8. 📅 Events & Dynamic Registration Form System
 - **Full Events Lifecycle (CRUD)**:
   - Create, edit, and delete events with Name, Event Date (future date enforcement), Registration Start Date, Registration Deadline, Event Banner, and rich-text formatted Description.
-  - Cascading deletion automatically removes associated custom forms and attendee registration records.
+  - **Admission Type Configuration**: Choose between **Free Admission** or **Paid Admission** with custom ticket pricing (₱).
+  - Cascading deletion automatically removes associated custom forms, registrations, and team records.
 - **Events List Table & Metrics**:
   - Displays Banner thumbnail, Event Name, Event Date, Registration Period (`Start — Deadline`), real-time Status badge (`Open`, `Opens <Date>`, `Registration Closed`), and a dynamic **Registered** attendee counter badge.
-  - Grouped action dropdown containing: **Registered People**, **Customize Form**, **View Form**, **Edit**, and **Delete** (preventing table overflow).
+  - Clean layout with grouped action dropdown containing: **Registered People**, **Customize Form**, **View Form**, **Edit**, and **Delete**.
 - **Dynamic Registration Form Builder (`/admin/events/{record}/registration-form`)**:
   - Dedicated form title and custom **Form Banner Image** upload (PNG, JPG, WEBP).
   - Registration window controls: Start Date, Deadline, and real-time **Registration Status: Open** toggle.
@@ -138,6 +139,51 @@
   - **Dynamic Column-Based Filtering**: Administrators select any form column from a dynamic dropdown; the filter value input automatically provides choices for radio/select fields or a search input for text fields.
   - **Global Keyword Search & Date Range**: Search across all fields and filter by registration submission date.
   - **🖨️ Printable Attendees Report**: One-click "Print Attendees Report" generating an official printed attendee roster with document letterhead, active filter criteria, attendee count, and crisp tabular layout.
+
+---
+
+### 9. 🌐 Public Events Landing Page & Attendee Self-Registration
+- **Modern Public Landing Page (`/`)**:
+  - Built with a clean, high-contrast professional design (pure white background, sleek typography, micro-interactions).
+  - **Card Grid Layout**: Events presented in an aligned **2-card per row grid** (6 events per page with numbered pagination).
+  - **Comprehensive Card Details**:
+    - High-resolution Event Banner with fallback gradient.
+    - Event Title and Event Date.
+    - Real-Time Status Pill (`Registration Open` with pulsing beacon, or `Registration Closed`).
+    - Event Description preview.
+    - **Admission Badge**: Clear indicator for **Free Admission** or **Paid Admission (₱ Amount)**.
+    - Primary CTA button linking directly to the dedicated event page.
+  - **Clean Header Navigation**: Features the brand logo, an **Events** navigation link, and a **Login** button. Portal links are removed from the public header to maintain an external attendee focus.
+  - **Seamless Logout Redirection**: Logging out from either the Filament Admin panel or the Timesheet Portal automatically returns users to the public landing page.
+- **Dedicated Public Event Content & Registration (`/events/{event}`)**:
+  - Full-width hero banner, date chips, admission badges, live attendee count, and full description.
+  - **⚡ Fast Auto-Registration for Existing Attendees**:
+    - Attendees who already hold a Registration Reference Number (Ref#) from a previous event can simply enter their Ref# into the quick registration box.
+    - The system verifies the reference, automatically creates the event registration, reuses their existing contact/profile data, and keeps the identical Ref#.
+  - **New Attendee Registration Form**:
+    - Full dynamic form submission with file uploads and mandatory consent agreement.
+    - **Intelligent Ref# Reuse Detection**: If an attendee registers by entering their name, the system detects existing profile information across past events and prompts: *"Information already exist Ref# will be reused to register on this event. Click to confirm and register"*.
+
+---
+
+### 10. 🏆 Official Team Registration & Admin Registered Teams
+- **Public Team Registration ("Register a team")**:
+  - Prominent action button on the event page below the registration form.
+  - **Unique Team Name Validation**: Ensures team names are unique per event (case-insensitive).
+  - **Real-Time Member Ref# Verification**:
+    - Text box where users enter the individual reference code (`REG-YYYYMMDD-XXXXX`) of registered attendees.
+    - Validates that the attendee is registered for the current event (`Ref# is not registered to this event.` displayed if non-existent or belonging to a different event).
+    - Verified attendee card displays attendee name and ref with an **Add to Team** button.
+  - **Interactive Team Roster Table**:
+    - Real-time squad drafting table showing live player count, member names, monospace Ref# badges, and row removal buttons.
+    - **Add More** button to draft multiple squad members.
+  - **Submission Finality Notice**: Prominent alert reminding users that team names and rosters are final upon submission.
+  - **Cross-Event Team Support**: An attendee can use their reused Ref# to join a team in Event A and participate in another team for Event B without conflict.
+- **Admin Registered Teams Management (`/admin/events/registered-teams`)**:
+  - Child navigation item under **Events** in the administrative sidebar (`Registered Teams`).
+  - **Clean List Table**: Displays Event Name, Team Name, Team Reference (with one-click clipboard copy), and Registration Date.
+  - **View Team Roster Modal**: Action button on each row opening an interactive modal detailing all team members, registration references, and added dates.
+  - **Event Filtering**: SelectFilter dropdown to isolate teams registered for specific events.
 
 ---
 
@@ -225,22 +271,33 @@ app/
 │       │   │   ├── CustomizeRegistrationForm.php # Dynamic form builder & consent configuration
 │       │   │   ├── ViewRegistrationForm.php      # Live interactive form preview & tester
 │       │   │   └── ViewEventRegistrations.php    # Registered attendees roster with dynamic filters & print
+│       │   ├── RegisteredTeams/    # Child sidebar resource for official registered squads
+│       │   │   ├── Pages/
+│       │   │   │   └── ListRegisteredTeams.php
+│       │   │   ├── Tables/
+│       │   │   │   └── RegisteredTeamsTable.php  # Team list with modal roster inspection action
+│       │   │   └── RegisteredTeamResource.php
 │       │   ├── Schemas/
-│       │   │   └── EventForm.php   # Event schema with past-date validations & banner uploader
+│       │   │   └── EventForm.php   # Event schema with admission selector, dates, & banner uploader
 │       │   └── Tables/
-│       │       └── EventsTable.php # Events table with registration count badge & action dropdown
+│       │       └── EventsTable.php # Events table with registration counter badge & action dropdown
 │       ├── LeaveRequests/          # Employee leave management, approvals, & timesheet sync
 │       ├── Positions/              # Position resource, forms, & AuditLogsRelationManager
 │       └── Timesheets/             # Timesheet resource, meal allowance logic, & tooltips
 ├── Http/
-│   └── Controllers/
-│       └── TimesheetPortalController.php # Timesheet portal routing, time in/out, leave/advance forms
+│   ├── Controllers/
+│   │   ├── EventPublicController.php     # Public landing page, event details, fast Ref# register, & team registration
+│   │   └── TimesheetPortalController.php # Timesheet portal routing, time in/out, leave/advance forms
+│   └── Responses/
+│       └── LogoutResponse.php      # Custom Filament sign-out response redirecting to public landing page
 ├── Models/
 │   ├── CashAdvance.php             # Cash advance model with approval state
 │   ├── Employee.php                # Employee authenticatable model & portal access methods
-│   ├── Event.php                   # Event model, dates, registration status accessor, & relations
-│   ├── EventRegistration.php       # Attendee registration model with dynamic JSON data & helper
+│   ├── Event.php                   # Event model with admission types, ticket price, dates, & relations
+│   ├── EventRegistration.php       # Attendee registration model with Ref# auto-generation & name matching
 │   ├── EventRegistrationForm.php   # Form configuration, consent terms, & dynamic fields JSON
+│   ├── EventTeam.php               # Registered event team model with unique event scoping
+│   ├── EventTeamMember.php         # Team squad roster model linking registration references
 │   ├── LeaveRequest.php            # Leave request model with approval lifecycle
 │   ├── Position.php                # Position model & change auditor hooks
 │   ├── PositionAuditLog.php        # Audit trail model
@@ -249,9 +306,11 @@ app/
 ├── Services/
 │   └── PayrollCalculator.php       # Core business logic for hours, clamping, and pay processing
 database/
-└── migrations/                     # Schema definitions for employees, positions, timesheets, cash advances, leaves, events, forms, & registrations
+└── migrations/                     # Database migrations including events, admission fields, teams, & registrations
 resources/
 └── views/
+    ├── events/
+    │   └── show.blade.php          # Dedicated event page with fast Ref# auto-register & team registration
     ├── filament/
     │   ├── pages/
     │   │   └── payroll.blade.php   # Detailed custom blade view and Alpine print engine
@@ -261,6 +320,11 @@ resources/
     │               ├── customize-registration-form.blade.php # Customizer notice layout
     │               ├── view-registration-form.blade.php      # Live interactive form preview view
     │               └── view-event-registrations.blade.php    # Attendees list with dynamic filters & print CSS
-    └── portal/
-        └── timesheet.blade.php     # Standalone employee timesheet portal view with tabs & modals
+    ├── portal/
+    │   └── timesheet.blade.php     # Standalone employee timesheet portal view with tabs & modals
+    └── welcome.blade.php           # Public landing page with 2-card per row event grid & pagination
+tests/
+└── Feature/
+    ├── EventTeamRegistrationTest.php     # Tests for team registration, Ref# reuse, & admin table
+    └── PublicEventsLandingPageTest.php   # Tests for event cards, admission badges, & logout redirects
 ```

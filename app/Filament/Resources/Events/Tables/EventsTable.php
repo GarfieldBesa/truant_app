@@ -53,20 +53,22 @@ class EventsTable
                         'Registration Closed' => 'danger',
                         default => 'warning',
                     }),
+                TextColumn::make('admission')
+                    ->label('Admission')
+                    ->badge()
+                    ->getStateUsing(fn (Event $record): string => $record->admission_label)
+                    ->color(fn (string $state): string => match ($state) {
+                        'Free Admission' => 'success',
+                        'Paid Admission' => 'info',
+                        default => 'gray',
+                    })
+                    ->sortable(),
                 TextColumn::make('registrations_count')
                     ->label('Registered')
                     ->counts('registrations')
                     ->badge()
                     ->color('info')
                     ->sortable(),
-                TextColumn::make('form_status')
-                    ->label('Form Builder')
-                    ->badge()
-                    ->getStateUsing(fn (Event $record): string => $record->registrationForm ? 'Configured' : 'Not Setup')
-                    ->color(fn (string $state): string => match ($state) {
-                        'Configured' => 'success',
-                        default => 'gray',
-                    }),
                 TextColumn::make('created_at')
                     ->dateTime('M d, Y H:i')
                     ->sortable()

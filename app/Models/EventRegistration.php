@@ -60,4 +60,138 @@ class EventRegistration extends Model
 
         return $default;
     }
+
+    public function getAttendeeName(): string
+    {
+        $data = $this->data ?? [];
+
+        // 1. Check Full Name
+        foreach (['full name', 'fullname', 'name', 'attendee name', 'player name', 'participant name'] as $key) {
+            foreach ($data as $k => $v) {
+                if (strcasecmp(trim((string) $k), $key) === 0 && !empty($v) && is_string($v)) {
+                    return trim($v);
+                }
+            }
+        }
+
+        // 2. Check First Name & Last Name
+        $firstName = null;
+        $lastName = null;
+        foreach ($data as $k => $v) {
+            if (strcasecmp(trim((string) $k), 'first name') === 0 && is_string($v)) {
+                $firstName = trim($v);
+            }
+            if (strcasecmp(trim((string) $k), 'last name') === 0 && is_string($v)) {
+                $lastName = trim($v);
+            }
+        }
+        if ($firstName && $lastName) {
+            return $firstName === $lastName ? $firstName : "{$firstName} {$lastName}";
+        }
+        if ($firstName) {
+            return $firstName;
+        }
+        if ($lastName) {
+            return $lastName;
+        }
+
+        // 3. Any key containing 'name'
+        foreach ($data as $k => $v) {
+            if (stripos((string) $k, 'name') !== false && !empty($v) && is_string($v)) {
+                return trim($v);
+            }
+        }
+
+        // 4. Fallback to first non-empty string in data
+        foreach ($data as $v) {
+            if (is_string($v) && !empty(trim($v))) {
+                return trim($v);
+            }
+        }
+
+        return 'Attendee ' . $this->registration_reference;
+    }
+
+    public static function extractNameFromData(array $data): ?string
+    {
+        // 1. Check Full Name
+        foreach (['full name', 'fullname', 'name', 'attendee name', 'player name', 'participant name'] as $key) {
+            foreach ($data as $k => $v) {
+                if (strcasecmp(trim((string) $k), $key) === 0 && !empty($v) && is_string($v)) {
+                    return trim($v);
+                }
+            }
+        }
+
+        // 2. Check First Name & Last Name
+        $firstName = null;
+        $lastName = null;
+        foreach ($data as $k => $v) {
+            if (strcasecmp(trim((string) $k), 'first name') === 0 && is_string($v)) {
+                $firstName = trim($v);
+            }
+            if (strcasecmp(trim((string) $k), 'last name') === 0 && is_string($v)) {
+                $lastName = trim($v);
+            }
+        }
+        if ($firstName && $lastName) {
+            return $firstName === $lastName ? $firstName : "{$firstName} {$lastName}";
+        }
+        if ($firstName) {
+            return $firstName;
+        }
+        if ($lastName) {
+            return $lastName;
+        }
+
+        // 3. Any key containing 'name'
+        foreach ($data as $k => $v) {
+            if (stripos((string) $k, 'name') !== false && !empty($v) && is_string($v)) {
+                return trim($v);
+            }
+        }
+
+        return null;
+    }
+
+    public static function findExistingByName(string $candidateName, ?int $excludeEventId = null): ?EventRegistration
+    {
+        $normalizedCandidate = strtolower(preg_replace('/\s+/', ' ', trim($candidateName)));
+        if (empty($normalizedCandidate)) {
+            return null;
+        }
+
+        $query = static::query();
+        if ($excludeEventId !== null) {
+            $query->where('event_id', '!=', $excludeEventId);
+        }
+
+        $registrations = $query->latest('id')->get();
+        foreach ($registrations as $reg) {
+            $regName = strtolower(preg_replace('/\s+/', ' ', $reg->getAttendeeName()));
+            if ($regName === $normalizedCandidate) {
+                return $reg;
+            }
+        }
+
+        return null;
+    }
+
+    public static function findInEventByName(string $candidateName, int $eventId): ?EventRegistration
+    {
+        $normalizedCandidate = strtolower(preg_replace('/\s+/', ' ', trim($candidateName)));
+        if (empty($normalizedCandidate)) {
+            return null;
+        }
+
+        $registrations = static::where('event_id', $eventId)->get();
+        foreach ($registrations as $reg) {
+            $regName = strtolower(preg_replace('/\s+/', ' ', $reg->getAttendeeName()));
+            if ($regName === $normalizedCandidate) {
+                return $reg;
+            }
+        }
+
+        return null;
+    }
 }

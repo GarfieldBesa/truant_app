@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Events\Schemas;
 
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
@@ -36,6 +37,22 @@ class EventForm
                     ->required()
                     ->minDate(fn ($get, string $operation) => $operation === 'create' ? ($get('registration_start_date') ?: now()->startOfDay()) : null)
                     ->helperText('Last day attendees can submit their registration.'),
+                Radio::make('admission')
+                    ->label('Admission')
+                    ->options([
+                        'free' => 'Free Admission',
+                        'paid' => 'Paid Admission',
+                    ])
+                    ->default('free')
+                    ->required()
+                    ->inline()
+                    ->helperText('Select whether this event is free admission or paid admission.')
+                    ->live(),
+                TextInput::make('ticket_price')
+                    ->label('Ticket Price / Fee')
+                    ->placeholder('e.g. ₱500 / $25.00')
+                    ->visible(fn ($get) => $get('admission') === 'paid')
+                    ->helperText('Optional fee details for paid attendees.'),
                 FileUpload::make('banner')
                     ->label('Event Banner')
                     ->image()

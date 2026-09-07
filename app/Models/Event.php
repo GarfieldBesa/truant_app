@@ -18,6 +18,8 @@ class Event extends Model
         'registration_start_date',
         'registration_date',
         'banner',
+        'admission',
+        'ticket_price',
     ];
 
     protected function casts(): array
@@ -67,6 +69,16 @@ class Event extends Model
         return 'Open';
     }
 
+    public function isFreeAdmission(): bool
+    {
+        return strtolower((string) $this->admission) !== 'paid';
+    }
+
+    public function getAdmissionLabelAttribute(): string
+    {
+        return $this->isFreeAdmission() ? 'Free Admission' : 'Paid Admission';
+    }
+
     public function registrationForm(): HasOne
     {
         return $this->hasOne(EventRegistrationForm::class);
@@ -75,5 +87,10 @@ class Event extends Model
     public function registrations(): HasMany
     {
         return $this->hasMany(EventRegistration::class);
+    }
+
+    public function teams(): HasMany
+    {
+        return $this->hasMany(EventTeam::class);
     }
 }
