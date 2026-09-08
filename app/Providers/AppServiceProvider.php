@@ -15,6 +15,17 @@ class AppServiceProvider extends ServiceProvider
             \Filament\Auth\Http\Responses\Contracts\LogoutResponse::class,
             \App\Http\Responses\LogoutResponse::class
         );
+
+        $candidates = [
+            dirname($this->app->basePath(), 1) . '/public_html',
+            dirname($this->app->basePath(), 2) . '/public_html',
+        ];
+        foreach ($candidates as $candidate) {
+            if (is_dir($candidate)) {
+                $this->app->usePublicPath($candidate);
+                break;
+            }
+        }
     }
 
     /**

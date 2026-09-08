@@ -23,3 +23,10 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>
+
+<IfModule mod_headers.c>
+    # Prevent aggressive caching of missing media assets
+    <FilesMatch "\.(jpg|jpeg|png|gif|webp|svg|ico)$">
+        Header set Cache-Control "no-cache, must-revalidate" "expr=%{REQUEST_STATUS} == 404"
+    </FilesMatch>
+</IfModule>

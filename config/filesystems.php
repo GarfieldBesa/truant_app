@@ -33,14 +33,14 @@ return [
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app/private'),
-            'serve' => true,
+            'serve' => false,
             'throw' => false,
             'report' => false,
         ],
 
         'public' => [
             'driver' => 'local',
-            'root' => storage_path('app/public'),
+            'root' => env('FILESYSTEM_PUBLIC_ROOT', is_dir(base_path('../public_html/storage')) ? base_path('../public_html/storage') : (is_dir(base_path('../../public_html/storage')) ? base_path('../../public_html/storage') : storage_path('app/public'))),
             'url' => env('FILESYSTEM_PUBLIC_URL', '/storage'),
             'visibility' => 'public',
             'throw' => false,

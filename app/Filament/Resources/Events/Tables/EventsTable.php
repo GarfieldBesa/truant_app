@@ -24,8 +24,8 @@ class EventsTable
                 ImageColumn::make('banner')
                     ->label('Banner')
                     ->disk('public')
+                    ->checkFileExistence(false)
                     ->square()
-                    ->defaultImageUrl('/placeholder-event.png')
                     ->width(60)
                     ->height(40),
                 TextColumn::make('name')

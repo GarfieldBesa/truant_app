@@ -19,5 +19,45 @@ Route::post('/portal/request-leave', [TimesheetPortalController::class, 'request
 Route::post('/portal/request-cash-advance', [TimesheetPortalController::class, 'requestCashAdvance'])->name('portal.requestCashAdvance');
 Route::post('/portal/logout', [TimesheetPortalController::class, 'logout'])->name('portal.logout');
 
+// Storage fallback route for shared hosting / GoDaddy NFS cache latency
+Route::get('/storage/{path}', function (string $path) {
+    // Disallow path traversal attempts
+    if (str_contains($path, '..')) {
+        abort(404);
+    }
 
+    // 1. Check Laravel's configured public disk
+    try {
+        if (\Illuminate\Support\Facades\Storage::disk('public')->exists($path)) {
+            return \Illuminate\Support\Facades\Storage::disk('public')->response($path);
+        }
+    } catch (\Throwable $e) {
+        // Fall through to file checks
+    }
 
+    // 2. Check candidate public storage locations with path traversal prevention
+    $candidateBases = [
+        storage_path('app/public'),
+        public_path('storage'),
+        base_path('../public_html/storage'),
+        base_path('../../public_html/storage'),
+    ];
+
+    foreach ($candidateBases as $base) {
+        $realBase = realpath($base);
+        if ($realBase && is_dir($realBase)) {
+            $candidateFile = $realBase . DIRECTORY_SEPARATOR . str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $path);
+            if (file_exists($candidateFile)) {
+                $realFile = realpath($candidateFile);
+                if ($realFile && str_starts_with($realFile, $realBase)) {
+                    clearstatcache(true, $realFile);
+                    return response()->file($realFile, [
+                        'Cache-Control' => 'public, max-age=86400',
+                    ]);
+                }
+            }
+        }
+    }
+
+    abort(404);
+})->where('path', '.*')->name('storage.fallback');
