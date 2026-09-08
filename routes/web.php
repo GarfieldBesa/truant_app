@@ -36,12 +36,14 @@ Route::get('/storage/{path}', function (string $path) {
     }
 
     // 2. Check candidate public storage locations with path traversal prevention
-    $candidateBases = [
+    $candidateBases = array_filter([
+        config('filesystems.disks.public.root'),
+        env('FILESYSTEM_PUBLIC_ROOT'),
         storage_path('app/public'),
         public_path('storage'),
         base_path('../public_html/storage'),
         base_path('../../public_html/storage'),
-    ];
+    ]);
 
     foreach ($candidateBases as $base) {
         $realBase = realpath($base);
