@@ -251,6 +251,13 @@
    ```bash
    php artisan storage:link
    ```
+   > **GoDaddy / Shared Hosting Note (Event Banners Fix)**:
+   > On shared hosts where symlinks (`storage:link`) are restricted or lag due to NFS caching, configure your `.env`:
+   > ```env
+   > FILESYSTEM_PUBLIC_ROOT=/home/{username}/public_html/storage
+   > FILESYSTEM_PUBLIC_URL=/storage
+   > ```
+   > An automated fallback route (`/storage/{path}`) in `routes/web.php` intercepts missing Apache stat checks to stream newly uploaded event banners immediately without 404 delays. For cPanel File Manager deployments, run `public/fix-storage.php` via browser to sync folders and clear caches.
 
 6. **Run Migrations & Seeders**:
    ```bash
