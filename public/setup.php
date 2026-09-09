@@ -28,11 +28,17 @@ function step(string $type, string $title, string $body = ''): void {
 
 function sh(string $cmd): array {
     $out = ''; $code = -1;
+    @putenv('HOME=/home/uq7hadnu944q');
+    @putenv('COMPOSER_HOME=/home/uq7hadnu944q/.composer');
+    $_ENV['HOME'] = '/home/uq7hadnu944q';
+    $_ENV['COMPOSER_HOME'] = '/home/uq7hadnu944q/.composer';
+
+    $fullCmd = 'export HOME=/home/uq7hadnu944q; export COMPOSER_HOME=/home/uq7hadnu944q/.composer; ' . $cmd . ' 2>&1';
     if (function_exists('exec')) {
-        @exec($cmd . ' 2>&1', $lines, $code);
+        @exec($fullCmd, $lines, $code);
         $out = implode("\n", $lines);
     } elseif (function_exists('shell_exec')) {
-        $out = (string)@shell_exec($cmd . ' 2>&1'); $code = 0;
+        $out = (string)@shell_exec($fullCmd); $code = 0;
     }
     return ['out' => trim($out), 'code' => $code];
 }
@@ -249,6 +255,12 @@ if ($vendorExists) {
 } else {
     step('info', 'Running composer install (this may take 60–120 seconds)…', '');
 
+    // Set environment variables for composer
+    putenv('HOME=/home/uq7hadnu944q');
+    putenv('COMPOSER_HOME=/home/uq7hadnu944q/.composer');
+    $_ENV['HOME'] = '/home/uq7hadnu944q';
+    $_ENV['COMPOSER_HOME'] = '/home/uq7hadnu944q/.composer';
+
     // Find composer binary
     $composerPaths = [
         '/usr/local/bin/composer',
@@ -262,25 +274,77 @@ if ($vendorExists) {
         if ($test['code'] === 0 && !empty($test['out'])) { $composerBin = trim($test['out']); break; }
         if (file_exists($cp)) { $composerBin = $cp; break; }
     }
-    // Last resort: try php composer.phar
-    if (!$composerBin && file_exists($newRoot . '/composer.phar')) {
-        $composerBin = 'php ' . $newRoot . '/composer.phar';
-    }
+
+    $composerSuccess = false;
+    $outputLog = '';
 
     if ($composerBin) {
         $composerResult = sh("{$composerBin} install --no-dev --optimize-autoloader --no-interaction --working-dir=" . escapeshellarg($newRoot));
+        $outputLog = $composerResult['out'];
         if ($composerResult['code'] === 0 || file_exists($newRoot . '/vendor/autoload.php')) {
-            step('success', 'composer install completed',
-                "<pre style='font-size:11px'>" . htmlspecialchars(substr($composerResult['out'], -2000)) . "</pre>");
-        } else {
-            step('danger', 'composer install failed',
-                "<pre style='font-size:11px;color:#fca5a5'>" . htmlspecialchars(substr($composerResult['out'], -1500)) . "</pre>" .
-                "Try manually in cPanel Terminal: <code>cd ~/production/truant_app && composer install --no-dev</code>");
+            $composerSuccess = true;
+            step('success', 'composer install completed successfully via system composer',
+                "<pre style='font-size:11px'>" . htmlspecialchars(substr($outputLog, -2000)) . "</pre>");
         }
-    } else {
-        step('warning', 'composer binary not found',
-            "Run manually in <strong>cPanel Terminal</strong>:<br>
-             <code>cd /home/uq7hadnu944q/production/truant_app && composer install --no-dev --optimize-autoloader</code>");
+    }
+
+    // Try downloading composer.phar if system composer missing or failed
+    if (!$composerSuccess && !file_exists($newRoot . '/vendor/autoload.php')) {
+        step('info', 'Attempting composer.phar download & execution…', '');
+        $pharFile = $newRoot . '/composer.phar';
+        if (!file_exists($pharFile)) {
+            $pharData = @file_get_contents('https://getcomposer.org/composer.phar');
+            if ($pharData) {
+                file_put_contents($pharFile, $pharData);
+                @chmod($pharFile, 0755);
+            }
+        }
+        if (file_exists($pharFile)) {
+            $pharResult = sh("php " . escapeshellarg($pharFile) . " install --no-dev --optimize-autoloader --no-interaction --working-dir=" . escapeshellarg($newRoot));
+            $outputLog .= "\n\n--- composer.phar run ---\n" . $pharResult['out'];
+            if ($pharResult['code'] === 0 || file_exists($newRoot . '/vendor/autoload.php')) {
+                $composerSuccess = true;
+                step('success', 'composer install completed via composer.phar',
+                    "<pre style='font-size:11px'>" . htmlspecialchars(substr($pharResult['out'], -2000)) . "</pre>");
+            }
+        }
+    }
+
+    // Fallback: Copy vendor directory from old location if present
+    if (!file_exists($newRoot . '/vendor/autoload.php')) {
+        $oldVendor = $oldRoot . '/vendor';
+        if (is_dir($oldVendor) && file_exists($oldVendor . '/autoload.php')) {
+            step('info', 'Copying existing vendor directory from old location as fallback…', '');
+            $newVendor = $newRoot . '/vendor';
+            if (!is_dir($newVendor)) @mkdir($newVendor, 0755, true);
+
+            $it = new RecursiveIteratorIterator(
+                new RecursiveDirectoryIterator($oldVendor, RecursiveDirectoryIterator::SKIP_DOTS),
+                RecursiveIteratorIterator::SELF_FIRST
+            );
+            $copiedVendorFiles = 0;
+            foreach ($it as $item) {
+                $target = $newVendor . '/' . $it->getSubPathName();
+                if ($item->isDir()) {
+                    if (!is_dir($target)) @mkdir($target, 0755, true);
+                } else {
+                    if (!file_exists($target) || filesize($item->getPathname()) !== filesize($target)) {
+                        if (@copy($item->getPathname(), $target)) $copiedVendorFiles++;
+                    }
+                }
+            }
+            if (file_exists($newVendor . '/autoload.php')) {
+                $composerSuccess = true;
+                step('success', 'vendor/ copied from previous location',
+                    "Copied {$copiedVendorFiles} files from <code>{$oldVendor}</code>.");
+            }
+        }
+    }
+
+    if (!file_exists($newRoot . '/vendor/autoload.php')) {
+        step('danger', 'composer install failed',
+            "<pre style='font-size:11px;color:#fca5a5'>" . htmlspecialchars(substr($outputLog, -1500)) . "</pre>" .
+            "Please upload the <code>vendor</code> folder from your local project to <code>/home/uq7hadnu944q/production/truant_app/vendor</code> using cPanel File Manager (zip & extract).");
     }
 }
 
