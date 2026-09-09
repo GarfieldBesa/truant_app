@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ config('app.name', 'Truant Enterprises') }} — Upcoming Events & Registrations</title>
+    <title>Truant Enterprises — Upcoming Events & Registrations</title>
     <meta name="description" content="Discover and register for upcoming conferences, summits, and corporate events on Truant Enterprises. Check real-time dates and registration availability.">
 
     <!-- Google Fonts -->
@@ -788,7 +788,7 @@
                         </svg>
                     </div>
                     <div class="brand-info">
-                        <span class="brand-title">{{ config('app.name', 'Truant Enterprises') }}</span>
+                        <span class="brand-title">Truant Enterprises</span>
                         <span class="brand-subtitle">Enterprise Suite</span>
                     </div>
                 </a>
@@ -1019,7 +1019,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                                 </svg>
                             </div>
-                            <span class="brand-title" style="font-size: 1.15rem;">{{ config('app.name', 'Truant Enterprises') }}</span>
+                            <span class="brand-title" style="font-size: 1.15rem;">Truant Enterprises</span>
                         </a>
                         <p class="footer-brand-desc">
                             A unified enterprise management suite integrating modern workforce records, biometric timesheets, automated payroll computations, and dynamic event registrations.
@@ -1046,7 +1046,7 @@
 
                 <div class="footer-bottom">
                     <div>
-                        <span>&copy; {{ date('Y') }} {{ config('app.name', 'Truant Enterprises') }}. All rights reserved.</span>
+                        <span>&copy; {{ date('Y') }} Truant Enterprises. All rights reserved.</span>
                     </div>
                     <div class="footer-status-chip">
                         <span class="dot"></span>
