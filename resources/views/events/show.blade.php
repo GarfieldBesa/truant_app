@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ $event->name }} — {{ config('app.name', 'truant_application') }}</title>
+    <title>{{ $event->name }} — {{ config('app.name', 'Truant Enterprises') }}</title>
     <meta name="description" content="{{ Str::limit(strip_tags($event->description), 150) }}">
 
     <!-- Google Fonts -->
