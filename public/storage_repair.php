@@ -282,7 +282,44 @@ if (file_exists($htaccess) && is_writable($htaccess)) {
 }
 
 // ============================================================
-//  STEP 6: CLEAR BOOTSTRAP CACHE
+//  STEP 6: RESET SERVER GIT REPO (fixes cPanel "Deploy HEAD Commit" disabled)
+//  The old fix scripts modified config/filesystems.php directly on the server,
+//  creating uncommitted changes that block cPanel deployment.
+//  This step resets those changes so git is clean.
+// ============================================================
+$gitResetOutput = '';
+$gitStatusOutput = '';
+if (function_exists('exec')) {
+    // Check git status first
+    @exec("git -C " . escapeshellarg($laravelRoot) . " status --porcelain 2>&1", $statusLines, $statusCode);
+    $gitStatusOutput = implode("\n", $statusLines);
+
+    if (!empty(trim($gitStatusOutput))) {
+        // There are uncommitted changes — reset tracked files only (leave .env untouched since it's in .gitignore)
+        @exec("git -C " . escapeshellarg($laravelRoot) . " checkout -- . 2>&1", $resetLines, $resetCode);
+        $gitResetOutput = implode("\n", $resetLines);
+
+        if ($resetCode === 0) {
+            note('success', '✅ Git repo reset — uncommitted changes discarded',
+                "Ran: <code>git checkout -- .</code><br>
+                 Previously dirty files:<br><pre style='font-size:11.5px'>" . htmlspecialchars($gitStatusOutput) . "</pre>
+                 <em>cPanel \"Deploy HEAD Commit\" should now be enabled after clicking \"Update from Remote\".</em>");
+        } else {
+            note('warning', 'git checkout -- . returned an error',
+                "<code>" . htmlspecialchars($gitResetOutput ?: 'No output') . "</code><br>
+                 Try resetting manually via cPanel Terminal: <code>git -C {$laravelRoot} checkout -- .</code>");
+        }
+    } else {
+        note('info', 'Git repo is clean — no uncommitted changes', 'cPanel deployment should be available.');
+    }
+} else {
+    note('info', 'exec() not available — cannot auto-reset git',
+        "If cPanel \"Deploy HEAD Commit\" is still disabled, open cPanel Terminal and run:<br>
+         <code>git -C {$laravelRoot} checkout -- .</code>");
+}
+
+// ============================================================
+//  STEP 7: CLEAR BOOTSTRAP CACHE
 // ============================================================
 $bCache  = $laravelRoot . '/bootstrap/cache';
 $deleted = 0;

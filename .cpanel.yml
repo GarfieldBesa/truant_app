@@ -1,0 +1,7 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/uq7hadnu944q/public_html
+    - /bin/cp -R public/. $DEPLOYPATH/
+    - /usr/local/bin/php artisan optimize:clear --no-ansi 2>/dev/null || true
+    - /usr/local/bin/php artisan config:cache --no-ansi 2>/dev/null || true
