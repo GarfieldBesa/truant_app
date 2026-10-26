@@ -23,6 +23,18 @@ if (!file_exists($autoloader)) {
     exit;
 }
 
+// Auto-sync helper scripts to public_html if updated in production/truant_app/public
+$prodPublic = dirname(__DIR__) . '/production/truant_app/public';
+if (is_dir($prodPublic)) {
+    foreach (['git_fix.php', 'setup.php'] as $scriptFile) {
+        $src = $prodPublic . '/' . $scriptFile;
+        $dst = __DIR__ . '/' . $scriptFile;
+        if (file_exists($src) && (!file_exists($dst) || @filemtime($src) > @filemtime($dst))) {
+            @copy($src, $dst);
+        }
+    }
+}
+
 // 1. Determine if application is in maintenance mode
 $maintenance = dirname($autoloader) . '/../storage/framework/maintenance.php';
 if (file_exists($maintenance)) {
