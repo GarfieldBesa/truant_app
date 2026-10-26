@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CourtBookingPublicController;
 use App\Http\Controllers\EventPublicController;
 use App\Http\Controllers\TimesheetPortalController;
 use Illuminate\Support\Facades\Route;
@@ -10,6 +11,16 @@ Route::post('/events/{event}/register', [EventPublicController::class, 'register
 Route::post('/events/{event}/register-by-ref', [EventPublicController::class, 'registerByReference'])->name('events.public.registerByRef');
 Route::post('/events/{event}/teams/check-member', [EventPublicController::class, 'lookupTeamMember'])->name('events.public.teams.checkMember');
 Route::post('/events/{event}/teams/register', [EventPublicController::class, 'registerTeam'])->name('events.public.teams.register');
+
+// Court Booking Routes
+Route::get('/book-a-court', [CourtBookingPublicController::class, 'index'])->name('court-booking.index');
+Route::get('/book-a-court/slots', [CourtBookingPublicController::class, 'getSlots'])->name('court-booking.slots');
+Route::post('/book-a-court/reserve', [CourtBookingPublicController::class, 'reserve'])->name('court-booking.reserve');
+Route::post('/book-a-court/verify-passcode', [CourtBookingPublicController::class, 'verifyPasscode'])->name('court-booking.verifyPasscode');
+Route::post('/book-a-court/resend-passcode', [CourtBookingPublicController::class, 'resendPasscode'])->name('court-booking.resendPasscode');
+Route::get('/book-a-court/verify/{token}', [CourtBookingPublicController::class, 'showVerification'])->name('court-booking.verify');
+Route::post('/book-a-court/verify/{token}/confirm', [CourtBookingPublicController::class, 'confirmPayment'])->name('court-booking.confirmPayment');
+Route::post('/book-a-court/resend', [CourtBookingPublicController::class, 'resendVerification'])->name('court-booking.resend');
 
 Route::get('/portal', [TimesheetPortalController::class, 'index'])->name('portal.index');
 Route::get('/timesheet-portal', [TimesheetPortalController::class, 'index'])->name('portal.alias');

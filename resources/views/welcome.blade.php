@@ -795,6 +795,7 @@
 
                 <nav class="header-nav">
                     <a href="{{ url('/') }}" class="nav-link active" id="nav-events-link">Events</a>
+                    <a href="{{ route('court-booking.index') }}" class="nav-link" id="nav-book-court-link">Book a Court</a>
                 </nav>
 
                 <div class="header-actions">
@@ -1030,6 +1031,7 @@
                         <h4 class="footer-col-title">Quick Links</h4>
                         <ul class="footer-links-list">
                             <li class="footer-link-item"><a href="{{ url('/') }}">Upcoming Events</a></li>
+                            <li class="footer-link-item"><a href="{{ route('court-booking.index') }}">Book a Court</a></li>
                             <li class="footer-link-item"><a href="{{ url('/admin/login') }}">Administrator Login</a></li>
                         </ul>
                     </div>

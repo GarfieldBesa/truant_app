@@ -806,6 +806,9 @@
                         </svg>
                         <span>All Events</span>
                     </a>
+                    <a href="{{ route('court-booking.index') }}" class="btn btn-outline" id="btn-court-booking">
+                        <span>Book a Court</span>
+                    </a>
                     <a href="{{ url('/admin/login') }}" class="btn btn-primary">Login</a>
                 </div>
             </div>
