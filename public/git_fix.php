@@ -118,9 +118,16 @@ if (is_dir($prodPublic)) {
 $recentLog = '';
 $logPath = '/home/uq7hadnu944q/production/truant_app/storage/logs/laravel.log';
 if (file_exists($logPath)) {
-    $logLines = file($logPath);
-    if ($logLines) {
-        $recentLog = trim(implode('', array_slice($logLines, -40)));
+    $content = file_get_contents($logPath);
+    if ($content) {
+        $pos = strrpos($content, '[2026-');
+        if ($pos !== false) {
+            $lastEntry = substr($content, $pos);
+            $recentLog = substr($lastEntry, 0, 3000);
+        } else {
+            $logLines = file($logPath);
+            $recentLog = trim(implode('', array_slice($logLines, -100)));
+        }
     }
 }
 
