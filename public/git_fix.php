@@ -7,9 +7,10 @@
  *
  * Fixes:
  * 1. Pulls latest main branch code to production
- * 2. Updates APP_NAME="Truant Enterprises" in .env
+ * 2. Updates APP_NAME and MAIL_* settings in .env
  * 3. Clears compiled views & bootstrap config cache
  * 4. Resets uncommitted changes to unblock cPanel Deploy
+ * 5. Tests SMTP connection to truantenterprises.com:465
  */
 
 declare(strict_types=1);
@@ -58,17 +59,40 @@ foreach ($candidatePaths as $repoPath) {
     $pull = run("git -C " . escapeshellarg($repoPath) . " pull origin main");
     $steps[] = ['label' => "[$repoPath] git pull origin main", 'result' => $pull];
 
-    // 4. Update .env APP_NAME
+    // 4. Update .env APP_NAME and Mail configuration
     $envFile = $repoPath . '/.env';
     if (file_exists($envFile)) {
         $env = file_get_contents($envFile);
-        if (preg_match('/^APP_NAME=.*$/m', $env)) {
-            $env = preg_replace('/^APP_NAME=.*$/m', 'APP_NAME="Truant Enterprises"', $env);
-        } else {
-            $env .= "\nAPP_NAME=\"Truant Enterprises\"\n";
+
+        $mailUpdates = [
+            'APP_NAME' => '"Truant Enterprises"',
+            'MAIL_MAILER' => 'smtp',
+            'MAIL_SCHEME' => 'smtps',
+            'MAIL_HOST' => 'truantenterprises.com',
+            'MAIL_PORT' => '465',
+            'MAIL_USERNAME' => 'info@truantenterprises.com',
+            'MAIL_FROM_ADDRESS' => '"info@truantenterprises.com"',
+            'MAIL_FROM_NAME' => '"Truant Enterprises"',
+        ];
+
+        // If mail_password was submitted via POST or GET, update MAIL_PASSWORD
+        $submittedPass = trim((string)($_POST['mail_password'] ?? $_GET['mail_password'] ?? ''));
+        if ($submittedPass !== '') {
+            $mailUpdates['MAIL_PASSWORD'] = '"' . addcslashes($submittedPass, '"$\\') . '"';
         }
+
+        $applied = [];
+        foreach ($mailUpdates as $key => $val) {
+            if (preg_match("/^{$key}=.*$/m", $env)) {
+                $env = preg_replace("/^{$key}=.*$/m", "{$key}={$val}", $env);
+            } else {
+                $env .= "\n{$key}={$val}\n";
+            }
+            $applied[] = "{$key}=" . (str_contains(strtolower($key), 'pass') ? '***hidden***' : $val);
+        }
+
         file_put_contents($envFile, $env);
-        $steps[] = ['label' => "[$repoPath] Update .env APP_NAME", 'result' => ['out' => 'APP_NAME set to "Truant Enterprises"', 'code' => 0]];
+        $steps[] = ['label' => "[$repoPath] Update .env (APP & MAIL settings)", 'result' => ['out' => implode("\n", $applied), 'code' => 0]];
     }
 
     // 5. Clear views and cache
@@ -122,6 +146,55 @@ if (is_dir($prodPublic)) {
     }
 }
 
+// Test SMTP connection with current production credentials
+$smtpCheckResult = 'Not tested';
+$smtpCheckStatus = 'neutral';
+$prodEnvPath = '/home/uq7hadnu944q/production/truant_app/.env';
+if (file_exists($prodEnvPath)) {
+    $envContent = file_get_contents($prodEnvPath);
+    $mailPass = '';
+    if (preg_match('/^MAIL_PASSWORD=(.*)$/m', $envContent, $m)) {
+        $mailPass = trim($m[1], " \t\n\r\0\x0B\"'");
+    }
+
+    if (!empty($mailPass)) {
+        $context = stream_context_create([
+            'ssl' => [
+                'verify_peer' => false,
+                'verify_peer_name' => false,
+            ]
+        ]);
+        $fp = @stream_socket_client('ssl://truantenterprises.com:465', $errno, $errstr, 6, STREAM_CLIENT_CONNECT, $context);
+        if ($fp) {
+            fgets($fp);
+            fputs($fp, "EHLO truantenterprises.com\r\n");
+            while ($line = fgets($fp)) {
+                if (strpos($line, '250 ') === 0) break;
+            }
+            fputs($fp, "AUTH LOGIN\r\n");
+            fgets($fp);
+            fputs($fp, base64_encode("info@truantenterprises.com") . "\r\n");
+            fgets($fp);
+            fputs($fp, base64_encode($mailPass) . "\r\n");
+            $res = trim((string)fgets($fp));
+            fclose($fp);
+            if (strpos($res, '235') === 0) {
+                $smtpCheckResult = "✅ SMTP Authentication SUCCESS! ($res)\nReady to send real verification passcode emails from info@truantenterprises.com.";
+                $smtpCheckStatus = 'success';
+            } else {
+                $smtpCheckResult = "❌ SMTP Authentication FAILED ($res).\nPlease check the password for info@truantenterprises.com and try again.";
+                $smtpCheckStatus = 'fail';
+            }
+        } else {
+            $smtpCheckResult = "❌ Could not connect to ssl://truantenterprises.com:465: $errstr ($errno)";
+            $smtpCheckStatus = 'fail';
+        }
+    } else {
+        $smtpCheckResult = "⚠️ MAIL_PASSWORD is currently empty in .env.\nEnter the cPanel email password below and click 'Save & Test SMTP'.";
+        $smtpCheckStatus = 'warning';
+    }
+}
+
 // Check recent laravel.log lines
 $recentLog = '';
 $logPath = '/home/uq7hadnu944q/production/truant_app/storage/logs/laravel.log';
@@ -138,14 +211,13 @@ if (file_exists($logPath)) {
         }
     }
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Git & Cache Sync — Truant Enterprises</title>
+<title>Git &amp; Mail Sync — Truant Enterprises</title>
 <style>
 :root{--bg:#080f1e;--card:#0f1c2e;--border:#1e2f46;--green:#10b981;--red:#ef4444;--blue:#38bdf8;--yellow:#f59e0b;--gray:#94a3b8;--text:#f1f5f9}
 *{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
@@ -154,7 +226,7 @@ body{background:var(--bg);color:var(--text);padding:30px 16px}
 h1{font-size:20px;font-weight:700;color:#fff}
 p.sub{font-size:13px;color:var(--gray);margin-top:4px}
 .banner{border-radius:10px;padding:14px 18px;font-size:14px;font-weight:600;background:rgba(16,185,129,.14);border:1px solid var(--green);color:#6ee7b7}
-.card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 18px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px 18px}
 .card h3{font-size:13px;font-weight:600;color:var(--gray);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px}
 pre{background:rgba(0,0,0,.5);padding:10px 14px;border-radius:6px;font-size:12px;line-height:1.6;color:#cbd5e1;white-space:pre-wrap;word-break:break-all}
 .badge{display:inline-block;padding:2px 9px;border-radius:9999px;font-size:11px;font-weight:700}
@@ -164,18 +236,36 @@ pre{background:rgba(0,0,0,.5);padding:10px 14px;border-radius:6px;font-size:12px
 .step-label{font-size:12px;color:var(--gray);margin-bottom:5px}
 code{background:rgba(0,0,0,.5);padding:2px 7px;border-radius:4px;font-family:ui-monospace,monospace;font-size:12px}
 a{color:var(--blue)}
+input[type="password"]{background:#080f1e;border:1px solid var(--border);color:#fff;padding:9px 12px;border-radius:6px;font-size:13px;outline:none}
+input[type="password"]:focus{border-color:var(--blue)}
+button.btn-primary{background:#4f46e5;color:#fff;border:none;padding:9px 18px;border-radius:6px;font-weight:600;font-size:13px;cursor:pointer;transition:background .15s}
+button.btn-primary:hover{background:#4338ca}
 </style>
 </head>
 <body>
 <div class="wrap">
 
   <div>
-    <h1>&#9881;&#65039; Server Sync &amp; Cache Clear Complete</h1>
-    <p class="sub">Pulled latest code from main, updated APP_NAME="Truant Enterprises", and cleared compiled views.</p>
+    <h1>&#9881;&#65039; Server Sync &amp; Mail Config — Truant Enterprises</h1>
+    <p class="sub">Git pull origin main, .env updated with SMTP settings, and compiled caches refreshed.</p>
   </div>
 
   <div class="banner">
-    &#9989; Server synced with GitHub main branch. Clear your browser cache and refresh <a href="https://truantenterprises.com/" style="color:#fff;text-decoration:underline">truantenterprises.com</a>.
+    &#9989; Server synced with GitHub main branch. Clear browser cache and refresh <a href="https://truantenterprises.com/" style="color:#fff;text-decoration:underline">truantenterprises.com</a>.
+  </div>
+
+  <!-- Mail SMTP Card -->
+  <div class="card" style="border-color: <?= $smtpCheckStatus === 'success' ? 'var(--green)' : ($smtpCheckStatus === 'warning' ? 'var(--yellow)' : 'var(--blue)') ?>;">
+    <h3 style="color:var(--blue);">&#128231; SMTP Mail Configuration (info@truantenterprises.com)</h3>
+    <p style="font-size:13px;color:var(--gray);margin-bottom:10px;">
+      Host: <code>truantenterprises.com</code> &bull; Port: <code>465</code> (SSL/TLS) &bull; User: <code>info@truantenterprises.com</code> &bull; Scheme: <code>smtps</code>
+    </p>
+    <pre style="margin-bottom:12px;color:<?= $smtpCheckStatus === 'success' ? '#34d399' : ($smtpCheckStatus === 'warning' ? '#fbbf24' : '#f87171') ?>;"><?= htmlspecialchars($smtpCheckResult) ?></pre>
+    
+    <form method="POST" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+      <input type="password" name="mail_password" placeholder="Enter password for info@truantenterprises.com" style="flex:1;min-width:240px;" required />
+      <button type="submit" class="btn-primary">Save &amp; Test SMTP</button>
+    </form>
   </div>
 
   <!-- Step Results -->
@@ -200,7 +290,7 @@ a{color:var(--blue)}
   <?php endif ?>
 
   <div style="background:rgba(239,68,68,.09);border:1px solid rgba(239,68,68,.35);border-radius:9px;padding:14px 17px;font-size:12px;color:#fca5a5">
-    <strong>&#9888;&#65039; Security:</strong> Delete <code>public_html/git_fix.php</code> after use.
+    <strong>&#9888;&#65039; Security:</strong> Delete <code>public_html/git_fix.php</code> after verification.
   </div>
 
 </div>
