@@ -36,9 +36,17 @@ class IpConfiguration extends Page
      */
     public static function getNavigationBadge(): ?string
     {
-        $count = IpRequest::where('status', 'pending')->count();
+        try {
+            if (! \Illuminate\Support\Facades\Schema::hasTable('ip_requests')) {
+                return null;
+            }
 
-        return $count > 0 ? (string) $count : null;
+            $count = IpRequest::where('status', 'pending')->count();
+
+            return $count > 0 ? (string) $count : null;
+        } catch (\Throwable) {
+            return null;
+        }
     }
 
     public static function getNavigationBadgeColor(): ?string

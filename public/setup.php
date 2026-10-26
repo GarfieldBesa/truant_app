@@ -372,16 +372,22 @@ if (file_exists($newRoot . '/vendor/autoload.php')) {
                 htmlspecialchars($e->getMessage()) . '<br>Run manually: <code>cd ~/production/truant_app && php artisan key:generate</code>');
         }
     } else {
-        // Just clear caches
+        // Run migrations and clear caches
         try {
             require_once $newRoot . '/vendor/autoload.php';
             $app    = require_once $newRoot . '/bootstrap/app.php';
             $kernel = $app->make(\Illuminate\Contracts\Console\Kernel::class);
+
+            // Run pending database migrations
+            $kernel->call('migrate', ['--force' => true]);
+            step('success', 'artisan migrate --force',
+                "<pre style='font-size:11.5px'>" . htmlspecialchars(trim($kernel->output())) . "</pre>");
+
             $kernel->call('optimize:clear');
             step('success', 'artisan optimize:clear',
                 "<pre style='font-size:11.5px'>" . htmlspecialchars(trim($kernel->output())) . "</pre>");
         } catch (\Throwable $e) {
-            step('info', 'artisan optimize:clear note', htmlspecialchars($e->getMessage()));
+            step('warning', 'artisan migrate / optimize note', htmlspecialchars($e->getMessage()));
         }
     }
 

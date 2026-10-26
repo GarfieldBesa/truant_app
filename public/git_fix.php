@@ -88,21 +88,39 @@ foreach ($candidatePaths as $repoPath) {
     }
     $steps[] = ['label' => "[$repoPath] Clear cache & views", 'result' => ['out' => "Deleted {$clearedViews} compiled view(s) & {$clearedBCache} cache file(s)", 'code' => 0]];
 
-    // 6. Copy welcome.blade.php if needed
+    // 6. Run database migrations
+    $migrate = run("php " . escapeshellarg($repoPath . '/artisan') . " migrate --force");
+    $steps[] = ['label' => "[$repoPath] php artisan migrate --force", 'result' => $migrate];
+
+    // 7. Clear artisan optimization caches
+    $opt = run("php " . escapeshellarg($repoPath . '/artisan') . " optimize:clear");
+    $steps[] = ['label' => "[$repoPath] php artisan optimize:clear", 'result' => $opt];
+
+    // 8. Copy welcome.blade.php if needed
     $welcomeSrc = $repoPath . '/resources/views/welcome.blade.php';
     if (file_exists($welcomeSrc)) {
         @chmod($welcomeSrc, 0644);
     }
 }
 
-// Copy updated index.php and setup.php to public_html if present in production/truant_app/public
+// Copy updated index.php, git_fix.php, and setup.php to public_html if present in production/truant_app/public
 $prodPublic = '/home/uq7hadnu944q/production/truant_app/public';
 $webRoot = '/home/uq7hadnu944q/public_html';
 if (is_dir($prodPublic)) {
-    foreach (['index.php', 'welcome.blade.php'] as $f) {
+    foreach (['index.php', 'welcome.blade.php', 'git_fix.php', 'setup.php'] as $f) {
         if (file_exists($prodPublic . '/' . $f)) {
             @copy($prodPublic . '/' . $f, $webRoot . '/' . $f);
         }
+    }
+}
+
+// Check recent laravel.log lines
+$recentLog = '';
+$logPath = '/home/uq7hadnu944q/production/truant_app/storage/logs/laravel.log';
+if (file_exists($logPath)) {
+    $logLines = file($logPath);
+    if ($logLines) {
+        $recentLog = trim(implode('', array_slice($logLines, -40)));
     }
 }
 
@@ -158,6 +176,13 @@ a{color:var(--blue)}
       </div>
     <?php endforeach ?>
   </div>
+
+  <?php if (!empty($recentLog)): ?>
+  <div class="card">
+    <h3>Recent Laravel Logs (storage/logs/laravel.log)</h3>
+    <pre style="max-height:280px;overflow-y:auto"><?= htmlspecialchars($recentLog) ?></pre>
+  </div>
+  <?php endif ?>
 
   <div style="background:rgba(239,68,68,.09);border:1px solid rgba(239,68,68,.35);border-radius:9px;padding:14px 17px;font-size:12px;color:#fca5a5">
     <strong>&#9888;&#65039; Security:</strong> Delete <code>public_html/git_fix.php</code> after use.
