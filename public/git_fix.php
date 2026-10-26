@@ -96,6 +96,10 @@ foreach ($candidatePaths as $repoPath) {
     $migStatus = run("php " . escapeshellarg($repoPath . '/artisan') . " migrate:status");
     $steps[] = ['label' => "[$repoPath] php artisan migrate:status", 'result' => $migStatus];
 
+    // Seed default courts if needed
+    $seed = run("php " . escapeshellarg($repoPath . '/artisan') . " db:seed --class=CourtSeeder --force");
+    $steps[] = ['label' => "[$repoPath] php artisan db:seed --class=CourtSeeder --force", 'result' => $seed];
+
     // 7. Clear artisan optimization caches
     $opt = run("php " . escapeshellarg($repoPath . '/artisan') . " optimize:clear");
     $steps[] = ['label' => "[$repoPath] php artisan optimize:clear", 'result' => $opt];

@@ -24,6 +24,17 @@ class CourtBookingPublicController extends Controller
         $courts = Court::active()->get();
 
         if ($courts->isEmpty()) {
+            if (Court::count() === 0) {
+                try {
+                    \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'CourtSeeder', '--force' => true]);
+                    $courts = Court::active()->get();
+                } catch (\Throwable $e) {
+                    // Fall through
+                }
+            }
+        }
+
+        if ($courts->isEmpty()) {
             abort(503, 'Court booking is currently unavailable. No courts active.');
         }
 
