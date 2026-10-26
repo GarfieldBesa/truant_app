@@ -92,6 +92,10 @@ foreach ($candidatePaths as $repoPath) {
     $migrate = run("php " . escapeshellarg($repoPath . '/artisan') . " migrate --force");
     $steps[] = ['label' => "[$repoPath] php artisan migrate --force", 'result' => $migrate];
 
+    // Check migration status
+    $migStatus = run("php " . escapeshellarg($repoPath . '/artisan') . " migrate:status");
+    $steps[] = ['label' => "[$repoPath] php artisan migrate:status", 'result' => $migStatus];
+
     // 7. Clear artisan optimization caches
     $opt = run("php " . escapeshellarg($repoPath . '/artisan') . " optimize:clear");
     $steps[] = ['label' => "[$repoPath] php artisan optimize:clear", 'result' => $opt];
