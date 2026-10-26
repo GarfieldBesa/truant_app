@@ -43,6 +43,12 @@ class EmployeesTable
                     })
                     ->placeholder('No Access')
                     ->sortable(),
+                TextColumn::make('locations.name')
+                    ->label('Locations')
+                    ->badge()
+                    ->color('warning')
+                    ->placeholder('None')
+                    ->separator(', '),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

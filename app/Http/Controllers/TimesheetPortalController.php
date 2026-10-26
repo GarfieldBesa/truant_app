@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\CashAdvance;
 use App\Models\Employee;
+use App\Models\IpRequest;
 use App\Models\LeaveRequest;
+use App\Models\Location;
 use App\Models\Timesheet;
 use App\Services\PayrollCalculator;
 use Carbon\Carbon;
@@ -13,6 +15,16 @@ use Illuminate\Support\Facades\Auth;
 
 class TimesheetPortalController extends Controller
 {
+    /**
+     * Check if employee's current IP is authorized for their assigned locations.
+     */
+    protected function verifyEmployeeIp(Employee $employee, Request $request): bool
+    {
+        $clientIp = $request->ip();
+
+        return $employee->isIpAuthorized($clientIp);
+    }
+
     /**
      * Display the timesheet portal.
      */
@@ -35,6 +47,11 @@ class TimesheetPortalController extends Controller
             return redirect('/admin/login')->withErrors([
                 'email' => 'Your account does not have access to the timesheet portal.',
             ]);
+        }
+
+        // Verify IP address for employee's assigned locations
+        if (! $this->verifyEmployeeIp($employee, $request)) {
+            return redirect()->route('portal.ipRequest');
         }
 
         // Philippine Time Context
@@ -119,6 +136,11 @@ class TimesheetPortalController extends Controller
             return redirect('/admin/login');
         }
 
+        // Verify IP address for employee's assigned locations
+        if (! $this->verifyEmployeeIp($employee, $request)) {
+            return redirect()->route('portal.ipRequest')->with('error', 'Unauthorized location IP address. Please submit an IP registration request.');
+        }
+
         $phNow = Carbon::now('Asia/Manila');
         $todayDate = $phNow->toDateString();
         $currentTime = $phNow->format('H:i:s');
@@ -155,6 +177,11 @@ class TimesheetPortalController extends Controller
             return redirect('/admin/login');
         }
 
+        // Verify IP address for employee's assigned locations
+        if (! $this->verifyEmployeeIp($employee, $request)) {
+            return redirect()->route('portal.ipRequest')->with('error', 'Unauthorized location IP address. Please submit an IP registration request.');
+        }
+
         $phNow = Carbon::now('Asia/Manila');
         $todayDate = $phNow->toDateString();
         $currentTime = $phNow->format('H:i:s');
@@ -177,6 +204,97 @@ class TimesheetPortalController extends Controller
         $timesheet->save();
 
         return redirect()->back()->with('success', 'Time Out successfully recorded at ' . $phNow->format('h:i:s A') . ' (Philippine Time).');
+    }
+
+    /**
+     * Show IP Registration Request Page.
+     */
+    public function showIpRequest(Request $request)
+    {
+        $employee = Auth::guard('employee')->user();
+
+        if (! $employee && Auth::guard('web')->check()) {
+            $employee = Employee::where('role', 'timesheet_portal')->first() ?? Employee::first();
+        }
+
+        if (! $employee) {
+            return redirect('/admin/login');
+        }
+
+        $clientIp = $request->ip();
+
+        // If IP is already authorized, redirect straight to portal
+        if ($this->verifyEmployeeIp($employee, $request)) {
+            return redirect()->route('portal.index')->with('success', 'Your location and IP address are verified.');
+        }
+
+        $assignedLocations = $employee->locations;
+        $allLocations = Location::orderBy('name')->get();
+
+        $pendingRequest = IpRequest::where('employee_id', $employee->id)
+            ->where('status', 'pending')
+            ->latest()
+            ->first();
+
+        return view('portal.ip-request', compact(
+            'employee',
+            'clientIp',
+            'assignedLocations',
+            'allLocations',
+            'pendingRequest'
+        ));
+    }
+
+    /**
+     * Submit an IP Registration Request.
+     */
+    public function submitIpRequest(Request $request)
+    {
+        $employee = Auth::guard('employee')->user();
+
+        if (! $employee && Auth::guard('web')->check()) {
+            $employee = Employee::where('role', 'timesheet_portal')->first() ?? Employee::first();
+        }
+
+        if (! $employee) {
+            return redirect('/admin/login');
+        }
+
+        $validated = $request->validate([
+            'location_id' => 'nullable',
+            'location_name' => 'nullable|string|max:255',
+            'description' => 'required|string|max:1000',
+        ], [
+            'description.required' => 'Please provide a note or description for this IP request.',
+        ]);
+
+        $clientIp = $request->ip();
+
+        $locationName = null;
+        $locationId = null;
+
+        if (! empty($validated['location_id'])) {
+            $location = Location::find($validated['location_id']);
+            if ($location) {
+                $locationId = $location->id;
+                $locationName = $location->name;
+            }
+        }
+
+        if (empty($locationName)) {
+            $locationName = $validated['location_name'] ?? 'Requested Location';
+        }
+
+        IpRequest::create([
+            'employee_id' => $employee->id,
+            'location_id' => $locationId,
+            'location_name' => $locationName,
+            'ip_address' => $clientIp,
+            'description' => $validated['description'],
+            'status' => 'pending',
+        ]);
+
+        return redirect()->route('portal.ipRequest')->with('success', 'Your IP registration request has been submitted to the administrator. You will be able to access the portal once approved.');
     }
 
     /**

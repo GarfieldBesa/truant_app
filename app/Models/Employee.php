@@ -89,4 +89,38 @@ class Employee extends Authenticatable
     {
         return $this->hasMany(LeaveRequest::class);
     }
+
+    public function locations()
+    {
+        return $this->belongsToMany(Location::class, 'employee_location');
+    }
+
+    public function ipRequests()
+    {
+        return $this->hasMany(IpRequest::class);
+    }
+
+    /**
+     * Check if the given client IP matches any of the employee's assigned locations.
+     */
+    public function isIpAuthorized(?string $clientIp): bool
+    {
+        if (empty($clientIp)) {
+            return false;
+        }
+
+        $locations = $this->locations;
+
+        if ($locations->isEmpty()) {
+            return false;
+        }
+
+        foreach ($locations as $location) {
+            if ($location->matchesIp($clientIp)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

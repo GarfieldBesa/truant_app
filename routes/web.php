@@ -13,6 +13,8 @@ Route::post('/events/{event}/teams/register', [EventPublicController::class, 're
 
 Route::get('/portal', [TimesheetPortalController::class, 'index'])->name('portal.index');
 Route::get('/timesheet-portal', [TimesheetPortalController::class, 'index'])->name('portal.alias');
+Route::get('/portal/ip-request', [TimesheetPortalController::class, 'showIpRequest'])->name('portal.ipRequest');
+Route::post('/portal/ip-request', [TimesheetPortalController::class, 'submitIpRequest'])->name('portal.submitIpRequest');
 Route::post('/portal/time-in', [TimesheetPortalController::class, 'timeIn'])->name('portal.timeIn');
 Route::post('/portal/time-out', [TimesheetPortalController::class, 'timeOut'])->name('portal.timeOut');
 Route::post('/portal/request-leave', [TimesheetPortalController::class, 'requestLeave'])->name('portal.requestLeave');

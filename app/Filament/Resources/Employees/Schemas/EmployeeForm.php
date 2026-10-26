@@ -49,6 +49,14 @@ class EmployeeForm
                     ->columns(1)
                     ->columnSpanFull()
                     ->helperText('Select the system portals and access permissions granted to this employee.'),
+                Select::make('locations')
+                    ->label('Assigned Locations')
+                    ->relationship('locations', 'name')
+                    ->multiple()
+                    ->preload()
+                    ->searchable()
+                    ->helperText('Choose one or more authorized locations for this employee. Pulled from IP Configuration.')
+                    ->columnSpanFull(),
             ]);
     }
 }
