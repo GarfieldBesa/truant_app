@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [EventPublicController::class, 'index'])->name('home');
 Route::get('/events/{event}', [EventPublicController::class, 'show'])->name('events.public.show');
+Route::get('/events/{event}/players', [EventPublicController::class, 'registeredPlayers'])->name('events.public.players');
 Route::post('/events/{event}/register', [EventPublicController::class, 'register'])->name('events.public.register');
 Route::post('/events/{event}/register-by-ref', [EventPublicController::class, 'registerByReference'])->name('events.public.registerByRef');
 Route::post('/events/{event}/teams/check-member', [EventPublicController::class, 'lookupTeamMember'])->name('events.public.teams.checkMember');

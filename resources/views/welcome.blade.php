@@ -578,6 +578,396 @@
             box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
         }
 
+        .btn-card-roster {
+            background: #ffffff;
+            color: var(--text-title);
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .btn-card-roster:hover {
+            background: #f8fafc;
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: translateY(-1px);
+        }
+
+        .event-roster-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 10px;
+            border-radius: 9999px;
+            background: #f1f5f9;
+            color: #334155;
+            font-size: 0.775rem;
+            font-weight: 600;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.15s ease;
+            font-family: inherit;
+        }
+
+        .event-roster-chip:hover {
+            background: #e0e7ff;
+            color: var(--primary);
+            border-color: #c7d2fe;
+        }
+
+        /* ─── Registered Players Modal Styles ─── */
+        .roster-modal-backdrop {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(6px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.22s ease, visibility 0.22s ease;
+        }
+
+        .roster-modal-backdrop.is-open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .roster-modal-dialog {
+            background: #ffffff;
+            width: 100%;
+            max-width: 860px;
+            max-height: 90vh;
+            border-radius: 18px;
+            box-shadow: 0 20px 45px -10px rgba(15, 23, 42, 0.28);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transform: scale(0.96) translateY(12px);
+            transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 1px solid var(--border-color);
+        }
+
+        .roster-modal-backdrop.is-open .roster-modal-dialog {
+            transform: scale(1) translateY(0);
+        }
+
+        .roster-modal-header {
+            padding: 20px 24px 16px;
+            border-bottom: 1px solid var(--border-color);
+            background: linear-gradient(to right, #f8fafc, #ffffff);
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .modal-badge-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+            flex-wrap: wrap;
+        }
+
+        .modal-event-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--primary);
+            background: #eef2ff;
+            padding: 3px 10px;
+            border-radius: 9999px;
+            letter-spacing: 0.04em;
+        }
+
+        .modal-event-title {
+            font-family: var(--font-display);
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: var(--text-title);
+            margin: 0 0 4px 0;
+            line-height: 1.25;
+        }
+
+        .modal-event-meta {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .modal-close-btn {
+            background: #f1f5f9;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-muted);
+            font-size: 1.4rem;
+            line-height: 1;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .modal-close-btn:hover {
+            background: #e2e8f0;
+            color: var(--text-title);
+        }
+
+        .roster-modal-body {
+            padding: 20px 24px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .modal-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .modal-stat-card {
+            background: var(--bg-subtle);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .modal-stat-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .modal-stat-val {
+            font-family: var(--font-display);
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: var(--text-title);
+            line-height: 1;
+        }
+
+        .modal-stat-lbl {
+            font-size: 0.775rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            margin-top: 2px;
+        }
+
+        .modal-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+        }
+
+        .modal-search-wrapper {
+            position: relative;
+            flex: 1;
+            min-width: 220px;
+        }
+
+        .modal-search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+            pointer-events: none;
+        }
+
+        .modal-search-input {
+            width: 100%;
+            padding: 9px 12px 9px 38px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 0.875rem;
+            background: var(--bg-subtle);
+            outline: none;
+            font-family: inherit;
+            transition: all 0.2s ease;
+        }
+
+        .modal-search-input:focus {
+            background: #ffffff;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+        }
+
+        .modal-filter-tabs {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .modal-tab-btn {
+            padding: 7px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: 1px solid var(--border-color);
+            background: #ffffff;
+            color: var(--text-body);
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.15s ease;
+        }
+
+        .modal-tab-btn.active {
+            background: var(--primary);
+            color: #ffffff;
+            border-color: var(--primary);
+        }
+
+        .modal-team-block {
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            margin-bottom: 16px;
+            overflow: hidden;
+            background: #ffffff;
+        }
+
+        .modal-team-header {
+            background: #f8fafc;
+            border-bottom: 1px solid var(--border-color);
+            padding: 12px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .modal-team-title {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-title);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 0;
+        }
+
+        .modal-ref-badge {
+            font-family: monospace;
+            font-size: 0.775rem;
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            padding: 2px 8px;
+            border-radius: 4px;
+            color: var(--text-body);
+        }
+
+        .modal-member-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.875rem;
+        }
+
+        .modal-member-table th {
+            background: #ffffff;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 9px 16px;
+            border-bottom: 1px solid var(--border-color);
+            text-align: left;
+        }
+
+        .modal-member-table td {
+            padding: 11px 16px;
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: middle;
+        }
+
+        .modal-member-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .modal-avatar-cell {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modal-avatar-circle {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+        }
+
+        .avatar-team-theme {
+            background: #e0e7ff;
+            color: #4338ca;
+        }
+
+        .avatar-ind-theme {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .modal-role-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 2px 8px;
+            border-radius: 9999px;
+            font-size: 0.725rem;
+            font-weight: 700;
+        }
+
+        .role-team-member {
+            background: #e0e7ff;
+            color: #4338ca;
+        }
+
+        .role-individual {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .roster-modal-footer {
+            padding: 14px 24px;
+            border-top: 1px solid var(--border-color);
+            background: #f8fafc;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
         /* ─── Clean Pagination Styling ────────────────────────────── */
         .pagination-wrapper {
             margin-top: 24px;
@@ -795,7 +1185,9 @@
 
                 <nav class="header-nav">
                     <a href="{{ url('/') }}" class="nav-link active" id="nav-events-link">Events</a>
-                    <a href="{{ route('court-booking.index') }}" class="nav-link" id="nav-book-court-link">Book a Court</a>
+                    {{-- 
+<a href="{{ route('court-booking.index') }}" class="nav-link" id="nav-book-court-link">Book a Court</a> 
+--}}
                 </nav>
 
                 <div class="header-actions">
@@ -944,15 +1336,26 @@
                                 {{ Str::limit(strip_tags($event->description), 140) }}
                             </p>
 
-                            <!-- Bottom Action Button linking to Event Page Content -->
+                            <!-- Bottom Action Buttons: Roster + Event Details -->
                             <div class="card-footer-action">
+                                <button type="button" class="btn-card-action btn-card-roster" onclick="openEventRoster({{ $event->id }})" id="btn-view-players-{{ $event->id }}" title="View all registered players and team rosters for {{ $event->name }}">
+                                    <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                    </svg>
+                                    <span>Registered Players ({{ $event->registrations->count() }})</span>
+                                </button>
                                 <a href="{{ route('events.public.show', $event) }}" class="btn-card-action btn-card-primary" id="btn-view-event-{{ $event->id }}">
                                     <span>View Event &amp; Register</span>
-                                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
                                     </svg>
                                 </a>
                             </div>
+
+                            <!-- Embedded Roster Data for Zero-Lag Popup -->
+                            <script id="event-roster-data-{{ $event->id }}" type="application/json">
+                                {!! json_encode($event->getGroupedPlayers(), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP) !!}
+                            </script>
                         </div>
                     </article>
                 @empty
@@ -1058,5 +1461,442 @@
             </div>
         </footer>
     </div>
+
+    <!-- Registered Players & Teams Interactive Modal Dialog -->
+    <div class="roster-modal-backdrop" id="rosterModalBackdrop" onclick="handleBackdropClick(event)" role="dialog" aria-modal="true" aria-labelledby="modalEventTitle">
+        <div class="roster-modal-dialog">
+            <!-- Modal Header -->
+            <div class="roster-modal-header">
+                <div>
+                    <div class="modal-badge-group">
+                        <span class="modal-event-badge">
+                            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            </svg>
+                            <span>Official Event Roster</span>
+                        </span>
+                        <span id="modalEventStatus" style="font-size: 0.75rem; font-weight: 700; color: #059669;">● Registration Open</span>
+                    </div>
+                    <h2 id="modalEventTitle" class="modal-event-title">Event Title</h2>
+                    <div class="modal-event-meta">
+                        <span id="modalEventDate">📅 Date TBA</span>
+                        <span>&bull;</span>
+                        <span id="modalEventSummary">Confirmed registered participants grouped by team squads</span>
+                    </div>
+                </div>
+                <button type="button" class="modal-close-btn" onclick="closeRosterModal()" aria-label="Close roster modal" id="btn-close-roster-modal">&times;</button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="roster-modal-body">
+                <!-- Metrics -->
+                <div class="modal-stats-grid">
+                    <div class="modal-stat-card">
+                        <div class="modal-stat-icon" style="background: #e0e7ff; color: #4338ca;">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="modal-stat-val" id="modalStatTotalPlayers">0</div>
+                            <div class="modal-stat-lbl">Total Registered Players</div>
+                        </div>
+                    </div>
+
+                    <div class="modal-stat-card">
+                        <div class="modal-stat-icon" style="background: #e0f2fe; color: #0284c7;">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="modal-stat-val" id="modalStatTotalTeams">0</div>
+                            <div class="modal-stat-lbl">Teams Formed</div>
+                        </div>
+                    </div>
+
+                    <div class="modal-stat-card">
+                        <div class="modal-stat-icon" style="background: #ecfdf5; color: #059669;">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="modal-stat-val" id="modalStatIndividual">0</div>
+                            <div class="modal-stat-lbl">Individual / Solo Players</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Search & Filter Controls -->
+                <div class="modal-toolbar">
+                    <div class="modal-search-wrapper">
+                        <svg class="modal-search-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                        <input 
+                            type="text" 
+                            id="modalRosterSearch" 
+                            class="modal-search-input" 
+                            placeholder="Filter player name, team, or Ref#..." 
+                            oninput="filterModalRoster()"
+                            autocomplete="off"
+                        >
+                    </div>
+
+                    <div class="modal-filter-tabs">
+                        <button type="button" class="modal-tab-btn active" id="modal-tab-all" onclick="setModalTab('all')">
+                            All Players
+                        </button>
+                        <button type="button" class="modal-tab-btn" id="modal-tab-teams" onclick="setModalTab('teams')">
+                            Grouped by Teams
+                        </button>
+                        <button type="button" class="modal-tab-btn" id="modal-tab-individual" onclick="setModalTab('individual')">
+                            Individual (No Team)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Dynamic Content Container -->
+                <div id="modalRosterContent">
+                    <!-- Populated via JavaScript -->
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="roster-modal-footer">
+                <a href="#" id="modalViewDedicatedLink" class="btn btn-outline" style="font-size: 0.85rem; padding: 7px 14px;">
+                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                    </svg>
+                    <span>Open Full Page Directory</span>
+                </a>
+
+                <div style="display: flex; gap: 8px;">
+                    <button type="button" class="btn btn-outline" onclick="closeRosterModal()" style="font-size: 0.85rem; padding: 7px 14px;">Close</button>
+                    <a href="#" id="modalRegisterCtaLink" class="btn btn-primary" style="font-size: 0.85rem; padding: 7px 16px;">
+                        <span>Register for Event</span>
+                        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Logic Scripts -->
+    <script>
+        let currentModalRoster = null;
+        let currentModalTab = 'all';
+
+        function openEventRoster(eventId) {
+            let data = null;
+            const scriptTag = document.getElementById('event-roster-data-' + eventId);
+
+            if (scriptTag) {
+                try {
+                    data = JSON.parse(scriptTag.textContent);
+                } catch (e) {
+                    console.error('Failed to parse embedded roster JSON:', e);
+                }
+            }
+
+            if (data) {
+                displayRosterModal(data);
+            } else {
+                // Fetch dynamically via AJAX
+                fetch(`/events/${eventId}/players`, {
+                    headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                .then(res => res.json())
+                .then(res => {
+                    if (res && res.data) {
+                        displayRosterModal(res.data);
+                    }
+                })
+                .catch(err => {
+                    console.error('Failed to fetch event roster:', err);
+                });
+            }
+        }
+
+        function displayRosterModal(roster) {
+            currentModalRoster = roster;
+            currentModalTab = 'all';
+
+            document.getElementById('modalEventTitle').textContent = roster.event_name || 'Event Roster';
+            document.getElementById('modalEventDate').textContent = '📅 ' + (roster.event_date || 'Date TBA');
+            document.getElementById('modalStatTotalPlayers').textContent = roster.total_players || 0;
+            document.getElementById('modalStatTotalTeams').textContent = roster.total_teams || 0;
+            document.getElementById('modalStatIndividual').textContent = roster.individual_players_count || 0;
+
+            const statusEl = document.getElementById('modalEventStatus');
+            if (statusEl) {
+                if (roster.is_open) {
+                    statusEl.textContent = '● Registration Open';
+                    statusEl.style.color = '#059669';
+                } else {
+                    statusEl.textContent = '● Registration Closed';
+                    statusEl.style.color = '#64748b';
+                }
+            }
+
+            const dedicatedLink = document.getElementById('modalViewDedicatedLink');
+            if (dedicatedLink) {
+                dedicatedLink.href = `/events/${roster.event_id}/players`;
+            }
+
+            const regLink = document.getElementById('modalRegisterCtaLink');
+            if (regLink) {
+                regLink.href = `/events/${roster.event_id}#registration-form-section`;
+                regLink.style.display = roster.is_open ? 'inline-flex' : 'none';
+            }
+
+            const searchInput = document.getElementById('modalRosterSearch');
+            if (searchInput) {
+                searchInput.value = '';
+            }
+
+            document.querySelectorAll('.modal-tab-btn').forEach(btn => btn.classList.remove('active'));
+            const allTabBtn = document.getElementById('modal-tab-all');
+            if (allTabBtn) allTabBtn.classList.add('active');
+
+            renderModalRosterHtml();
+
+            const backdrop = document.getElementById('rosterModalBackdrop');
+            if (backdrop) {
+                backdrop.classList.add('is-open');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeRosterModal() {
+            const backdrop = document.getElementById('rosterModalBackdrop');
+            if (backdrop) {
+                backdrop.classList.remove('is-open');
+                document.body.style.overflow = '';
+            }
+        }
+
+        function handleBackdropClick(event) {
+            if (event.target.id === 'rosterModalBackdrop') {
+                closeRosterModal();
+            }
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeRosterModal();
+            }
+        });
+
+        function setModalTab(tab) {
+            currentModalTab = tab;
+            document.querySelectorAll('.modal-tab-btn').forEach(btn => btn.classList.remove('active'));
+            const activeBtn = document.getElementById('modal-tab-' + tab);
+            if (activeBtn) activeBtn.classList.add('active');
+            renderModalRosterHtml();
+        }
+
+        function filterModalRoster() {
+            renderModalRosterHtml();
+        }
+
+        function renderModalRosterHtml() {
+            const container = document.getElementById('modalRosterContent');
+            if (!container || !currentModalRoster) return;
+
+            const searchInput = document.getElementById('modalRosterSearch');
+            const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
+
+            const teams = currentModalRoster.teams || [];
+            const individuals = currentModalRoster.individual_players || [];
+
+            if (currentModalRoster.total_players === 0) {
+                container.innerHTML = `
+                    <div style="padding: 36px 16px; text-align: center; color: var(--text-muted);">
+                        <svg width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="margin: 0 auto 12px; color: var(--text-light);">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        </svg>
+                        <h4 style="font-weight: 700; color: var(--text-title); margin-bottom: 4px;">No Players Registered Yet</h4>
+                        <p style="font-size: 0.875rem;">Be the first to sign up for this event!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '';
+            let totalMatches = 0;
+
+            // 1. TEAMS GROUPING
+            if (currentModalTab !== 'individual' && teams.length > 0) {
+                let teamsHtml = '';
+                teams.forEach(team => {
+                    const teamName = team.team_name || '';
+                    const teamRef = team.team_reference || '';
+                    const members = team.members || [];
+
+                    let matchingMembers = [];
+                    if (!query || teamName.toLowerCase().includes(query) || teamRef.toLowerCase().includes(query)) {
+                        matchingMembers = members;
+                    } else {
+                        matchingMembers = members.filter(m => 
+                            (m.name && m.name.toLowerCase().includes(query)) || 
+                            (m.reference && m.reference.toLowerCase().includes(query))
+                        );
+                    }
+
+                    if (matchingMembers.length > 0) {
+                        totalMatches += matchingMembers.length;
+                        let memberRows = '';
+                        matchingMembers.forEach((m, idx) => {
+                            const initial = m.name ? m.name.charAt(0).toUpperCase() : '?';
+                            memberRows += `
+                                <tr>
+                                    <td style="width: 40px; color: var(--text-light); font-weight: 700;">${idx + 1}</td>
+                                    <td>
+                                        <div class="modal-avatar-cell">
+                                            <div class="modal-avatar-circle avatar-team-theme">${initial}</div>
+                                            <div>
+                                                <div style="font-weight: 700; color: var(--text-title);">${m.name}</div>
+                                                <div style="font-size: 0.75rem; color: var(--text-muted);">${teamName}</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><span class="modal-ref-badge">${m.reference || '—'}</span></td>
+                                    <td style="color: var(--text-muted); font-size: 0.8rem;">${m.registered_at || '—'}</td>
+                                    <td style="text-align: right;">
+                                        <span class="modal-role-pill role-team-member">Team Member</span>
+                                    </td>
+                                </tr>
+                            `;
+                        });
+
+                        teamsHtml += `
+                            <div class="modal-team-block">
+                                <div class="modal-team-header">
+                                    <div class="modal-team-title">
+                                        <svg width="18" height="18" fill="none" stroke="#0284c7" stroke-width="2" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                        </svg>
+                                        <span>${teamName}</span>
+                                    </div>
+                                    <div style="display: flex; align-items: center; gap: 8px;">
+                                        <span class="modal-ref-badge" title="Team Ref">${teamRef}</span>
+                                        <span style="background: #e0f2fe; color: #0284c7; font-size: 0.75rem; font-weight: 700; padding: 2px 8px; border-radius: 9999px;">
+                                            ${matchingMembers.length} ${matchingMembers.length === 1 ? 'Player' : 'Players'}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div style="overflow-x: auto;">
+                                    <table class="modal-member-table">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Player Name</th>
+                                                <th>Registration Ref#</th>
+                                                <th>Registered Date</th>
+                                                <th style="text-align: right;">Role</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            ${memberRows}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        `;
+                    }
+                });
+
+                if (teamsHtml) {
+                    html += `
+                        <div style="margin-bottom: 24px;">
+                            <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--text-title); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                                <span>Grouped by Teams</span>
+                                <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">(Official Squads)</span>
+                            </h4>
+                            ${teamsHtml}
+                        </div>
+                    `;
+                }
+            }
+
+            // 2. INDIVIDUAL PLAYERS (NO TEAM)
+            if (currentModalTab !== 'teams' && individuals.length > 0) {
+                const matchingIndividuals = individuals.filter(ind => 
+                    !query || 
+                    (ind.name && ind.name.toLowerCase().includes(query)) || 
+                    (ind.reference && ind.reference.toLowerCase().includes(query))
+                );
+
+                if (matchingIndividuals.length > 0) {
+                    totalMatches += matchingIndividuals.length;
+                    let indRows = '';
+                    matchingIndividuals.forEach((ind, idx) => {
+                        const initial = ind.name ? ind.name.charAt(0).toUpperCase() : '?';
+                        indRows += `
+                            <tr>
+                                <td style="width: 40px; color: var(--text-light); font-weight: 700;">${idx + 1}</td>
+                                <td>
+                                    <div class="modal-avatar-cell">
+                                        <div class="modal-avatar-circle avatar-ind-theme">${initial}</div>
+                                        <div>
+                                            <div style="font-weight: 700; color: var(--text-title);">${ind.name}</div>
+                                            <div style="font-size: 0.75rem; color: var(--text-muted);">Solo / Free Agent</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="modal-ref-badge">${ind.reference || '—'}</span></td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">${ind.registered_at || '—'}</td>
+                                <td style="text-align: right;">
+                                    <span class="modal-role-pill role-individual">No Team Yet</span>
+                                </td>
+                            </tr>
+                        `;
+                    });
+
+                    html += `
+                        <div>
+                            <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--text-title); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                                <span>Individual Players (No Team Yet)</span>
+                                <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">(${matchingIndividuals.length} Players)</span>
+                            </h4>
+                            <div class="modal-team-block">
+                                <div style="overflow-x: auto;">
+                                    <table class="modal-member-table">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Player Name</th>
+                                                <th>Registration Ref#</th>
+                                                <th>Registered Date</th>
+                                                <th style="text-align: right;">Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            ${indRows}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+
+            if (totalMatches === 0) {
+                container.innerHTML = `
+                    <div style="padding: 32px 16px; text-align: center; color: var(--text-muted);">
+                        <p style="margin-bottom: 8px; font-weight: 600;">No players or teams match "${query}".</p>
+                        <button type="button" class="btn btn-outline" onclick="document.getElementById('modalRosterSearch').value = ''; renderModalRosterHtml();" style="font-size: 0.8rem; padding: 6px 14px;">Clear Search</button>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = html;
+            }
+        }
+    </script>
 </body>
 </html>

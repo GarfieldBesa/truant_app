@@ -892,6 +892,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
                             </svg>
                             <span>Registered Attendees: <strong>{{ $event->registrations()->count() }}</strong></span>
+                            <a href="{{ route('events.public.players', $event) }}" class="btn-chip-action" id="btn-chip-view-roster" style="margin-left: 6px; font-size: 0.775rem; color: var(--primary); text-decoration: underline; font-weight: 700;">(View Roster)</a>
                         </div>
                     </div>
 
@@ -1310,6 +1311,141 @@
                             </form>
                         </section>
                     @endif
+
+                    <!-- Registered Players & Rosters Section (Grouped by Teams) -->
+                    @php
+                        $roster = $event->getGroupedPlayers();
+                    @endphp
+                    <section class="team-reg-card" id="registered-players-section" style="margin-top: 36px;">
+                        <div class="team-section-header" style="justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+                            <div style="display: flex; align-items: center; gap: 14px;">
+                                <div class="team-icon-badge" style="background: #e0e7ff; color: #4338ca;">
+                                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h2 class="form-section-title" style="margin-bottom: 2px;">Registered Players Directory</h2>
+                                    <p class="form-section-desc" style="margin-bottom: 0;">Confirmed players registered for this event, grouped by official teams.</p>
+                                </div>
+                            </div>
+                            <a href="{{ route('events.public.players', $event) }}" class="btn btn-outline btn-sm" id="btn-view-full-roster" style="white-space: nowrap;">
+                                <span>Full Directory</span>
+                                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                                </svg>
+                            </a>
+                        </div>
+
+                        <!-- Summary Counter Pills -->
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin: 18px 0 24px 0;">
+                            <div style="background: var(--bg-subtle); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px 14px; display: flex; align-items: center; gap: 10px;">
+                                <div style="font-family: var(--font-display); font-size: 1.25rem; font-weight: 800; color: var(--primary);">{{ $roster['total_players'] }}</div>
+                                <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">Total Players</div>
+                            </div>
+                            <div style="background: var(--bg-subtle); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px 14px; display: flex; align-items: center; gap: 10px;">
+                                <div style="font-family: var(--font-display); font-size: 1.25rem; font-weight: 800; color: #0284c7;">{{ $roster['total_teams'] }}</div>
+                                <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">Teams Formed</div>
+                            </div>
+                            <div style="background: var(--bg-subtle); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px 14px; display: flex; align-items: center; gap: 10px;">
+                                <div style="font-family: var(--font-display); font-size: 1.25rem; font-weight: 800; color: #059669;">{{ $roster['individual_players_count'] }}</div>
+                                <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">Individual Players</div>
+                            </div>
+                        </div>
+
+                        @if ($roster['total_players'] === 0)
+                            <div style="padding: 32px 16px; text-align: center; color: var(--text-muted); background: var(--bg-subtle); border-radius: 8px; border: 1px dashed var(--border-color);">
+                                <p style="font-weight: 600; margin-bottom: 4px; color: var(--text-title);">No players registered yet</p>
+                                <p style="font-size: 0.85rem; margin: 0;">Be the first attendee to register for this event!</p>
+                            </div>
+                        @else
+                            <!-- Grouped by Teams -->
+                            @if (count($roster['teams']) > 0)
+                                <div style="margin-bottom: 24px;">
+                                    <h3 style="font-size: 0.95rem; font-weight: 700; color: var(--text-title); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                                        <span>Teams Roster</span>
+                                        <span style="font-size: 0.775rem; color: var(--text-muted); font-weight: 600;">({{ count($roster['teams']) }} Teams)</span>
+                                    </h3>
+                                    @foreach ($roster['teams'] as $t)
+                                        <div style="border: 1px solid var(--border-color); border-radius: 10px; margin-bottom: 14px; overflow: hidden; background: #ffffff;">
+                                            <div style="background: #f8fafc; border-bottom: 1px solid var(--border-color); padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;">
+                                                <div style="font-weight: 700; color: var(--text-title); display: flex; align-items: center; gap: 8px;">
+                                                    <svg width="16" height="16" fill="none" stroke="#0284c7" stroke-width="2" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                                    </svg>
+                                                    <span>{{ $t['team_name'] }}</span>
+                                                </div>
+                                                <div style="display: flex; align-items: center; gap: 8px;">
+                                                    <span style="font-family: monospace; font-size: 0.775rem; background: #fff; border: 1px solid var(--border-color); padding: 2px 6px; border-radius: 4px;">{{ $t['team_reference'] }}</span>
+                                                    <span style="background: #e0f2fe; color: #0284c7; font-size: 0.75rem; font-weight: 700; padding: 2px 8px; border-radius: 9999px;">{{ $t['members_count'] }} Players</span>
+                                                </div>
+                                            </div>
+                                            <div style="overflow-x: auto;">
+                                                <table class="team-roster-table" style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="padding: 8px 16px; text-align: left; background: #fff; border-bottom: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.725rem;">#</th>
+                                                            <th style="padding: 8px 16px; text-align: left; background: #fff; border-bottom: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.725rem;">Player Name</th>
+                                                            <th style="padding: 8px 16px; text-align: left; background: #fff; border-bottom: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.725rem;">Ref#</th>
+                                                            <th style="padding: 8px 16px; text-align: right; background: #fff; border-bottom: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.725rem;">Status</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach ($t['members'] as $idx => $m)
+                                                            <tr>
+                                                                <td style="padding: 9px 16px; border-bottom: 1px solid var(--border-color); color: var(--text-light); width: 35px;">{{ $idx + 1 }}</td>
+                                                                <td style="padding: 9px 16px; border-bottom: 1px solid var(--border-color); font-weight: 600; color: var(--text-title);">{{ $m['name'] }}</td>
+                                                                <td style="padding: 9px 16px; border-bottom: 1px solid var(--border-color); font-family: monospace; font-size: 0.8rem;">{{ $m['reference'] }}</td>
+                                                                <td style="padding: 9px 16px; border-bottom: 1px solid var(--border-color); text-align: right;">
+                                                                    <span style="background: #e0e7ff; color: #4338ca; font-size: 0.725rem; font-weight: 700; padding: 2px 6px; border-radius: 9999px;">Team Member</span>
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @endif
+
+                            <!-- Individual Players (No Team) -->
+                            @if (count($roster['individual_players']) > 0)
+                                <div>
+                                    <h3 style="font-size: 0.95rem; font-weight: 700; color: var(--text-title); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                                        <span>Individual Players (No Team Yet)</span>
+                                        <span style="font-size: 0.775rem; color: var(--text-muted); font-weight: 600;">({{ count($roster['individual_players']) }} Players)</span>
+                                    </h3>
+                                    <div style="border: 1px solid var(--border-color); border-radius: 10px; overflow: hidden; background: #ffffff;">
+                                        <div style="overflow-x: auto;">
+                                            <table class="team-roster-table" style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="padding: 8px 16px; text-align: left; background: #fff; border-bottom: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.725rem;">#</th>
+                                                        <th style="padding: 8px 16px; text-align: left; background: #fff; border-bottom: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.725rem;">Player Name</th>
+                                                        <th style="padding: 8px 16px; text-align: left; background: #fff; border-bottom: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.725rem;">Ref#</th>
+                                                        <th style="padding: 8px 16px; text-align: right; background: #fff; border-bottom: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.725rem;">Status</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach ($roster['individual_players'] as $idx => $ind)
+                                                        <tr>
+                                                            <td style="padding: 9px 16px; border-bottom: 1px solid var(--border-color); color: var(--text-light); width: 35px;">{{ $idx + 1 }}</td>
+                                                            <td style="padding: 9px 16px; border-bottom: 1px solid var(--border-color); font-weight: 600; color: var(--text-title);">{{ $ind['name'] }}</td>
+                                                            <td style="padding: 9px 16px; border-bottom: 1px solid var(--border-color); font-family: monospace; font-size: 0.8rem;">{{ $ind['reference'] }}</td>
+                                                            <td style="padding: 9px 16px; border-bottom: 1px solid var(--border-color); text-align: right;">
+                                                                <span style="background: #d1fae5; color: #065f46; font-size: 0.725rem; font-weight: 700; padding: 2px 6px; border-radius: 9999px;">No Team Yet</span>
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+                        @endif
+                    </section>
                 </div>
 
                 <!-- Right: Action Sidebar -->
@@ -1367,10 +1503,20 @@
                                     </svg>
                                     <span>Register a team</span>
                                 </a>
+
+                                <a href="{{ route('events.public.players', $event) }}" class="sidebar-cta-btn btn-outline" id="btn-sidebar-view-roster" style="margin-top: 10px; border-color: var(--border-color); color: var(--text-title); background: #ffffff;">
+                                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                    </svg>
+                                    <span>View Registered Players ({{ $event->registrations()->count() }})</span>
+                                </a>
                             @else
                                 <div style="text-align: center; padding: 12px; background: var(--bg-subtle); border-radius: 8px; color: var(--text-muted); font-size: 0.9rem; font-weight: 600;">
                                     Registration is not active
                                 </div>
+                                <a href="{{ route('events.public.players', $event) }}" class="sidebar-cta-btn btn-outline" id="btn-sidebar-view-roster-closed" style="margin-top: 10px; border-color: var(--border-color); color: var(--text-title); background: #ffffff; text-align: center; display: block; text-decoration: none; padding: 10px;">
+                                    <span>View Registered Players ({{ $event->registrations()->count() }})</span>
+                                </a>
                             @endif
                         </div>
                     </div>

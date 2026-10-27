@@ -93,4 +93,101 @@ class Event extends Model
     {
         return $this->hasMany(EventTeam::class);
     }
+
+    /**
+     * Get all registered players for this event, grouped by teams and individuals.
+     */
+    public function getGroupedPlayers(): array
+    {
+        if (! $this->relationLoaded('teams')) {
+            $this->load(['teams.members.registration']);
+        } else {
+            $this->teams->loadMissing(['members.registration']);
+        }
+
+        if (! $this->relationLoaded('registrations')) {
+            $this->load('registrations');
+        }
+
+        $teams = [];
+        $teamRegistrationIds = collect();
+        $teamRegistrationRefs = collect();
+
+        foreach ($this->teams as $team) {
+            $members = [];
+            foreach ($team->members as $member) {
+                $regId = $member->event_registration_id;
+                $ref = $member->registration_reference;
+
+                if ($regId) {
+                    $teamRegistrationIds->push($regId);
+                }
+                if ($ref) {
+                    $teamRegistrationRefs->push(strtolower(trim($ref)));
+                }
+
+                $displayName = $member->member_name;
+                if (empty($displayName) && $member->registration) {
+                    $displayName = $member->registration->getAttendeeName();
+                }
+                if (empty($displayName)) {
+                    $displayName = 'Player ' . $ref;
+                }
+
+                $members[] = [
+                    'id' => $member->id,
+                    'registration_id' => $regId,
+                    'name' => $displayName,
+                    'reference' => $ref,
+                    'registered_at' => $member->created_at ? $member->created_at->format('M d, Y h:i A') : '—',
+                    'has_team' => true,
+                    'team_id' => $team->id,
+                    'team_name' => $team->team_name,
+                ];
+            }
+
+            $teams[] = [
+                'id' => $team->id,
+                'team_name' => $team->team_name,
+                'team_reference' => $team->team_reference,
+                'members_count' => count($members),
+                'members' => $members,
+            ];
+        }
+
+        $individualPlayers = [];
+        foreach ($this->registrations as $registration) {
+            $isAssignedToTeam = $teamRegistrationIds->contains($registration->id)
+                || ($registration->registration_reference && $teamRegistrationRefs->contains(strtolower(trim($registration->registration_reference))));
+
+            if (! $isAssignedToTeam) {
+                $individualPlayers[] = [
+                    'id' => $registration->id,
+                    'registration_id' => $registration->id,
+                    'name' => $registration->getAttendeeName(),
+                    'reference' => $registration->registration_reference,
+                    'registered_at' => $registration->created_at ? $registration->created_at->format('M d, Y h:i A') : '—',
+                    'has_team' => false,
+                    'team_id' => null,
+                    'team_name' => null,
+                ];
+            }
+        }
+
+        $totalTeamMembers = collect($teams)->sum('members_count');
+        $totalRegistered = $this->registrations->count();
+        $totalPlayers = max($totalRegistered, $totalTeamMembers + count($individualPlayers));
+
+        return [
+            'event_id' => $this->id,
+            'event_name' => $this->name,
+            'event_date' => $this->event_date ? $this->event_date->format('M d, Y') : 'Date TBA',
+            'is_open' => $this->isRegistrationOpen(),
+            'total_players' => $totalPlayers,
+            'total_teams' => count($teams),
+            'individual_players_count' => count($individualPlayers),
+            'teams' => $teams,
+            'individual_players' => $individualPlayers,
+        ];
+    }
 }

@@ -24,7 +24,7 @@ class EventPublicController extends Controller
             return view('welcome', compact('events'));
         }
 
-        $events = Event::with('registrationForm')
+        $events = Event::with(['registrationForm', 'registrations', 'teams.members.registration'])
             ->orderByRaw("CASE WHEN event_date >= ? THEN 0 ELSE 1 END, event_date ASC", [now()->toDateString()])
             ->paginate(6);
 
@@ -36,9 +36,26 @@ class EventPublicController extends Controller
      */
     public function show(Event $event)
     {
-        $event->load(['registrationForm', 'registrations', 'teams.members']);
+        $event->load(['registrationForm', 'registrations', 'teams.members.registration']);
 
         return view('events.show', compact('event'));
+    }
+
+    /**
+     * Display or return all registered players for the event, grouped by teams.
+     */
+    public function registeredPlayers(Request $request, Event $event)
+    {
+        $roster = $event->getGroupedPlayers();
+
+        if ($request->wantsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'data' => $roster,
+            ]);
+        }
+
+        return view('events.players', compact('event', 'roster'));
     }
 
     /**
