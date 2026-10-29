@@ -1,945 +1,450 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html class="h-full" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+    <meta content="mobile_tab" name="shell-type"/>
     <title>Registered Players — {{ $event->name }} | {{ config('app.name', 'Truant Enterprises') }}</title>
-    <meta name="description" content="View all confirmed registered players and official team rosters for {{ $event->name }}.">
+    <meta name="description" content="View all confirmed registered players and official team rosters for {{ $event->name }}."/>
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+    <!-- Google Fonts & Material Symbols -->
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
 
+    <!-- Tailwind CSS with Design Tokens matching the template -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#3525cd",
+                        "error": "#ba1a1a",
+                        "surface-variant": "#dae2fd",
+                        "background": "#faf8ff",
+                        "on-primary": "#ffffff",
+                        "secondary-container": "#6063ee",
+                        "tertiary-container": "#006e4b",
+                        "surface": "#faf8ff",
+                        "surface-container-highest": "#dae2fd",
+                        "inverse-surface": "#283044",
+                        "on-primary-fixed": "#0f0069",
+                        "on-tertiary-container": "#67f4b7",
+                        "secondary-fixed": "#e1e0ff",
+                        "primary-container": "#4f46e5",
+                        "error-container": "#ffdad6",
+                        "surface-dim": "#d2d9f4",
+                        "inverse-on-surface": "#eef0ff",
+                        "surface-container": "#eaedff",
+                        "on-error": "#ffffff",
+                        "on-surface": "#131b2e",
+                        "tertiary-fixed": "#6ffbbe",
+                        "secondary": "#4648d4",
+                        "on-secondary": "#ffffff",
+                        "primary-fixed-dim": "#c3c0ff",
+                        "on-tertiary-fixed": "#002113",
+                        "surface-bright": "#faf8ff",
+                        "on-background": "#131b2e",
+                        "on-secondary-container": "#fffbff",
+                        "outline": "#777587",
+                        "inverse-primary": "#c3c0ff",
+                        "primary-fixed": "#e2dfff",
+                        "on-secondary-fixed": "#07006c",
+                        "on-primary-container": "#dad7ff",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "surface-container-low": "#f2f3ff",
+                        "secondary-fixed-dim": "#c0c1ff",
+                        "outline-variant": "#c7c4d8",
+                        "surface-tint": "#4d44e3",
+                        "on-surface-variant": "#464555",
+                        "surface-container-high": "#e2e7ff",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "on-primary-fixed-variant": "#3323cc",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed-variant": "#2f2ebe",
+                        "on-error-container": "#93000a",
+                        "tertiary": "#005338"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "space-xs": "0.25rem",
+                        "space-sm": "0.5rem",
+                        "space-md": "1rem",
+                        "space-lg": "1.5rem",
+                        "space-xl": "2rem",
+                        "gutter-mobile": "1rem",
+                        "gutter": "1.5rem"
+                    },
+                    fontFamily: {
+                        "body-md": ["Plus Jakarta Sans", "sans-serif"],
+                        "label-lg": ["Plus Jakarta Sans", "sans-serif"],
+                        "headline-lg": ["Plus Jakarta Sans", "sans-serif"],
+                        "headline-sm": ["Plus Jakarta Sans", "sans-serif"],
+                        "label-md": ["Plus Jakarta Sans", "sans-serif"],
+                        "headline-md": ["Plus Jakarta Sans", "sans-serif"],
+                        "headline-xl": ["Plus Jakarta Sans", "sans-serif"],
+                        "body-lg": ["Plus Jakarta Sans", "sans-serif"],
+                        "label-sm": ["Plus Jakarta Sans", "sans-serif"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans", "sans-serif"],
+                        "headline-xl-mobile": ["Plus Jakarta Sans", "sans-serif"],
+                        "body-sm": ["Plus Jakarta Sans", "sans-serif"],
+                        sans: ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    fontSize: {
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "label-lg": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+                        "headline-lg": ["28px", { "lineHeight": "36px", "fontWeight": "700" }],
+                        "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "700" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "fontWeight": "600" }],
+                        "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "700" }],
+                        "headline-xl": ["40px", { "lineHeight": "48px", "fontWeight": "800" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-sm": ["11px", { "lineHeight": "14px", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["22px", { "lineHeight": "30px", "fontWeight": "700" }],
+                        "headline-xl-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "800" }],
+                        "body-sm": ["12px", { "lineHeight": "18px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        };
+    </script>
     <style>
-        :root {
-            --bg-page: #ffffff;
-            --bg-subtle: #f8fafc;
-            --bg-card: #ffffff;
-            --border-color: #e2e8f0;
-            --border-hover: #cbd5e1;
-            --text-title: #0f172a;
-            --text-body: #334155;
-            --text-muted: #64748b;
-            --text-light: #94a3b8;
-            --primary: #4f46e5;
-            --primary-hover: #4338ca;
-            --primary-light: #eef2ff;
-            --team-accent: #0284c7;
-            --team-light: #f0f9ff;
-            --individual-accent: #059669;
-            --individual-light: #ecfdf5;
-            --radius-md: 10px;
-            --radius-lg: 16px;
-            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 4px 16px -2px rgba(0, 0, 0, 0.06);
-            --shadow-lg: 0 12px 30px -4px rgba(15, 23, 42, 0.08);
-            --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-            --font-display: 'Space Grotesk', var(--font-sans);
+        @layer base {
+            html, body {
+                width: 100vw;
+                min-height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            body {
+                overscroll-behavior-y: none;
+                -webkit-tap-highlight-color: transparent;
+                min-height: max(884px, 100dvh);
+            }
+            .pb-safe {
+                padding-bottom: env(safe-area-inset-bottom, 0px);
+            }
+            .pt-safe {
+                padding-top: env(safe-area-inset-top, 0px);
+            }
+        }
+        ::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html, body {
-            min-height: 100vh;
-            background-color: var(--bg-subtle);
-            color: var(--text-body);
-            font-family: var(--font-sans);
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        .site-wrapper {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        header.site-header {
-            position: sticky;
-            top: 0;
-            z-index: 50;
-            background: rgba(255, 255, 255, 0.96);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .header-container {
-            max-width: 1140px;
-            margin: 0 auto;
-            padding: 16px 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .brand-link {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-            color: var(--text-title);
-        }
-
-        .brand-logo-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            background: linear-gradient(135deg, var(--primary) 0%, #3b82f6 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #ffffff;
-            box-shadow: 0 4px 10px rgba(79, 70, 229, 0.25);
-        }
-
-        .brand-title {
-            font-family: var(--font-display);
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--text-title);
-            letter-spacing: -0.02em;
-        }
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 9px 18px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            border-radius: var(--radius-md);
-            text-decoration: none;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            border: 1px solid transparent;
-        }
-
-        .btn-outline {
-            color: var(--text-body);
-            background: #ffffff;
-            border-color: var(--border-color);
-        }
-
-        .btn-outline:hover {
-            background: var(--bg-subtle);
-            border-color: var(--border-hover);
-            color: var(--text-title);
-        }
-
-        .btn-primary {
-            background: var(--primary);
-            color: #ffffff;
-            box-shadow: 0 2px 8px rgba(79, 70, 229, 0.25);
-        }
-
-        .btn-primary:hover {
-            background: var(--primary-hover);
-            transform: translateY(-1px);
-        }
-
-        /* Breadcrumbs */
-        .breadcrumb-bar {
-            background: #ffffff;
-            border-bottom: 1px solid var(--border-color);
-            padding: 14px 24px;
-        }
-
-        .breadcrumb-container {
-            max-width: 1140px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 0.875rem;
-            color: var(--text-muted);
-            flex-wrap: wrap;
-        }
-
-        .breadcrumb-container a {
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .breadcrumb-container a:hover {
-            text-decoration: underline;
-        }
-
-        /* Hero */
-        .hero-banner {
-            background: #ffffff;
-            border-bottom: 1px solid var(--border-color);
-            padding: 36px 24px 28px;
-        }
-
-        .hero-container {
-            max-width: 1140px;
-            margin: 0 auto;
-        }
-
-        .hero-meta-row {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 10px;
-            flex-wrap: wrap;
-        }
-
-        .badge-event-status {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 4px 10px;
-            border-radius: 9999px;
-            font-size: 0.775rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-        }
-
-        .badge-open {
-            background: #ecfdf5;
-            color: #065f46;
-        }
-
-        .badge-closed {
-            background: #f1f5f9;
-            color: #475569;
-        }
-
-        .hero-title {
-            font-family: var(--font-display);
-            font-size: clamp(1.75rem, 3.2vw, 2.5rem);
-            font-weight: 800;
-            color: var(--text-title);
-            margin-bottom: 8px;
-            line-height: 1.2;
-        }
-
-        .hero-subtitle {
-            color: var(--text-muted);
-            font-size: 1rem;
-            margin-bottom: 24px;
-            max-width: 760px;
-        }
-
-        /* Summary Stats Cards */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 18px;
-            margin-bottom: 30px;
-        }
-
-        .stat-card {
-            background: #ffffff;
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            padding: 20px 22px;
-            display: flex;
-            align-items: center;
-            gap: 18px;
-            box-shadow: var(--shadow-sm);
-            transition: all 0.2s ease;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-            border-color: var(--border-hover);
-        }
-
-        .stat-icon-wrapper {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .stat-number {
-            font-family: var(--font-display);
-            font-size: 1.75rem;
-            font-weight: 800;
-            color: var(--text-title);
-            line-height: 1;
-        }
-
-        .stat-label {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            font-weight: 600;
-            margin-top: 4px;
-        }
-
-        /* Main Content Container */
-        main.main-roster-content {
-            flex: 1;
-            max-width: 1140px;
-            width: 100%;
-            margin: 0 auto;
-            padding: 32px 24px 72px;
-        }
-
-        /* Interactive Filter & Search Bar */
-        .roster-toolbar {
-            background: #ffffff;
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            padding: 16px 20px;
-            margin-bottom: 28px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 16px;
-            flex-wrap: wrap;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .search-box-wrapper {
+        /* ─── Customer Header & Dropdown Styles ─── */
+        .user-menu-container {
             position: relative;
-            flex: 1;
-            min-width: 260px;
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 14px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-light);
-            pointer-events: none;
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 10px 14px 10px 42px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            font-size: 0.925rem;
-            color: var(--text-title);
-            background: var(--bg-subtle);
-            transition: all 0.2s ease;
-            outline: none;
-            font-family: inherit;
-        }
-
-        .search-input:focus {
-            background: #ffffff;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
-        }
-
-        .filter-tabs-group {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .filter-tab-btn {
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-size: 0.875rem;
-            font-weight: 600;
-            border: 1px solid var(--border-color);
-            background: #ffffff;
-            color: var(--text-body);
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-family: inherit;
-        }
-
-        .filter-tab-btn:hover {
-            border-color: var(--border-hover);
-            background: var(--bg-subtle);
-        }
-
-        .filter-tab-btn.active {
-            background: var(--primary);
-            color: #ffffff;
-            border-color: var(--primary);
-            box-shadow: 0 2px 6px rgba(79, 70, 229, 0.25);
-        }
-
-        /* Teams Section */
-        .roster-group-heading {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 18px;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .group-title {
-            font-family: var(--font-display);
-            font-size: 1.35rem;
-            font-weight: 700;
-            color: var(--text-title);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .group-count-chip {
-            padding: 2px 10px;
-            background: #f1f5f9;
-            color: var(--text-muted);
-            border-radius: 9999px;
-            font-size: 0.8rem;
-            font-weight: 700;
-        }
-
-        .teams-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-
-        .team-card {
-            background: #ffffff;
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            overflow: hidden;
-            box-shadow: var(--shadow-sm);
-            transition: all 0.2s ease;
-        }
-
-        .team-card:hover {
-            box-shadow: var(--shadow-md);
-            border-color: var(--border-hover);
-        }
-
-        .team-card-header {
-            background: linear-gradient(to right, #f8fafc, #ffffff);
-            border-bottom: 1px solid var(--border-color);
-            padding: 16px 22px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 16px;
-            flex-wrap: wrap;
-        }
-
-        .team-info-left {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .team-icon-badge {
-            width: 38px;
-            height: 38px;
-            border-radius: 10px;
-            background: var(--team-light);
-            color: var(--team-accent);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .team-title {
-            font-family: var(--font-display);
-            font-size: 1.15rem;
-            font-weight: 700;
-            color: var(--text-title);
-            margin: 0;
-        }
-
-        .team-meta-right {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .team-ref-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: #f1f5f9;
-            color: #334155;
-            font-family: monospace;
-            font-size: 0.825rem;
-            font-weight: 600;
-            padding: 4px 10px;
-            border-radius: 6px;
-            border: 1px solid var(--border-color);
-        }
-
-        .team-count-badge {
-            background: #e0f2fe;
-            color: #0369a1;
-            font-size: 0.8rem;
-            font-weight: 700;
-            padding: 4px 12px;
-            border-radius: 9999px;
-        }
-
-        /* Player Table */
-        .player-table-responsive {
-            width: 100%;
-            overflow-x: auto;
-        }
-
-        .player-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.9rem;
-            text-align: left;
-        }
-
-        .player-table th {
-            background: var(--bg-subtle);
-            color: var(--text-muted);
-            font-weight: 700;
-            font-size: 0.775rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            padding: 12px 20px;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .player-table td {
-            padding: 14px 20px;
-            border-bottom: 1px solid var(--border-color);
-            color: var(--text-body);
-            vertical-align: middle;
-        }
-
-        .player-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        .player-table tr:hover td {
-            background: #fafafa;
-        }
-
-        .player-avatar-cell {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .player-avatar-circle {
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 0.85rem;
-            flex-shrink: 0;
-        }
-
-        .avatar-team {
-            background: #e0e7ff;
-            color: #4338ca;
-        }
-
-        .avatar-individual {
-            background: #d1fae5;
-            color: #065f46;
-        }
-
-        .player-name-text {
-            font-weight: 700;
-            color: var(--text-title);
-        }
-
-        .player-ref-pill {
-            font-family: monospace;
-            font-size: 0.825rem;
-            background: var(--bg-subtle);
-            border: 1px solid var(--border-color);
-            padding: 3px 8px;
-            border-radius: 6px;
-            color: var(--text-body);
             display: inline-block;
         }
-
-        .badge-player-status {
-            display: inline-flex;
+        .user-menu-trigger {
+            display: flex;
             align-items: center;
-            gap: 4px;
-            padding: 3px 10px;
+            gap: 8px;
+            padding: 4px 10px 4px 5px;
             border-radius: 9999px;
-            font-size: 0.75rem;
-            font-weight: 700;
-        }
-
-        .badge-status-team {
-            background: #e0e7ff;
-            color: #4338ca;
-        }
-
-        .badge-status-individual {
-            background: #d1fae5;
-            color: #065f46;
-        }
-
-        /* Individual Players Card Container */
-        .individual-card {
             background: #ffffff;
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            overflow: hidden;
-            box-shadow: var(--shadow-sm);
-            margin-bottom: 40px;
+            border: 1px solid #e2e8f0;
+            color: #1e293b;
+            font-size: 0.825rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
         }
-
-        .individual-card-header {
-            background: linear-gradient(to right, #f8fafc, #ffffff);
-            border-bottom: 1px solid var(--border-color);
-            padding: 16px 22px;
+        .user-menu-trigger:hover {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+        }
+        .user-avatar-img {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1.5px solid #4f46e5;
+        }
+        .user-dropdown-panel {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: calc(100% + 8px);
+            width: 240px;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            padding: 6px 0;
+            text-align: left;
+        }
+        .user-menu-container.open .user-dropdown-panel {
+            display: block;
+            animation: userDropdownAnim 0.15s ease-out;
+        }
+        @keyframes userDropdownAnim {
+            from { opacity: 0; transform: translateY(-4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .user-dropdown-header {
+            padding: 10px 14px;
+            border-bottom: 1px solid #e2e8f0;
+            margin-bottom: 4px;
+        }
+        .user-dropdown-item {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            gap: 16px;
-            flex-wrap: wrap;
+            gap: 9px;
+            padding: 8px 14px;
+            color: #334155;
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: background 0.1s ease;
+            background: none;
+            border: none;
+            width: 100%;
+            cursor: pointer;
+            font-family: inherit;
         }
-
-        /* Empty States */
-        .empty-roster-state {
-            background: #ffffff;
-            border: 1px dashed var(--border-color);
-            border-radius: var(--radius-lg);
-            padding: 48px 24px;
-            text-align: center;
-            margin-bottom: 30px;
+        .user-dropdown-item:hover {
+            background: #f8fafc;
+            color: #3525cd;
         }
-
-        .empty-icon-wrap {
-            width: 56px;
-            height: 56px;
-            border-radius: 14px;
-            background: #f1f5f9;
-            color: var(--text-muted);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 16px;
-        }
-
-        .empty-title {
-            font-family: var(--font-display);
-            font-size: 1.15rem;
-            font-weight: 700;
-            color: var(--text-title);
-            margin-bottom: 6px;
-        }
-
-        .empty-desc {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            max-width: 440px;
-            margin: 0 auto 20px;
-        }
-
-        /* Footer */
-        .site-footer {
-            background: #0f172a;
-            color: #94a3b8;
-            padding: 36px 24px;
-            border-top: 1px solid #1e293b;
-            font-size: 0.875rem;
-            margin-top: auto;
-        }
-
-        .footer-container {
-            max-width: 1140px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 16px;
-        }
-
-        @media (max-width: 768px) {
-            .roster-toolbar {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            .filter-tabs-group {
-                overflow-x: auto;
-                padding-bottom: 4px;
-            }
+        .user-dropdown-divider {
+            height: 1px;
+            background: #e2e8f0;
+            margin: 4px 0;
         }
     </style>
 </head>
-<body>
-    <div class="site-wrapper">
-        <!-- Header -->
-        <header class="site-header">
-            <div class="header-container">
-                <a href="{{ url('/') }}" class="brand-link">
-                    <div class="brand-logo-icon">
-                        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                        </svg>
-                    </div>
-                    <span class="brand-title">{{ config('app.name', 'Truant Enterprises') }}</span>
+<body class="bg-background text-on-surface font-sans text-sm antialiased flex flex-col min-h-screen selection:bg-primary-fixed selection:text-on-primary-fixed">
+
+    <!-- Global Header Partial (Desktop + Mobile) -->
+    @include('partials.header', ['active' => 'events'])
+
+    <!-- Main Content Container -->
+    <main class="flex-1 flex flex-col relative w-full pt-16 pb-28 md:pb-16 bg-background">
+        <div class="max-w-6xl mx-auto w-full px-4 pt-4 flex flex-col gap-5">
+
+            <!-- Breadcrumbs -->
+            <div class="flex items-center gap-2 text-xs text-on-surface-variant overflow-x-auto no-scrollbar py-1">
+                <a href="{{ url('/') }}" class="hover:text-primary font-semibold flex items-center gap-1 shrink-0" id="btn-all-events">
+                    <span class="material-symbols-outlined text-[14px]">arrow_back</span>
+                    <span>All Events</span>
                 </a>
-
-                <div class="header-actions">
-                    <a href="{{ route('events.public.show', $event) }}" class="btn btn-outline" id="btn-back-to-event">
-                        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
-                        </svg>
-                        <span>Event Details</span>
-                    </a>
-                    <a href="{{ url('/') }}" class="btn btn-outline" id="btn-all-events">
-                        <span>All Events</span>
-                    </a>
-                    <a href="{{ url('/admin/login') }}" class="btn btn-primary">Login</a>
-                </div>
+                <span class="text-outline-variant">/</span>
+                <a href="{{ route('events.public.show', $event) }}" class="hover:text-primary font-medium truncate max-w-[150px] sm:max-w-xs shrink-0" id="btn-back-to-event">
+                    {{ $event->name }}
+                </a>
+                <span class="text-outline-variant">/</span>
+                <span class="text-on-surface font-semibold truncate shrink-0">Registered Players</span>
             </div>
-        </header>
 
-        <!-- Breadcrumb Bar -->
-        <div class="breadcrumb-bar">
-            <div class="breadcrumb-container">
-                <a href="{{ url('/') }}">Home</a>
-                <span>/</span>
-                <a href="{{ route('events.public.show', $event) }}">{{ $event->name }}</a>
-                <span>/</span>
-                <span style="color: var(--text-title); font-weight: 600;">Registered Players</span>
-            </div>
-        </div>
+            <!-- Hero Section -->
+            <section class="bg-surface-container-lowest rounded-2xl p-5 sm:p-6 shadow-sm border border-outline-variant/30 flex flex-col gap-4">
+                <div class="flex flex-col gap-1.5">
+                    <div class="flex items-center gap-2 flex-wrap">
+                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full {{ $roster['is_open'] ? 'bg-tertiary-fixed text-on-tertiary-fixed' : 'bg-surface-variant text-on-surface' }} font-bold text-xs shadow-sm">
+                            <span class="w-2 h-2 rounded-full {{ $roster['is_open'] ? 'bg-tertiary animate-pulse' : 'bg-outline' }}"></span>
+                            <span>{{ $roster['is_open'] ? 'Registration Open' : 'Registration Closed' }}</span>
+                        </span>
+                        <span class="text-xs text-on-surface-variant font-medium flex items-center gap-1">
+                            <span class="material-symbols-outlined text-[15px] text-primary">calendar_today</span>
+                            <span>{{ $roster['event_date'] }}</span>
+                        </span>
+                        <span class="text-xs text-on-surface-variant font-medium flex items-center gap-1">
+                            <span class="material-symbols-outlined text-[15px] text-secondary">confirmation_number</span>
+                            <span>{{ $event->admission_label }}</span>
+                        </span>
+                    </div>
 
-        <!-- Hero Section -->
-        <section class="hero-banner">
-            <div class="hero-container">
-                <div class="hero-meta-row">
-                    <span class="badge-event-status {{ $roster['is_open'] ? 'badge-open' : 'badge-closed' }}">
-                        {{ $roster['is_open'] ? '● Registration Open' : '● Registration Closed' }}
-                    </span>
-                    <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">
-                        📅 {{ $roster['event_date'] }}
-                    </span>
-                    <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">
-                        🎟️ {{ $event->admission_label }}
-                    </span>
+                    <h1 class="text-2xl sm:text-3xl font-extrabold text-on-surface tracking-tight mt-1" id="page-event-heading">
+                        Registered Players — {{ $event->name }}
+                    </h1>
+                    <p class="text-xs sm:text-sm text-on-surface-variant leading-relaxed max-w-3xl">
+                        Complete directory of all registered players and confirmed squads for {{ $event->name }}. Players belonging to teams are grouped under their respective squads.
+                    </p>
                 </div>
 
-                <h1 class="hero-title" id="page-event-heading">Registered Players — {{ $event->name }}</h1>
-                <p class="hero-subtitle">
-                    Complete directory of all registered players and confirmed squads for {{ $event->name }}. Players belonging to teams are grouped under their respective squads.
-                </p>
-
-                <!-- Stats Grid -->
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-icon-wrapper" style="background: #e0e7ff; color: #4338ca;">
-                            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
-                            </svg>
+                <!-- Stats Grid (3 summary cards) -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+                    <div class="bg-surface-container-low p-4 rounded-xl border border-outline-variant/30 flex items-center gap-3">
+                        <div class="w-11 h-11 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                            <span class="material-symbols-outlined text-[24px]">group</span>
                         </div>
-                        <div>
-                            <div class="stat-number" id="stat-total-players">{{ $roster['total_players'] }}</div>
-                            <div class="stat-label">Total Registered Players</div>
+                        <div class="flex flex-col">
+                            <span class="font-extrabold text-xl text-primary leading-none" id="stat-total-players">{{ $roster['total_players'] }}</span>
+                            <span class="text-xs text-on-surface-variant font-semibold mt-1">Total Registered Players</span>
                         </div>
                     </div>
 
-                    <div class="stat-card">
-                        <div class="stat-icon-wrapper" style="background: #e0f2fe; color: #0284c7;">
-                            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
-                            </svg>
+                    <div class="bg-surface-container-low p-4 rounded-xl border border-outline-variant/30 flex items-center gap-3">
+                        <div class="w-11 h-11 rounded-xl bg-secondary/10 text-secondary flex items-center justify-center shrink-0">
+                            <span class="material-symbols-outlined text-[24px]">diversity_3</span>
                         </div>
-                        <div>
-                            <div class="stat-number" id="stat-total-teams">{{ $roster['total_teams'] }}</div>
-                            <div class="stat-label">Teams Formed</div>
+                        <div class="flex flex-col">
+                            <span class="font-extrabold text-xl text-secondary leading-none" id="stat-total-teams">{{ $roster['total_teams'] }}</span>
+                            <span class="text-xs text-on-surface-variant font-semibold mt-1">Teams Formed</span>
                         </div>
                     </div>
 
-                    <div class="stat-card">
-                        <div class="stat-icon-wrapper" style="background: #ecfdf5; color: #059669;">
-                            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                            </svg>
+                    <div class="bg-surface-container-low p-4 rounded-xl border border-outline-variant/30 flex items-center gap-3">
+                        <div class="w-11 h-11 rounded-xl bg-tertiary/10 text-tertiary flex items-center justify-center shrink-0">
+                            <span class="material-symbols-outlined text-[24px]">person</span>
                         </div>
-                        <div>
-                            <div class="stat-number" id="stat-individual-players">{{ $roster['individual_players_count'] }}</div>
-                            <div class="stat-label">Individual Players (No Team)</div>
+                        <div class="flex flex-col">
+                            <span class="font-extrabold text-xl text-tertiary leading-none" id="stat-individual-players">{{ $roster['individual_players_count'] }}</span>
+                            <span class="text-xs text-on-surface-variant font-semibold mt-1">Individual Players (No Team)</span>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- Main Content -->
-        <main class="main-roster-content">
-            <!-- Toolbar: Real-time search & Filter Tabs -->
-            <div class="roster-toolbar">
-                <div class="search-box-wrapper">
-                    <svg class="search-icon" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                    </svg>
+            <!-- Search & Filter Tab Toolbar -->
+            <div class="bg-surface-container-lowest rounded-2xl p-4 shadow-sm border border-outline-variant/30 flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between">
+                <!-- Search Input -->
+                <div class="relative flex-1">
+                    <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-outline text-[20px] pointer-events-none">search</span>
                     <input 
                         type="text" 
                         id="player-search-input" 
-                        class="search-input" 
+                        class="w-full h-11 pl-10 pr-4 bg-surface-container-lowest text-on-surface rounded-xl border border-outline-variant/40 text-xs sm:text-sm placeholder:text-outline focus:border-primary focus:outline-none transition-colors"
                         placeholder="Search by player name, reference code, or team..."
                         oninput="filterPlayerRoster()"
                         autocomplete="off"
-                    >
+                    />
                 </div>
 
-                <div class="filter-tabs-group" role="tablist">
-                    <button type="button" class="filter-tab-btn active" id="tab-all" onclick="setRosterTab('all')">
-                        All Registered ({{ $roster['total_players'] }})
+                <!-- Tabs -->
+                <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar shrink-0" role="tablist">
+                    <button type="button" class="h-9 px-3.5 rounded-xl font-bold text-xs bg-primary text-on-primary shrink-0 transition-transform active:scale-95 shadow-sm" id="tab-all" onclick="setRosterTab('all')">
+                        All ({{ $roster['total_players'] }})
                     </button>
-                    <button type="button" class="filter-tab-btn" id="tab-teams" onclick="setRosterTab('teams')">
-                        Grouped by Teams ({{ $roster['total_teams'] }})
+                    <button type="button" class="h-9 px-3.5 rounded-xl font-bold text-xs bg-surface-container text-on-surface-variant hover:text-on-surface shrink-0 transition-transform active:scale-95" id="tab-teams" onclick="setRosterTab('teams')">
+                        Teams ({{ $roster['total_teams'] }})
                     </button>
-                    <button type="button" class="filter-tab-btn" id="tab-individual" onclick="setRosterTab('individual')">
-                        Individual Players ({{ $roster['individual_players_count'] }})
+                    <button type="button" class="h-9 px-3.5 rounded-xl font-bold text-xs bg-surface-container text-on-surface-variant hover:text-on-surface shrink-0 transition-transform active:scale-95" id="tab-individual" onclick="setRosterTab('individual')">
+                        Solo ({{ $roster['individual_players_count'] }})
                     </button>
                 </div>
             </div>
 
-            <!-- Global Empty State if 0 Players -->
+            <!-- Global Empty State if 0 Players in Event -->
             @if ($roster['total_players'] === 0)
-                <div class="empty-roster-state" id="empty-state-no-players">
-                    <div class="empty-icon-wrap">
-                        <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
-                        </svg>
+                <div class="bg-surface-container-lowest rounded-2xl p-8 sm:p-12 text-center border border-dashed border-outline-variant/40 flex flex-col items-center gap-3" id="empty-state-no-players">
+                    <div class="w-14 h-14 rounded-2xl bg-surface-container text-on-surface-variant flex items-center justify-center">
+                        <span class="material-symbols-outlined text-[32px]">group_off</span>
                     </div>
-                    <h3 class="empty-title">No Players Registered Yet</h3>
-                    <p class="empty-desc">Be the first to register for this event! You can also assemble a team once you have your registration reference code.</p>
-                    <a href="{{ route('events.public.show', $event) }}#registration-form-section" class="btn btn-primary" id="btn-register-empty-cta">
+                    <h3 class="text-base font-bold text-on-surface">No Players Registered Yet</h3>
+                    <p class="text-xs text-on-surface-variant max-w-sm">
+                        Be the first to register for this event! You can also assemble a team once you have your registration reference code.
+                    </p>
+                    <a href="{{ route('events.public.show', $event) }}#registration-form-section" class="h-10 px-5 rounded-xl bg-primary text-on-primary font-bold text-xs flex items-center gap-1.5 active:scale-95 transition-all shadow-sm mt-2" id="btn-register-empty-cta">
                         <span>Register Now</span>
-                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
-                        </svg>
+                        <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
                     </a>
                 </div>
             @else
-                <!-- No Search Results Container -->
-                <div class="empty-roster-state" id="empty-search-state" style="display: none;">
-                    <div class="empty-icon-wrap">
-                        <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                        </svg>
+                <!-- Empty Search Results State -->
+                <div class="hidden bg-surface-container-lowest rounded-2xl p-8 text-center border border-dashed border-outline-variant/40 flex flex-col items-center gap-3" id="empty-search-state">
+                    <div class="w-12 h-12 rounded-2xl bg-surface-container text-on-surface-variant flex items-center justify-center">
+                        <span class="material-symbols-outlined text-[28px]">search_off</span>
                     </div>
-                    <h3 class="empty-title">No Matching Players or Teams Found</h3>
-                    <p class="empty-desc">No registered players or teams match your search criteria. Try a different search keyword.</p>
-                    <button type="button" class="btn btn-outline" onclick="clearPlayerSearch()">Clear Search Filter</button>
+                    <h3 class="text-base font-bold text-on-surface">No Matching Players or Teams Found</h3>
+                    <p class="text-xs text-on-surface-variant">No registered players or teams match your search criteria. Try a different search keyword.</p>
+                    <button type="button" class="h-9 px-4 rounded-xl bg-surface-container text-on-surface font-semibold text-xs active:scale-95 transition-all" onclick="clearPlayerSearch()">
+                        Clear Search Filter
+                    </button>
                 </div>
 
                 <!-- 1. GROUPED BY TEAMS SECTION -->
-                <section class="roster-section-container" id="section-teams-group">
-                    <div class="roster-group-heading">
-                        <h2 class="group-title">
-                            <svg width="22" height="22" fill="none" stroke="#0284c7" stroke-width="2.2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
-                            </svg>
+                <section class="flex flex-col gap-3" id="section-teams-group">
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-sm font-bold text-on-surface uppercase tracking-wider flex items-center gap-1.5">
+                            <span class="material-symbols-outlined text-[18px] text-secondary">shield</span>
                             <span>Teams Roster</span>
-                            <span class="group-count-chip" id="teams-group-chip">{{ count($roster['teams']) }} Teams</span>
+                            <span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed ml-1" id="teams-group-chip">{{ count($roster['teams']) }} Teams</span>
                         </h2>
                     </div>
 
                     @if (count($roster['teams']) === 0)
-                        <div class="empty-roster-state" style="padding: 28px; margin-bottom: 30px;">
-                            <p style="color: var(--text-muted); font-size: 0.95rem; margin: 0;">No official teams registered for this event yet.</p>
+                        <div class="bg-surface-container-lowest rounded-xl p-6 text-center border border-dashed border-outline-variant/30 text-xs text-on-surface-variant">
+                            No official teams registered for this event yet.
                         </div>
                     @else
-                        <div class="teams-grid" id="teams-grid-wrapper">
+                        <div class="grid grid-cols-1 gap-4" id="teams-grid-wrapper">
                             @foreach ($roster['teams'] as $team)
-                                <article class="team-card team-roster-item" id="team-card-{{ $team['id'] }}" data-team-name="{{ strtolower($team['team_name']) }}" data-team-ref="{{ strtolower($team['team_reference']) }}">
+                                <article class="team-card team-roster-item bg-surface-container-lowest rounded-2xl border border-outline-variant/30 overflow-hidden shadow-sm" id="team-card-{{ $team['id'] }}" data-team-name="{{ strtolower($team['team_name']) }}" data-team-ref="{{ strtolower($team['team_reference']) }}">
                                     <!-- Team Card Header -->
-                                    <div class="team-card-header">
-                                        <div class="team-info-left">
-                                            <div class="team-icon-badge">
-                                                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
-                                                </svg>
+                                    <div class="bg-surface-container-low px-4 py-3 flex items-center justify-between border-b border-outline-variant/30 gap-2 flex-wrap">
+                                        <div class="flex items-center gap-2.5">
+                                            <div class="w-8 h-8 rounded-lg bg-secondary/15 text-secondary flex items-center justify-center shrink-0">
+                                                <span class="material-symbols-outlined text-[18px]">groups</span>
                                             </div>
-                                            <div>
-                                                <h3 class="team-title">{{ $team['team_name'] }}</h3>
-                                            </div>
+                                            <h3 class="font-bold text-sm text-on-surface team-title">{{ $team['team_name'] }}</h3>
                                         </div>
 
-                                        <div class="team-meta-right">
-                                            <span class="team-ref-badge" title="Team Reference Code">
-                                                <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
-                                                </svg>
-                                                <span>{{ $team['team_reference'] }}</span>
-                                            </span>
-                                            <span class="team-count-badge">
+                                        <div class="flex items-center gap-2">
+                                            <span class="font-mono text-[11px] px-2 py-0.5 rounded bg-surface-container-lowest border border-outline-variant/40" title="Team Reference Code">{{ $team['team_reference'] }}</span>
+                                            <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed">
                                                 {{ $team['members_count'] }} {{ Str::plural('Player', $team['members_count']) }}
                                             </span>
                                         </div>
                                     </div>
 
                                     <!-- Team Members Table -->
-                                    <div class="player-table-responsive">
-                                        <table class="player-table">
+                                    <div class="overflow-x-auto no-scrollbar">
+                                        <table class="w-full text-left text-xs border-collapse">
                                             <thead>
-                                                <tr>
-                                                    <th style="width: 50px;">#</th>
-                                                    <th>Player Name</th>
-                                                    <th>Registration Ref#</th>
-                                                    <th>Registered Date</th>
-                                                    <th style="text-align: right;">Roster Role</th>
+                                                <tr class="border-b border-outline-variant/20 text-on-surface-variant bg-surface-container-lowest/50">
+                                                    <th class="py-2.5 px-3.5 w-10">#</th>
+                                                    <th class="py-2.5 px-3.5">Player Name</th>
+                                                    <th class="py-2.5 px-3.5">Registration Ref#</th>
+                                                    <th class="py-2.5 px-3.5">Registered Date</th>
+                                                    <th class="py-2.5 px-3.5 text-right">Roster Role</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                            <tbody class="divide-y divide-outline-variant/15">
                                                 @forelse ($team['members'] as $index => $member)
-                                                    <tr class="player-row" data-player-name="{{ strtolower($member['name']) }}" data-player-ref="{{ strtolower($member['reference']) }}" data-team-name="{{ strtolower($team['team_name']) }}">
-                                                        <td style="color: var(--text-light); font-weight: 700;">{{ $index + 1 }}</td>
-                                                        <td>
-                                                            <div class="player-avatar-cell">
-                                                                <div class="player-avatar-circle avatar-team">
+                                                    <tr class="player-row hover:bg-surface-container-low/40" data-player-name="{{ strtolower($member['name']) }}" data-player-ref="{{ strtolower($member['reference']) }}" data-team-name="{{ strtolower($team['team_name']) }}">
+                                                        <td class="py-2.5 px-3.5 text-outline text-[11px] font-bold">{{ $index + 1 }}</td>
+                                                        <td class="py-2.5 px-3.5 font-bold text-on-surface">
+                                                            <div class="flex items-center gap-2">
+                                                                <div class="w-7 h-7 rounded-full bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center font-bold text-[11px] shrink-0">
                                                                     {{ strtoupper(mb_substr($member['name'], 0, 1)) }}
                                                                 </div>
-                                                                <div>
-                                                                    <div class="player-name-text">{{ $member['name'] }}</div>
-                                                                    <div style="font-size: 0.775rem; color: var(--text-muted);">{{ $team['team_name'] }}</div>
-                                                                </div>
+                                                                <span>{{ $member['name'] }}</span>
                                                             </div>
                                                         </td>
-                                                        <td>
-                                                            <span class="player-ref-pill">{{ $member['reference'] }}</span>
-                                                        </td>
-                                                        <td style="color: var(--text-muted); font-size: 0.85rem;">
-                                                            {{ $member['registered_at'] }}
-                                                        </td>
-                                                        <td style="text-align: right;">
-                                                            <span class="badge-player-status badge-status-team">
-                                                                <svg width="10" height="10" fill="currentColor" viewBox="0 0 8 8">
-                                                                    <circle cx="4" cy="4" r="3"/>
-                                                                </svg>
+                                                        <td class="py-2.5 px-3.5 font-mono text-[11px] text-on-surface-variant">{{ $member['reference'] }}</td>
+                                                        <td class="py-2.5 px-3.5 text-[11px] text-on-surface-variant">{{ $member['registered_at'] }}</td>
+                                                        <td class="py-2.5 px-3.5 text-right">
+                                                            <span class="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-secondary/10 text-secondary">
+                                                                <span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
                                                                 <span>Team Member</span>
                                                             </span>
                                                         </td>
                                                     </tr>
                                                 @empty
                                                     <tr>
-                                                        <td colspan="5" style="text-align: center; color: var(--text-muted); padding: 20px;">
-                                                            No players listed for this team.
-                                                        </td>
+                                                        <td colspan="5" class="py-4 text-center text-on-surface-variant">No players listed for this team.</td>
                                                     </tr>
                                                 @endforelse
                                             </tbody>
@@ -952,77 +457,64 @@
                 </section>
 
                 <!-- 2. INDIVIDUAL PLAYERS (NO TEAM YET) SECTION -->
-                <section class="roster-section-container" id="section-individual-group">
-                    <div class="roster-group-heading">
-                        <h2 class="group-title">
-                            <svg width="22" height="22" fill="none" stroke="#059669" stroke-width="2.2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                            </svg>
+                <section class="flex flex-col gap-3" id="section-individual-group">
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-sm font-bold text-on-surface uppercase tracking-wider flex items-center gap-1.5">
+                            <span class="material-symbols-outlined text-[18px] text-tertiary">person</span>
                             <span>Individual Players (No Team Yet)</span>
-                            <span class="group-count-chip" id="individual-group-chip">{{ count($roster['individual_players']) }} Players</span>
+                            <span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed ml-1" id="individual-group-chip">{{ count($roster['individual_players']) }} Players</span>
                         </h2>
                     </div>
 
                     @if (count($roster['individual_players']) === 0)
-                        <div class="empty-roster-state" style="padding: 28px; margin-bottom: 30px;">
-                            <p style="color: var(--text-muted); font-size: 0.95rem; margin: 0;">All currently registered players have joined a team.</p>
+                        <div class="bg-surface-container-lowest rounded-xl p-6 text-center border border-dashed border-outline-variant/30 text-xs text-on-surface-variant">
+                            All currently registered players have joined a team.
                         </div>
                     @else
-                        <article class="individual-card" id="individual-players-card">
-                            <div class="individual-card-header">
-                                <div style="display: flex; align-items: center; gap: 12px;">
-                                    <div class="player-avatar-circle avatar-individual" style="width: 38px; height: 38px;">
-                                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                                        </svg>
+                        <article class="individual-card bg-surface-container-lowest rounded-2xl border border-outline-variant/30 overflow-hidden shadow-sm" id="individual-players-card">
+                            <div class="bg-surface-container-low px-4 py-3 flex items-center justify-between border-b border-outline-variant/30 gap-2 flex-wrap">
+                                <div class="flex items-center gap-2.5">
+                                    <div class="w-8 h-8 rounded-lg bg-tertiary/15 text-tertiary flex items-center justify-center shrink-0">
+                                        <span class="material-symbols-outlined text-[18px]">badge</span>
                                     </div>
-                                    <div>
-                                        <h3 class="team-title" style="font-size: 1.05rem;">Solo &amp; Individual Registrations</h3>
-                                        <div style="font-size: 0.8rem; color: var(--text-muted);">Registered attendees available to form or join teams</div>
+                                    <div class="flex flex-col">
+                                        <h3 class="font-bold text-sm text-on-surface">Solo &amp; Individual Registrations</h3>
+                                        <span class="text-[11px] text-on-surface-variant">Registered attendees available to form or join teams</span>
                                     </div>
                                 </div>
-                                <span class="badge-player-status badge-status-individual">
+                                <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed">
                                     {{ count($roster['individual_players']) }} Individual {{ Str::plural('Attendee', count($roster['individual_players'])) }}
                                 </span>
                             </div>
 
-                            <div class="player-table-responsive">
-                                <table class="player-table">
+                            <div class="overflow-x-auto no-scrollbar">
+                                <table class="w-full text-left text-xs border-collapse">
                                     <thead>
-                                        <tr>
-                                            <th style="width: 50px;">#</th>
-                                            <th>Player Name</th>
-                                            <th>Registration Ref#</th>
-                                            <th>Registration Date</th>
-                                            <th style="text-align: right;">Status</th>
+                                        <tr class="border-b border-outline-variant/20 text-on-surface-variant bg-surface-container-lowest/50">
+                                            <th class="py-2.5 px-3.5 w-10">#</th>
+                                            <th class="py-2.5 px-3.5">Player Name</th>
+                                            <th class="py-2.5 px-3.5">Registration Ref#</th>
+                                            <th class="py-2.5 px-3.5">Registration Date</th>
+                                            <th class="py-2.5 px-3.5 text-right">Status</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="individual-players-tbody">
+                                    <tbody id="individual-players-tbody" class="divide-y divide-outline-variant/15">
                                         @foreach ($roster['individual_players'] as $index => $individual)
-                                            <tr class="player-row individual-player-row" data-player-name="{{ strtolower($individual['name']) }}" data-player-ref="{{ strtolower($individual['reference']) }}">
-                                                <td style="color: var(--text-light); font-weight: 700;">{{ $index + 1 }}</td>
-                                                <td>
-                                                    <div class="player-avatar-cell">
-                                                        <div class="player-avatar-circle avatar-individual">
+                                            <tr class="player-row individual-player-row hover:bg-surface-container-low/40" data-player-name="{{ strtolower($individual['name']) }}" data-player-ref="{{ strtolower($individual['reference']) }}">
+                                                <td class="py-2.5 px-3.5 text-outline text-[11px] font-bold">{{ $index + 1 }}</td>
+                                                <td class="py-2.5 px-3.5 font-bold text-on-surface">
+                                                    <div class="flex items-center gap-2">
+                                                        <div class="w-7 h-7 rounded-full bg-tertiary-fixed text-on-tertiary-fixed flex items-center justify-center font-bold text-[11px] shrink-0">
                                                             {{ strtoupper(mb_substr($individual['name'], 0, 1)) }}
                                                         </div>
-                                                        <div>
-                                                            <div class="player-name-text">{{ $individual['name'] }}</div>
-                                                            <div style="font-size: 0.775rem; color: var(--text-muted);">Individual Participant</div>
-                                                        </div>
+                                                        <span>{{ $individual['name'] }}</span>
                                                     </div>
                                                 </td>
-                                                <td>
-                                                    <span class="player-ref-pill">{{ $individual['reference'] }}</span>
-                                                </td>
-                                                <td style="color: var(--text-muted); font-size: 0.85rem;">
-                                                    {{ $individual['registered_at'] }}
-                                                </td>
-                                                <td style="text-align: right;">
-                                                    <span class="badge-player-status badge-status-individual">
-                                                        <svg width="10" height="10" fill="currentColor" viewBox="0 0 8 8">
-                                                            <circle cx="4" cy="4" r="3"/>
-                                                        </svg>
+                                                <td class="py-2.5 px-3.5 font-mono text-[11px] text-on-surface-variant">{{ $individual['reference'] }}</td>
+                                                <td class="py-2.5 px-3.5 text-[11px] text-on-surface-variant">{{ $individual['registered_at'] }}</td>
+                                                <td class="py-2.5 px-3.5 text-right">
+                                                    <span class="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed">
+                                                        <span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
                                                         <span>Solo / Free Agent</span>
                                                     </span>
                                                 </td>
@@ -1036,47 +528,32 @@
                 </section>
             @endif
 
-            <!-- Bottom Back & Register CTA Banner -->
-            <div style="background: #ffffff; border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 24px; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; box-shadow: var(--shadow-sm); margin-top: 20px;">
-                <div>
-                    <h4 style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; color: var(--text-title); margin-bottom: 4px;">
-                        Want to compete in {{ $event->name }}?
-                    </h4>
-                    <p style="color: var(--text-muted); font-size: 0.875rem; margin: 0;">
+            <!-- Bottom CTA Banner -->
+            <div class="bg-surface-container-lowest rounded-2xl p-5 border border-outline-variant/30 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4 mt-2">
+                <div class="flex flex-col text-center sm:text-left">
+                    <h4 class="font-bold text-sm text-on-surface">Want to compete in {{ $event->name }}?</h4>
+                    <p class="text-xs text-on-surface-variant mt-0.5">
                         {{ $roster['is_open'] ? 'Registration is open! Secure your spot or register your team.' : 'Registration for this event is currently closed.' }}
                     </p>
                 </div>
 
-                <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
-                    <a href="{{ route('events.public.show', $event) }}" class="btn btn-outline" id="btn-footer-view-event">
-                        <span>Event Page</span>
+                <div class="flex items-center gap-2 flex-wrap">
+                    <a href="{{ route('events.public.show', $event) }}" class="h-10 px-4 rounded-xl bg-surface-container text-on-surface font-semibold text-xs flex items-center gap-1.5 hover:bg-surface-container-high active:scale-95 transition-all" id="btn-footer-view-event">
+                        <span>Event Details</span>
                     </a>
                     @if ($roster['is_open'])
-                        <a href="{{ route('events.public.show', $event) }}#registration-form-section" class="btn btn-primary" id="btn-footer-register">
+                        <a href="{{ route('events.public.show', $event) }}#registration-form-section" class="h-10 px-4 rounded-xl bg-primary text-on-primary font-bold text-xs flex items-center gap-1.5 active:scale-95 transition-all shadow-sm" id="btn-footer-register">
                             <span>Register for Event</span>
-                            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
-                            </svg>
+                            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
                         </a>
                     @endif
                 </div>
             </div>
-        </main>
+        </div>
+    </main>
 
-        <!-- Footer -->
-        <footer class="site-footer">
-            <div class="footer-container">
-                <div>
-                    <span>&copy; {{ date('Y') }} {{ config('app.name', 'Truant Enterprises') }}. All rights reserved.</span>
-                </div>
-                <div style="display: flex; gap: 16px;">
-                    <a href="{{ url('/') }}" style="color: #94a3b8; text-decoration: none;">Upcoming Events</a>
-                    <a href="{{ route('events.public.show', $event) }}" style="color: #94a3b8; text-decoration: none;">Event Details</a>
-                    <a href="{{ url('/admin/login') }}" style="color: #94a3b8; text-decoration: none;">Admin Access</a>
-                </div>
-            </div>
-        </footer>
-    </div>
+    <!-- Global Footer Partial (Desktop Footer + Mobile Bottom Navigation) -->
+    @include('partials.footer', ['active' => 'events'])
 
     <!-- Interactive Filtering Scripts -->
     <script>
@@ -1084,9 +561,17 @@
 
         function setRosterTab(tab) {
             currentTab = tab;
-            document.querySelectorAll('.filter-tab-btn').forEach(btn => btn.classList.remove('active'));
-            const activeBtn = document.getElementById('tab-' + tab);
-            if (activeBtn) activeBtn.classList.add('active');
+            const tabs = ['all', 'teams', 'individual'];
+            tabs.forEach(t => {
+                const btn = document.getElementById('tab-' + t);
+                if (btn) {
+                    if (t === tab) {
+                        btn.className = 'h-9 px-3.5 rounded-xl font-bold text-xs bg-primary text-on-primary shrink-0 transition-transform active:scale-95 shadow-sm';
+                    } else {
+                        btn.className = 'h-9 px-3.5 rounded-xl font-bold text-xs bg-surface-container text-on-surface-variant hover:text-on-surface shrink-0 transition-transform active:scale-95';
+                    }
+                }
+            });
             filterPlayerRoster();
         }
 
@@ -1104,9 +589,9 @@
             // 1. Filter Teams
             if (teamsSection) {
                 if (currentTab === 'individual') {
-                    teamsSection.style.display = 'none';
+                    teamsSection.classList.add('hidden');
                 } else {
-                    teamsSection.style.display = 'block';
+                    teamsSection.classList.remove('hidden');
                     const teamCards = teamsSection.querySelectorAll('.team-roster-item');
                     teamCards.forEach(card => {
                         const teamName = card.dataset.teamName || '';
@@ -1116,32 +601,30 @@
                         let matchInTeam = false;
                         if (!query) {
                             matchInTeam = true;
-                            rows.forEach(r => r.style.display = '');
+                            rows.forEach(r => r.classList.remove('hidden'));
                         } else {
-                            // If team name or ref matches query, show all its rows
                             if (teamName.includes(query) || teamRef.includes(query)) {
                                 matchInTeam = true;
-                                rows.forEach(r => r.style.display = '');
+                                rows.forEach(r => r.classList.remove('hidden'));
                             } else {
-                                // Check each player in the team
                                 rows.forEach(row => {
                                     const pName = row.dataset.playerName || '';
                                     const pRef = row.dataset.playerRef || '';
                                     if (pName.includes(query) || pRef.includes(query)) {
-                                        row.style.display = '';
+                                        row.classList.remove('hidden');
                                         matchInTeam = true;
                                     } else {
-                                        row.style.display = 'none';
+                                        row.classList.add('hidden');
                                     }
                                 });
                             }
                         }
 
                         if (matchInTeam) {
-                            card.style.display = '';
+                            card.classList.remove('hidden');
                             visibleTeamsCount++;
                         } else {
-                            card.style.display = 'none';
+                            card.classList.add('hidden');
                         }
                     });
                 }
@@ -1150,24 +633,28 @@
             // 2. Filter Individuals
             if (individualSection) {
                 if (currentTab === 'teams') {
-                    individualSection.style.display = 'none';
+                    individualSection.classList.add('hidden');
                 } else {
-                    individualSection.style.display = 'block';
+                    individualSection.classList.remove('hidden');
                     const indRows = individualSection.querySelectorAll('tbody tr.player-row');
                     indRows.forEach(row => {
                         const pName = row.dataset.playerName || '';
                         const pRef = row.dataset.playerRef || '';
                         if (!query || pName.includes(query) || pRef.includes(query)) {
-                            row.style.display = '';
+                            row.classList.remove('hidden');
                             visibleIndividualsCount++;
                         } else {
-                            row.style.display = 'none';
+                            row.classList.add('hidden');
                         }
                     });
 
                     const indCard = document.getElementById('individual-players-card');
                     if (indCard) {
-                        indCard.style.display = (visibleIndividualsCount > 0) ? '' : 'none';
+                        if (visibleIndividualsCount > 0) {
+                            indCard.classList.remove('hidden');
+                        } else {
+                            indCard.classList.add('hidden');
+                        }
                     }
                 }
             }
@@ -1176,9 +663,9 @@
             if (emptySearchState) {
                 const totalVisible = visibleTeamsCount + visibleIndividualsCount;
                 if (query && totalVisible === 0) {
-                    emptySearchState.style.display = 'block';
+                    emptySearchState.classList.remove('hidden');
                 } else {
-                    emptySearchState.style.display = 'none';
+                    emptySearchState.classList.add('hidden');
                 }
             }
         }
@@ -1191,6 +678,20 @@
             }
             filterPlayerRoster();
         }
+
+        function togglePlayersUserDropdown(e) {
+            e.stopPropagation();
+            const container = document.getElementById('user-menu-wrap-players');
+            if (container) {
+                container.classList.toggle('open');
+            }
+        }
+        document.addEventListener('click', function(e) {
+            const container = document.getElementById('user-menu-wrap-players');
+            if (container && !container.contains(e.target)) {
+                container.classList.remove('open');
+            }
+        });
     </script>
 </body>
 </html>

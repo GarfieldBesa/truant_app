@@ -1,1503 +1,1145 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="h-full" lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
     <title>Book a Court — Truant Enterprises</title>
-    <meta name="description" content="Reserve tournament-grade Pickleball and Basketball courts at Truant Enterprises. Hourly slots starting at 12:00 AM with instant online scheduling.">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+    <meta name="description" content="Reserve sports courts at Truant Enterprises with live availability calendar, hourly time slots, equipment rentals, and instant corporate confirmation."/>
+    
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script id="tailwind-config">
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+            extend: {
+                colors: {
+                    "surface-container-high": "#e2e7ff",
+                    "primary": "#3525cd",
+                    "secondary-fixed": "#e1e0ff",
+                    "surface-container-low": "#f2f3ff",
+                    "tertiary-fixed": "#6ffbbe",
+                    "tertiary-container": "#006e4b",
+                    "surface": "#faf8ff",
+                    "inverse-on-surface": "#eef0ff",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary-fixed": "#07006c",
+                    "on-surface-variant": "#464555",
+                    "on-tertiary-fixed": "#002113",
+                    "on-background": "#131b2e",
+                    "on-surface": "#131b2e",
+                    "surface-container-highest": "#dae2fd",
+                    "on-primary-fixed": "#0f0069",
+                    "on-primary-container": "#dad7ff",
+                    "surface-variant": "#dae2fd",
+                    "error": "#ba1a1a",
+                    "on-secondary": "#ffffff",
+                    "outline": "#777587",
+                    "background": "#faf8ff",
+                    "tertiary-fixed-dim": "#4edea3",
+                    "outline-variant": "#c7c4d8",
+                    "surface-bright": "#faf8ff",
+                    "surface-tint": "#4d44e3",
+                    "on-tertiary": "#ffffff",
+                    "on-error": "#ffffff",
+                    "surface-container": "#eaedff",
+                    "primary-container": "#4f46e5",
+                    "on-primary": "#ffffff",
+                    "inverse-surface": "#283044",
+                    "inverse-primary": "#c3c0ff",
+                    "error-container": "#ffdad6",
+                    "on-tertiary-container": "#67f4b7",
+                    "on-secondary-container": "#fffbff",
+                    "secondary": "#4648d4",
+                    "on-primary-fixed-variant": "#3323cc",
+                    "tertiary": "#005338",
+                    "surface-dim": "#d2d9f4",
+                    "secondary-fixed-dim": "#c0c1ff",
+                    "primary-fixed-dim": "#c3c0ff",
+                    "on-secondary-fixed-variant": "#2f2ebe",
+                    "on-error-container": "#93000a",
+                    "primary-fixed": "#e2dfff",
+                    "on-tertiary-fixed-variant": "#005236",
+                    "secondary-container": "#6063ee"
+                },
+                borderRadius: {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+                },
+                spacing: {
+                    "gutter-mobile": "1rem",
+                    "space-xs": "0.25rem",
+                    "margin": "2rem",
+                    "margin-mobile": "1rem",
+                    "space-lg": "1.5rem",
+                    "gutter": "1.5rem",
+                    "space-sm": "0.5rem",
+                    "space-xl": "2rem",
+                    "space-md": "1rem"
+                },
+                fontFamily: {
+                    "headline-sm": ["Plus Jakarta Sans"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "label-lg": ["Plus Jakarta Sans"],
+                    "label-md": ["Plus Jakarta Sans"],
+                    "headline-xl-mobile": ["Plus Jakarta Sans"],
+                    "headline-lg-mobile": ["Plus Jakarta Sans"],
+                    "body-md": ["Plus Jakarta Sans"],
+                    "headline-xl": ["Plus Jakarta Sans"],
+                    "body-lg": ["Plus Jakarta Sans"],
+                    "body-sm": ["Plus Jakarta Sans"],
+                    "label-sm": ["Plus Jakarta Sans"],
+                    "headline-lg": ["Plus Jakarta Sans"]
+                },
+                fontSize: {
+                    "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "700" }],
+                    "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "700" }],
+                    "label-lg": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+                    "label-md": ["12px", { "lineHeight": "16px", "fontWeight": "600" }],
+                    "headline-xl-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "800" }],
+                    "headline-lg-mobile": ["22px", { "lineHeight": "30px", "fontWeight": "700" }],
+                    "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                    "headline-xl": ["40px", { "lineHeight": "48px", "fontWeight": "800" }],
+                    "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                    "body-sm": ["12px", { "lineHeight": "18px", "fontWeight": "400" }],
+                    "label-sm": ["11px", { "lineHeight": "14px", "fontWeight": "600" }],
+                    "headline-lg": ["28px", { "lineHeight": "36px", "fontWeight": "700" }]
+                }
+            }
+        }
+    };
+    </script>
     <style>
-        :root {
-            --bg-page: #f8fafc;
-            --bg-surface: #ffffff;
-            --bg-subtle: #f1f5f9;
-            --bg-card: #ffffff;
-            --border-color: #e2e8f0;
-            --border-hover: #cbd5e1;
-            --border-active: #4f46e5;
-            --text-title: #0f172a;
-            --text-body: #334155;
-            --text-muted: #64748b;
-            --text-light: #94a3b8;
-            --primary: #4f46e5;
-            --primary-hover: #4338ca;
-            --primary-light: #eef2ff;
-            --primary-border: #c7d2fe;
-            --success-bg: #ecfdf5;
-            --success-text: #065f46;
-            --success-border: #a7f3d0;
-            --warning-bg: #fffbeb;
-            --warning-text: #92400e;
-            --warning-border: #fde68a;
-            --danger-bg: #fef2f2;
-            --danger-text: #991b1b;
-            --danger-border: #fecaca;
-            --neutral-bg: #f1f5f9;
-            --neutral-text: #475569;
-            --neutral-border: #e2e8f0;
-            --radius-sm: 8px;
-            --radius-md: 12px;
-            --radius-lg: 16px;
-            --radius-full: 9999px;
-            --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.05), 0 1px 2px rgba(15, 23, 42, 0.03);
-            --shadow-md: 0 4px 16px -2px rgba(15, 23, 42, 0.06), 0 2px 6px -1px rgba(15, 23, 42, 0.04);
-            --shadow-hover: 0 14px 28px -4px rgba(15, 23, 42, 0.08), 0 4px 10px -2px rgba(15, 23, 42, 0.03);
-            --shadow-modal: 0 25px 50px -12px rgba(15, 23, 42, 0.25);
-            --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-            --font-display: 'Space Grotesk', var(--font-sans);
-            --font-mono: 'JetBrains Mono', monospace;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: var(--font-sans);
-            background-color: var(--bg-page);
-            color: var(--text-body);
-            min-height: 100vh;
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        .site-wrapper {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        /* ─── Header ─────────────────────────────────────────────── */
-        header.site-header {
-            position: sticky;
-            top: 0;
-            z-index: 50;
-            background: rgba(255, 255, 255, 0.96);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--border-color);
-            transition: all 0.2s ease;
-        }
-
-        .header-container {
-            max-width: 1240px;
-            margin: 0 auto;
-            padding: 14px 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .brand-link {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-            color: var(--text-title);
-        }
-
-        .brand-logo-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            background: linear-gradient(135deg, var(--primary) 0%, #3b82f6 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #ffffff;
-            box-shadow: 0 4px 10px rgba(79, 70, 229, 0.25);
-        }
-
-        .brand-info {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .brand-title {
-            font-family: var(--font-display);
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--text-title);
-            letter-spacing: -0.02em;
-            line-height: 1.2;
-        }
-
-        .brand-subtitle {
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        nav.header-nav {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .nav-link {
-            text-decoration: none;
-            color: var(--text-body);
-            font-size: 0.925rem;
-            font-weight: 600;
-            padding: 8px 16px;
-            border-radius: 8px;
-            transition: all 0.15s ease;
-        }
-
-        .nav-link:hover {
-            color: var(--primary);
-            background: var(--bg-subtle);
-        }
-
-        .nav-link.active {
-            color: var(--primary);
-            background: var(--primary-light);
-            border: 1px solid var(--primary-border);
-        }
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 9px 18px;
-            border-radius: var(--radius-sm);
-            font-size: 0.88rem;
-            font-weight: 600;
-            text-decoration: none;
-            cursor: pointer;
-            border: 1px solid transparent;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .btn-primary {
-            background: var(--primary);
-            color: #ffffff;
-            box-shadow: 0 2px 6px rgba(79, 70, 229, 0.25);
-        }
-
-        .btn-primary:hover {
-            background: var(--primary-hover);
-            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.35);
-            transform: translateY(-1px);
-        }
-
-        .btn-outline {
-            background: #ffffff;
-            border-color: var(--border-color);
-            color: var(--text-body);
-            box-shadow: var(--shadow-sm);
-        }
-
-        .btn-outline:hover {
-            background: var(--bg-subtle);
-            border-color: var(--border-hover);
-            color: var(--text-title);
-        }
-
-        /* ─── Hero Section ─────────────────────────────────── */
-        .booking-hero {
-            padding: 52px 24px 40px 24px;
-            text-align: center;
-            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .hero-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 6px 14px;
-            border-radius: var(--radius-full);
-            background: var(--primary-light);
-            border: 1px solid var(--primary-border);
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 16px;
-        }
-
-        .hero-title {
-            font-family: var(--font-display);
-            font-size: clamp(2.1rem, 4.2vw, 3.1rem);
-            font-weight: 800;
-            letter-spacing: -0.03em;
-            line-height: 1.15;
-            color: var(--text-title);
-            margin-bottom: 12px;
-        }
-
-        .hero-title span {
-            color: var(--primary);
-        }
-
-        .hero-desc {
-            max-width: 650px;
-            margin: 0 auto;
-            font-size: 1.05rem;
-            color: var(--text-muted);
-            line-height: 1.6;
-        }
-
-        /* ─── Main Content ─────────────────────────────────── */
-        .booking-main {
-            flex: 1;
-            max-width: 1240px;
-            width: 100%;
-            margin: 0 auto;
-            padding: 40px 24px 80px 24px;
-        }
-
-        /* ─── Section Header ──────────────────────────────── */
-        .section-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 18px;
-        }
-
-        .section-badge {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 28px;
-            height: 28px;
-            border-radius: var(--radius-full);
-            background: var(--primary-light);
-            color: var(--primary);
-            font-weight: 800;
-            font-size: 0.85rem;
-            margin-right: 10px;
-            border: 1px solid var(--primary-border);
-        }
-
-        .section-title {
-            display: flex;
-            align-items: center;
-            font-family: var(--font-display);
-            font-size: 1.35rem;
-            font-weight: 700;
-            color: var(--text-title);
-            letter-spacing: -0.01em;
-        }
-
-        /* ─── Courts Grid ─────────────────────────────────── */
-        .courts-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 24px;
-            margin-bottom: 44px;
-        }
-
-        .court-card {
-            background: var(--bg-card);
-            border: 2px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            padding: 24px;
-            cursor: pointer;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .court-card:hover {
-            border-color: var(--border-hover);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .court-card.selected {
-            border-color: var(--primary);
-            background: #ffffff;
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15), var(--shadow-md);
-        }
-
-        .court-badge-top {
-            position: absolute;
-            top: 18px;
-            right: 18px;
-            font-size: 0.72rem;
-            font-weight: 700;
-            padding: 4px 10px;
-            border-radius: var(--radius-full);
-            background: var(--neutral-bg);
-            color: var(--neutral-text);
-            border: 1px solid var(--neutral-border);
-        }
-
-        .court-card.selected .court-badge-top {
-            background: var(--primary-light);
-            color: var(--primary);
-            border-color: var(--primary-border);
-        }
-
-        .court-header {
-            display: flex;
-            align-items: flex-start;
-            gap: 16px;
-            margin-bottom: 14px;
-        }
-
-        .court-icon-box {
-            width: 48px;
-            height: 48px;
-            border-radius: var(--radius-md);
-            background: var(--bg-subtle);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary);
-            flex-shrink: 0;
-            border: 1px solid var(--border-color);
-            transition: all 0.2s ease;
-        }
-
-        .court-card.selected .court-icon-box {
-            background: var(--primary-light);
-            border-color: var(--primary-border);
-            color: var(--primary);
-        }
-
-        .court-name {
-            font-family: var(--font-display);
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--text-title);
-            margin-bottom: 3px;
-        }
-
-        .court-desc {
-            font-size: 0.88rem;
-            color: var(--text-muted);
-            line-height: 1.55;
-            margin-bottom: 18px;
-        }
-
-        .court-specs-row {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            padding-top: 14px;
-            border-top: 1px solid var(--border-color);
-            font-size: 0.82rem;
-        }
-
-        .court-spec {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            color: var(--text-muted);
-        }
-
-        .court-spec strong {
-            color: var(--text-title);
-            font-weight: 700;
-        }
-
-        /* ─── Date Selector ───────────────────────────────── */
-        .date-selector-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            padding: 22px 24px;
-            margin-bottom: 44px;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .date-picker-row {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: space-between;
-            gap: 16px;
-        }
-
-        .quick-dates {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .quick-date-btn {
-            background: var(--bg-subtle);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-sm);
-            padding: 8px 14px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--text-body);
-            cursor: pointer;
-            transition: all 0.15s ease;
-        }
-
-        .quick-date-btn:hover {
-            background: #e2e8f0;
-            color: var(--text-title);
-        }
-
-        .quick-date-btn.active {
-            background: var(--primary-light);
-            border-color: var(--primary-border);
-            color: var(--primary);
-            font-weight: 700;
-        }
-
-        .custom-date-box {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .custom-date-box label {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            font-weight: 600;
-        }
-
-        .date-input {
-            background: #ffffff;
-            border: 1px solid var(--border-color);
-            color: var(--text-title);
-            padding: 8px 14px;
-            border-radius: var(--radius-sm);
-            font-size: 0.88rem;
-            font-family: var(--font-sans);
-            font-weight: 500;
-            cursor: pointer;
-            outline: none;
-            transition: all 0.2s;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .date-input:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
-        }
-
-        /* ─── 24-Hour Slots Grid ──────────────────────────── */
-        .slots-container {
-            margin-bottom: 44px;
-        }
-
-        .slots-legend {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 18px;
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-bottom: 18px;
-        }
-
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .legend-dot {
-            width: 9px;
-            height: 9px;
-            border-radius: var(--radius-full);
-        }
-
-        .slots-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 14px;
-        }
-
-        .slot-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
-            padding: 16px;
-            transition: all 0.2s ease;
-            position: relative;
-            user-select: none;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .slot-card.selectable {
-            cursor: pointer;
-        }
-
-        .slot-card.selectable:hover {
-            border-color: var(--primary);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .slot-card.disabled {
-            opacity: 0.55;
-            cursor: not-allowed;
-            background: var(--bg-subtle);
-            border-color: var(--border-color);
-        }
-
-        .slot-time {
-            font-family: var(--font-mono);
-            font-size: 0.95rem;
-            font-weight: 700;
-            color: var(--text-title);
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .slot-pill {
-            font-family: var(--font-sans);
-            font-size: 0.72rem;
-            font-weight: 700;
-            padding: 3px 8px;
-            border-radius: var(--radius-full);
-            display: inline-block;
-        }
-
-        .pill-available {
-            background: var(--success-bg);
-            color: var(--success-text);
-            border: 1px solid var(--success-border);
-        }
-
-        .pill-limited {
-            background: var(--warning-bg);
-            color: var(--warning-text);
-            border: 1px solid var(--warning-border);
-        }
-
-        .pill-full {
-            background: var(--danger-bg);
-            color: var(--danger-text);
-            border: 1px solid var(--danger-border);
-        }
-
-        .pill-closed {
-            background: var(--neutral-bg);
-            color: var(--neutral-text);
-            border: 1px solid var(--neutral-border);
-        }
-
-        .pill-passed {
-            background: #f1f5f9;
-            color: #64748b;
-            border: 1px solid #cbd5e1;
-        }
-
-        .slot-info-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-size: 0.78rem;
-            color: var(--text-muted);
-            margin-top: 6px;
-        }
-
-        /* ─── Modal Dialog ────────────────────────────────── */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(15, 23, 42, 0.45);
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
-            z-index: 100;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .modal-overlay.open {
-            display: flex;
-        }
-
-        .modal-dialog {
-            background: #ffffff;
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            width: 100%;
-            max-width: 520px;
-            box-shadow: var(--shadow-modal);
-            overflow: hidden;
-            animation: modalFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        @keyframes modalFadeIn {
-            from { opacity: 0; transform: scale(0.97) translateY(8px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
-        }
-
-        .modal-header {
-            padding: 20px 24px;
-            background: #ffffff;
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .modal-title {
-            font-family: var(--font-display);
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--text-title);
-        }
-
-        .modal-close-btn {
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            cursor: pointer;
-            padding: 6px;
-            border-radius: var(--radius-sm);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.15s;
-        }
-
-        .modal-close-btn:hover {
-            color: var(--text-title);
-            background: var(--bg-subtle);
-        }
-
-        .modal-body {
-            padding: 24px;
-        }
-
-        .selected-summary-banner {
-            background: var(--bg-subtle);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
-            padding: 14px 18px;
-            margin-bottom: 22px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .form-group {
-            margin-bottom: 18px;
-        }
-
-        .form-label {
-            display: block;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--text-body);
-            margin-bottom: 6px;
-        }
-
-        .form-label span.req {
-            color: var(--danger-text);
-        }
-
-        .form-input {
-            width: 100%;
-            background: #ffffff;
-            border: 1.5px solid var(--border-color);
-            border-radius: var(--radius-sm);
-            padding: 10px 14px;
-            font-size: 0.92rem;
-            color: var(--text-title);
-            font-family: var(--font-sans);
-            outline: none;
-            transition: all 0.2s;
-        }
-
-        .form-input:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
-        }
-
-        .form-help {
-            font-size: 0.76rem;
-            color: var(--text-muted);
-            margin-top: 4px;
-        }
-
-        .form-error {
-            font-size: 0.78rem;
-            color: var(--danger-text);
-            margin-top: 4px;
-            display: none;
-        }
-
-        .modal-footer {
-            padding: 16px 24px;
-            background: var(--bg-subtle);
-            border-top: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            gap: 12px;
-        }
-
-        /* ─── Passcode PIN Inputs ─────────────────────────── */
-        .pin-inputs-wrapper {
-            display: flex;
-            gap: 8px;
-            justify-content: center;
-            margin: 18px 0 14px 0;
-        }
-
-        .pin-box {
-            width: 46px;
-            height: 56px;
-            text-align: center;
-            font-size: 1.5rem;
-            font-weight: 800;
-            font-family: var(--font-mono);
-            color: var(--text-title);
-            background: #ffffff;
-            border: 2px solid var(--border-color);
-            border-radius: 10px;
-            transition: all 0.18s ease;
-            outline: none;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .pin-box:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.18);
-            transform: translateY(-2px);
-        }
-
-        .pin-box.filled {
-            border-color: var(--primary);
-            background: var(--primary-light);
-            color: var(--primary);
-        }
-
-        /* ─── Verification Sent Alert Card ────────────────── */
-        .verification-alert-card {
-            background: var(--primary-light);
-            border: 1px solid var(--primary-border);
-            border-radius: var(--radius-lg);
-            padding: 22px 24px;
-            margin-bottom: 30px;
-            display: flex;
-            gap: 18px;
-            align-items: flex-start;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .verification-icon {
-            width: 44px;
-            height: 44px;
-            border-radius: var(--radius-md);
-            background: var(--primary);
-            color: #ffffff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            box-shadow: 0 4px 10px rgba(79, 70, 229, 0.25);
-        }
-
-        /* ─── Footer ──────────────────────────────────────── */
-        footer.site-footer {
-            background: #ffffff;
-            border-top: 1px solid var(--border-color);
-            padding: 32px 24px;
-            margin-top: auto;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        @media (max-width: 768px) {
-            .header-container { padding: 12px 16px; }
-            .booking-main { padding: 24px 16px 48px 16px; }
-            .court-specs-row { flex-direction: column; align-items: flex-start; gap: 8px; }
-            .date-picker-row { flex-direction: column; align-items: flex-start; }
-            .slots-grid { grid-template-columns: 1fr; }
-        }
+        @layer base {
+            html, body { margin: 0; padding: 0; }
+            body { overscroll-behavior-y: none; -webkit-tap-highlight-color: transparent; }
+            .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); }
+            .pt-safe { padding-top: env(safe-area-inset-top, 0px); }
+        }
+        ::-webkit-scrollbar { display: none; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
-<body>
-    <div class="site-wrapper">
-        <!-- Site Header -->
-        <header class="site-header">
-            <div class="header-container">
-                <a href="{{ url('/') }}" class="brand-link" id="header-brand-link">
-                    <div class="brand-logo-icon">
-                        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                        </svg>
-                    </div>
-                    <div class="brand-info">
-                        <span class="brand-title">Truant Enterprises</span>
-                        <span class="brand-subtitle">Sports Facilities</span>
-                    </div>
-                </a>
+<body class="bg-surface font-body-md text-on-surface antialiased flex flex-col min-h-screen">
 
-                <nav class="header-nav">
-                    <a href="{{ url('/') }}" class="nav-link" id="nav-events-link">Events</a>
-                    <a href="{{ route('court-booking.index') }}" class="nav-link active" id="nav-book-court-link">Book a Court</a>
-                </nav>
+    <!-- Global Header Partial (Desktop + Mobile) -->
+    @include('partials.header', [
+        'active' => 'book-a-court',
+        'searchPlaceholder' => 'Quick search courts...',
+        'searchInputOninput' => 'filterSlotsQuick(this.value)'
+    ])
 
-                <div class="header-actions">
-                    <a href="{{ url('/admin/login') }}" class="btn btn-outline" id="btn-login-header">Admin Login</a>
+    <!-- ═══ 3. MAIN PAGE CONTENT (pt-16 pb-20 on mobile, lg:pb-12) ═══ -->
+    <main class="w-full pt-16 pb-20 lg:pb-12 bg-surface min-h-[calc(100vh-16rem)]">
+        <div class="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-12 py-6 sm:py-8">
+
+            <!-- Top Meta & Title Breadcrumb Section -->
+            <div class="flex flex-col gap-3 mb-6 sm:mb-8">
+                <div class="flex items-center gap-2 text-on-surface-variant font-label-md text-label-md">
+                    <a href="{{ url('/') }}" class="hover:text-primary cursor-pointer transition-colors">Truant Recreation</a>
+                    <span class="material-symbols-outlined text-[14px] text-outline">chevron_right</span>
+                    <span class="hover:text-primary cursor-pointer transition-colors">Facilities</span>
+                    <span class="material-symbols-outlined text-[14px] text-outline">chevron_right</span>
+                    <span class="text-primary font-semibold">Book a Court</span>
                 </div>
-            </div>
-        </header>
-
-        <!-- Hero Section -->
-        <section class="booking-hero">
-            <div class="hero-pill">
-                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
-                </svg>
-                <span>Championship Facilities &bull; Online Reservations</span>
-            </div>
-            <h1 class="hero-title">
-                Book a <span>Court</span>
-            </h1>
-            <p class="hero-desc">
-                Select your court, pick your preferred date, and choose from open 1-hour slots starting at 12:00 AM with up to 4 available slots per hour.
-            </p>
-        </section>
-
-        <!-- Main Booking Content -->
-        <main class="booking-main">
-            <!-- Flash Session Alert: Verification Sent -->
-            @if (session('verification_sent'))
-                @php $sentData = session('verification_sent'); @endphp
-                <div class="verification-alert-card" id="verification-sent-card">
-                    <div class="verification-icon">
-                        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                        </svg>
-                    </div>
-                    <div style="flex: 1;">
-                        <div style="font-size: 1.1rem; font-weight: 700; color: var(--text-title); margin-bottom: 4px;">
-                            Email Verification Sent &mdash; Ref #{{ $sentData['reference_code'] }}
-                        </div>
-                        <p style="color: var(--text-body); font-size: 0.9rem; margin-bottom: 12px;">
-                            We sent a verification link to <strong style="color: var(--text-title);">{{ $sentData['email'] }}</strong> for your reservation on <strong style="color: var(--primary);">{{ $sentData['court_name'] }}</strong> ({{ $sentData['date'] }} &bull; {{ $sentData['time_slot'] }}).
+                <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4">
+                    <div>
+                        <span class="font-label-sm text-label-sm uppercase tracking-wider text-primary font-bold">Facility Reservation</span>
+                        <h1 class="font-headline-xl-mobile lg:font-headline-xl text-headline-xl-mobile lg:text-headline-xl text-on-surface tracking-tight" id="courtHeroHeading">
+                            Reserve {{ $selectedCourt->name }}
+                        </h1>
+                        <p class="font-body-md lg:font-body-lg text-body-md lg:text-body-lg text-on-surface-variant max-w-2xl mt-1">
+                            Check live facility availability, secure reserved courts in real time, and coordinate executive recreation sessions.
                         </p>
-                        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-                            <a href="{{ route('court-booking.verify', ['token' => $sentData['token']]) }}" class="btn btn-primary" style="padding: 7px 16px; font-size: 0.82rem;">
-                                Complete Email Verification &rarr;
-                            </a>
-                            <button type="button" class="btn btn-outline" style="padding: 7px 16px; font-size: 0.82rem;" onclick="resendVerification('{{ $sentData['reference_code'] }}')">
-                                Resend Email
-                            </button>
+                    </div>
+                    <!-- Live Quick Stats Badges -->
+                    <div class="flex flex-wrap items-center gap-2.5">
+                        <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-surface-container-high text-primary font-label-md text-label-md">
+                            <span class="w-2 h-2 rounded-full bg-tertiary-container animate-pulse"></span>
+                            {{ $courts->count() }} Facilities Active
+                        </div>
+                        <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-surface-container-high text-on-surface-variant font-label-md text-label-md">
+                            <span class="material-symbols-outlined text-[16px] text-primary">verified</span>
+                            Instant Confirmation
+                        </div>
+                        <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-surface-container-high text-on-surface-variant font-label-md text-label-md">
+                            <span class="material-symbols-outlined text-[16px] text-primary">sports_tennis</span>
+                            Complimentary Gear Check-in
                         </div>
                     </div>
                 </div>
-            @endif
-
-            <!-- STEP 1: SELECT COURT -->
-            <div class="section-header">
-                <h2 class="section-title">
-                    <span class="section-badge">1</span>
-                    Select Court
-                </h2>
-                <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">Pickleball or Basketball</span>
             </div>
 
-            <div class="courts-grid" id="courts-selection-grid">
-                @foreach ($courts as $court)
-                    <div class="court-card {{ $court->id === $selectedCourt->id ? 'selected' : '' }}"
-                         data-court-id="{{ $court->id }}"
-                         data-court-name="{{ $court->name }}"
-                         data-court-type="{{ $court->court_type }}"
-                         onclick="selectCourt({{ $court->id }})">
-                        <div class="court-badge-top">
-                            {{ $court->court_type === 'pickleball' ? '🏸 Tournament Surface' : '🏀 FIBA Hardwood' }}
+            <!-- Main Two-Column Layout -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+
+                <!-- ─── LEFT COLUMN: Main Booking Flow (Approx 65%) ─── -->
+                <div class="lg:col-span-8 flex flex-col gap-6 sm:gap-8">
+
+                    <!-- Location & Sport Type Filter Bar -->
+                    <div class="bg-surface-container-lowest p-4 sm:p-5 rounded-xl shadow-sm border border-outline-variant/30 flex flex-col gap-4">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                            <div class="flex items-center gap-2 text-on-surface font-headline-sm text-headline-sm">
+                                <span class="material-symbols-outlined text-primary text-[22px]">location_on</span>
+                                <span>Campus Facility</span>
+                            </div>
+                            <!-- Location Dropdown Selector -->
+                            <div class="relative w-full sm:w-80">
+                                <select id="courtSelector" onchange="switchCourt(this.value)" class="w-full appearance-none bg-surface-container-low px-4 py-2.5 pr-10 rounded-xl font-label-lg text-label-lg text-on-surface outline-none cursor-pointer border border-outline-variant/30 focus:ring-2 focus:ring-primary/25">
+                                    @foreach($courts as $court)
+                                        <option value="{{ $court->id }}" {{ $selectedCourt->id == $court->id ? 'selected' : '' }}>
+                                            {{ $court->name }} (₱{{ number_format($court->hourly_rate, 2) }}/hr)
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <span class="material-symbols-outlined absolute right-3 top-2.5 text-[20px] pointer-events-none text-on-surface-variant">expand_more</span>
+                            </div>
                         </div>
-                        <div>
-                            <div class="court-header">
-                                <div class="court-icon-box">
-                                    @if ($court->court_type === 'pickleball')
-                                        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                            <circle cx="12" cy="12" r="9"/>
-                                            <path d="M12 3a9 9 0 010 18M3 12a9 9 0 0118 0"/>
-                                        </svg>
-                                    @else
-                                        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                            <circle cx="12" cy="12" r="9"/>
-                                            <path d="M3 12h18M12 3v18M5 5l14 14M5 19L19 5"/>
-                                        </svg>
-                                    @endif
+
+                        <!-- Sport Category Tabs -->
+                        <div class="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar -mx-gutter-mobile px-gutter-mobile sm:mx-0 sm:px-0" id="sportFilters">
+                            <button type="button" class="sport-filter-btn px-4 py-2 rounded-xl font-label-md text-label-md bg-primary text-on-primary transition-all shadow-sm shrink-0 font-semibold" data-type="all" onclick="filterByCourtType('all', this)">
+                                All Courts ({{ $courts->count() }})
+                            </button>
+                            @php
+                                $courtTypes = $courts->pluck('court_type')->unique()->filter();
+                            @endphp
+                            @foreach($courtTypes as $type)
+                                <button type="button" class="sport-filter-btn px-4 py-2 rounded-xl font-label-md text-label-md bg-surface-container-low hover:bg-surface-container text-on-surface-variant transition-all shrink-0 font-medium border border-outline-variant/20" data-type="{{ $type }}" onclick="filterByCourtType('{{ $type }}', this)">
+                                    {{ ucfirst($type) }} ({{ $courts->where('court_type', $type)->count() }})
+                                </button>
+                            @endforeach
+                        </div>
+
+                        <!-- Quick Amenities Filter Pills -->
+                        <div class="flex flex-wrap items-center gap-2 pt-2 text-on-surface-variant font-label-sm text-label-sm border-t border-outline-variant/20">
+                            <span class="text-outline">Amenities Included:</span>
+                            <span class="px-2.5 py-1 rounded-lg bg-surface-container flex items-center gap-1"><span class="material-symbols-outlined text-[14px] text-tertiary-container">check</span> Climate Controlled</span>
+                            <span class="px-2.5 py-1 rounded-lg bg-surface-container flex items-center gap-1"><span class="material-symbols-outlined text-[14px] text-tertiary-container">check</span> Hardwood Parquet Floors</span>
+                            <span class="px-2.5 py-1 rounded-lg bg-surface-container flex items-center gap-1"><span class="material-symbols-outlined text-[14px] text-tertiary-container">check</span> Spectator Balcony</span>
+                            <span class="px-2.5 py-1 rounded-lg bg-surface-container flex items-center gap-1"><span class="material-symbols-outlined text-[14px] text-tertiary-container">check</span> Gear Rental Desk</span>
+                        </div>
+                    </div>
+
+                    <!-- Featured Arena Visual Showcase -->
+                    <div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm border border-outline-variant/30 flex flex-col">
+                        <div class="relative w-full h-56 sm:h-72 lg:h-80 overflow-hidden group">
+                            <img id="courtShowcaseImage" class="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500" alt="{{ $selectedCourt->name }} Visual Arena" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD2AZVOnryXOfjZ-CRwHqwFPCBnlht1t0xtfxH4Z4YmX5Fy1Z1dU17Z7VIQhQfqpWNfUr6d23oVRdsqK2qzJIhQeiyhg7FAEXqouOlONxpUhxr5c-OfsJW7pk6naFTdCbQM3C2tMtnfr1di4lurBtEgy2pAqrFpX3TBC3AYJjuP4xt7Yea1h4vzOaXTGpjk19A1IyMqbUEKBYW1dU0q8_z1eISxvU6zI_7KbK7J4jlhx_DWxiK-GpU6"/>
+                            <div class="absolute inset-0 bg-gradient-to-t from-on-surface/85 via-on-surface/25 to-transparent flex items-end p-5 sm:p-6">
+                                <div class="flex flex-col text-on-primary">
+                                    <div class="flex items-center gap-2 mb-1.5 flex-wrap">
+                                        <span class="px-2.5 py-0.5 rounded-full text-label-sm font-label-sm bg-tertiary-fixed text-on-tertiary-fixed flex items-center gap-1 font-bold">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-tertiary-container animate-pulse"></span>
+                                            Live Facility Online
+                                        </span>
+                                        <span id="showcaseCourtBadge" class="px-2.5 py-0.5 rounded-full text-label-sm font-label-sm bg-surface-container-lowest/80 backdrop-blur text-on-surface font-semibold">
+                                            {{ $selectedCourt->name }} • Arena Court
+                                        </span>
+                                    </div>
+                                    <h3 id="showcaseCourtTitle" class="font-headline-md text-headline-md text-on-primary font-bold">
+                                        Truant {{ $selectedCourt->name }} Arena
+                                    </h3>
+                                    <p class="font-body-sm text-body-sm text-surface-container-highest max-w-lg mt-0.5">
+                                        Dual-regulation court setup with electronic scoreboards, climate control, and mezzanine seating.
+                                    </p>
                                 </div>
-                                <div>
-                                    <h3 class="court-name">{{ $court->name }}</h3>
-                                    <div style="font-size: 0.8rem; color: var(--primary); font-weight: 600;">
-                                        {{ $court->default_slots_per_hour }} Slots per hour
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Monthly Calendar Section -->
+                    <div class="bg-surface-container-lowest p-5 sm:p-6 rounded-xl shadow-sm border border-outline-variant/30 flex flex-col gap-5 sm:gap-6">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                            <div class="flex flex-col">
+                                <span class="font-headline-sm text-headline-sm text-on-surface">Choose Date</span>
+                                <span class="font-body-sm text-body-sm text-on-surface-variant">Selected: <strong class="text-primary font-semibold" id="selected-date-display">{{ \Carbon\Carbon::parse($selectedDate)->format('l, F d, Y') }}</strong></span>
+                            </div>
+                            <!-- Calendar Month Switcher -->
+                            <div class="flex items-center gap-3">
+                                <button type="button" onclick="navigateMonth(-1)" class="w-9 h-9 rounded-xl bg-surface-container-low hover:bg-surface-container flex items-center justify-center text-on-surface transition-colors border border-outline-variant/20 active:scale-95" title="Previous Month">
+                                    <span class="material-symbols-outlined text-[18px]">chevron_left</span>
+                                </button>
+                                <span id="calendar-month-title" class="font-label-lg text-label-lg text-on-surface font-semibold tracking-wide">
+                                    {{ \Carbon\Carbon::create($currentYear, $currentMonth, 1)->format('F Y') }}
+                                </span>
+                                <button type="button" onclick="navigateMonth(1)" class="w-9 h-9 rounded-xl bg-surface-container-low hover:bg-surface-container flex items-center justify-center text-on-surface transition-colors border border-outline-variant/20 active:scale-95" title="Next Month">
+                                    <span class="material-symbols-outlined text-[18px]">chevron_right</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Calendar Grid -->
+                        <div class="w-full">
+                            <!-- Day labels (Sun-Sat) -->
+                            <div class="grid grid-cols-7 gap-1 text-center font-label-md text-label-md text-on-surface-variant uppercase tracking-wider mb-2">
+                                <span class="py-1">Sun</span>
+                                <span class="py-1">Mon</span>
+                                <span class="py-1">Tue</span>
+                                <span class="py-1">Wed</span>
+                                <span class="py-1">Thu</span>
+                                <span class="py-1">Fri</span>
+                                <span class="py-1">Sat</span>
+                            </div>
+                            <!-- Month Days Matrix -->
+                            <div class="grid grid-cols-7 gap-1 sm:gap-2" id="calendarDaysGrid">
+                                <!-- Populated dynamically by renderCalendarGrid() -->
+                            </div>
+                            <!-- Calendar legend -->
+                            <div class="flex items-center gap-4 mt-4 pt-3 text-label-sm font-label-sm text-on-surface-variant border-t border-outline-variant/20 flex-wrap">
+                                <span class="flex items-center gap-1.5">
+                                    <span class="w-2 h-2 rounded-full bg-tertiary-container"></span> Slots Available
+                                </span>
+                                <span class="flex items-center gap-1.5">
+                                    <span class="w-2 h-2 rounded-full bg-outline"></span> Fully Booked / Closed
+                                </span>
+                                <span class="flex items-center gap-1.5">
+                                    <span class="w-2 h-2 rounded-full bg-primary"></span> Selected Date
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Available Time Slots Matrix -->
+                    <div class="bg-surface-container-lowest p-5 sm:p-6 rounded-xl shadow-sm border border-outline-variant/30 flex flex-col gap-5 sm:gap-6">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                            <div>
+                                <h3 class="font-headline-sm text-headline-sm text-on-surface">Available Time Slots</h3>
+                                <p class="font-body-sm text-body-sm text-on-surface-variant">Showing schedule for <strong class="text-on-surface font-semibold" id="slotScheduleCourtName">{{ $selectedCourt->name }}</strong></p>
+                            </div>
+                            <!-- Time Segment Filters -->
+                            <div class="flex items-center gap-1.5 p-1 bg-surface-container-low rounded-xl border border-outline-variant/20 overflow-x-auto no-scrollbar">
+                                <button type="button" class="slot-filter-btn px-3 py-1.5 rounded-lg font-label-md text-label-md bg-surface-container-lowest text-primary font-bold shadow-xs transition-colors shrink-0" data-filter="all" onclick="filterSlotSegment('all', this)">All Slots (24)</button>
+                                <button type="button" class="slot-filter-btn px-3 py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-colors shrink-0" data-filter="morning" onclick="filterSlotSegment('morning', this)">Morning</button>
+                                <button type="button" class="slot-filter-btn px-3 py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-colors shrink-0" data-filter="afternoon" onclick="filterSlotSegment('afternoon', this)">Afternoon</button>
+                                <button type="button" class="slot-filter-btn px-3 py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-colors shrink-0" data-filter="evening" onclick="filterSlotSegment('evening', this)">Evening (Peak)</button>
+                            </div>
+                        </div>
+
+                        <!-- Slot Selector Grid -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5" id="slotContainer">
+                            @foreach ($slots as $slot)
+                                @php
+                                    $isSelectable = $slot['is_selectable'];
+                                    $isPassed = $slot['is_past'] ?? false;
+                                    $isClosed = ($slot['status'] === 'closed');
+                                    $isBooked = ($slot['status'] === 'fully_booked');
+                                @endphp
+                                <div class="slot-card p-4 rounded-xl transition-all border border-outline-variant/30 flex items-center justify-between group relative overflow-hidden {{ $isSelectable ? 'bg-surface-container-low hover:bg-surface-container cursor-pointer' : 'bg-surface-container-low/50 opacity-60 pointer-events-none' }}"
+                                     data-hour="{{ $slot['hour'] }}"
+                                     data-label="{{ $slot['time_label'] }}"
+                                     data-rate="{{ $selectedCourt->hourly_rate }}"
+                                     data-status="{{ $slot['status'] }}"
+                                     data-selectable="{{ $isSelectable ? '1' : '0' }}"
+                                     onclick="handleSlotClick(this, {{ $slot['hour'] }}, '{{ $slot['time_label'] }}')">
+                                    <div class="flex flex-col gap-1 min-w-0 pr-2">
+                                        <div class="flex items-center gap-2 flex-wrap">
+                                            <span class="font-label-lg text-label-lg font-bold text-on-surface">{{ $slot['time_label'] }}</span>
+                                            <span class="px-2 py-0.5 rounded-md text-label-sm font-label-sm bg-surface-container-high text-primary">{{ $selectedCourt->name }}</span>
+                                        </div>
+                                        <span class="font-body-sm text-body-sm text-on-surface-variant truncate">
+                                            @if($isPassed)
+                                                Past schedule window
+                                            @elseif($isClosed)
+                                                {{ $slot['reason'] ?: 'Maintenance window' }}
+                                            @elseif($isBooked)
+                                                Reserved by other players
+                                            @else
+                                                Regulation Play • {{ $slot['available_slots'] }} court{{ $slot['available_slots'] == 1 ? '' : 's' }} open
+                                            @endif
+                                        </span>
+                                    </div>
+                                    <div class="flex flex-col items-end shrink-0">
+                                        <span class="font-label-lg text-label-lg font-bold text-on-surface">₱{{ number_format($selectedCourt->hourly_rate, 2) }}</span>
+                                        @if($isPassed)
+                                            <span class="text-label-sm font-label-sm text-outline font-medium">Slot Passed</span>
+                                        @elseif($isClosed)
+                                            <span class="text-label-sm font-label-sm text-error font-medium">Closed</span>
+                                        @elseif($isBooked)
+                                            <span class="text-label-sm font-label-sm text-error font-medium">Booked</span>
+                                        @elseif($slot['available_slots'] == 1)
+                                            <span class="text-label-sm font-label-sm text-error font-bold flex items-center gap-1">
+                                                <span class="w-1.5 h-1.5 rounded-full bg-error"></span> 1 Left
+                                            </span>
+                                        @else
+                                            <span class="text-label-sm font-label-sm text-tertiary-container font-semibold flex items-center gap-1">
+                                                <span class="w-1.5 h-1.5 rounded-full bg-tertiary-container"></span> Available
+                                            </span>
+                                        @endif
                                     </div>
                                 </div>
-                            </div>
-                            <p class="court-desc">
-                                {{ $court->description ?: 'Clean, tournament-grade athletic facilities equipped with modern lighting and player amenities.' }}
-                            </p>
-                        </div>
-
-                        <div class="court-specs-row">
-                            <div class="court-spec">
-                                <span>Rate:</span>
-                                <strong>₱{{ number_format($court->hourly_rate ?? 350, 2) }}/hr</strong>
-                            </div>
-                            <div class="court-spec">
-                                <span>Capacity:</span>
-                                <strong>{{ $court->default_slots_per_hour }} slots max</strong>
-                            </div>
-                            <div class="court-spec">
-                                <span>Availability:</span>
-                                <strong style="color: #065f46;">Open for Booking</strong>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
-                @endforeach
-            </div>
 
-            <!-- STEP 2: SELECT DATE -->
-            <div class="section-header">
-                <h2 class="section-title">
-                    <span class="section-badge">2</span>
-                    Select Date
-                </h2>
-                <span id="display-selected-date" style="font-size: 0.9rem; font-weight: 700; color: var(--primary);">
-                    {{ \Carbon\Carbon::parse($selectedDate)->format('l, F j, Y') }}
-                </span>
-            </div>
-
-            <div class="date-selector-card">
-                <div class="date-picker-row">
-                    <div class="quick-dates">
-                        @php
-                            $phNow = \App\Services\CourtBookingService::localNow();
-                            $today = $phNow->toDateString();
-                            $tomorrow = $phNow->copy()->addDay()->toDateString();
-                            $day3 = $phNow->copy()->addDays(2)->toDateString();
-                            $day4 = $phNow->copy()->addDays(3)->toDateString();
-                        @endphp
-                        <button type="button" class="quick-date-btn {{ $selectedDate === $today ? 'active' : '' }}" onclick="selectDate('{{ $today }}')">
-                            Today ({{ $phNow->format('M d') }})
-                        </button>
-                        <button type="button" class="quick-date-btn {{ $selectedDate === $tomorrow ? 'active' : '' }}" onclick="selectDate('{{ $tomorrow }}')">
-                            Tomorrow ({{ $phNow->copy()->addDay()->format('M d') }})
-                        </button>
-                        <button type="button" class="quick-date-btn {{ $selectedDate === $day3 ? 'active' : '' }}" onclick="selectDate('{{ $day3 }}')">
-                            {{ $phNow->copy()->addDays(2)->format('D, M d') }}
-                        </button>
-                        <button type="button" class="quick-date-btn {{ $selectedDate === $day4 ? 'active' : '' }}" onclick="selectDate('{{ $day4 }}')">
-                            {{ $phNow->copy()->addDays(3)->format('D, M d') }}
-                        </button>
-                    </div>
-
-                    <div class="custom-date-box">
-                        <label for="court-booking-date">Choose Date:</label>
-                        <input type="date"
-                               id="court-booking-date"
-                               class="date-input"
-                               min="{{ $today }}"
-                               value="{{ $selectedDate }}"
-                               onchange="selectDate(this.value)">
-                    </div>
-                </div>
-            </div>
-
-            <!-- STEP 3: SELECT TIME SLOT -->
-            <div class="section-header">
-                <h2 class="section-title">
-                    <span class="section-badge">3</span>
-                    Choose Time Slot
-                </h2>
-                <span style="font-size: 0.85rem; color: var(--text-muted);">
-                    Hourly intervals starting at 12:00 AM
-                </span>
-            </div>
-
-            <div class="slots-container">
-                <div class="slots-legend">
-                    <div class="legend-item">
-                        <span class="legend-dot" style="background: #10b981;"></span>
-                        <span>Available Slots</span>
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-dot" style="background: #f59e0b;"></span>
-                        <span>1 Slot Left</span>
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-dot" style="background: #ef4444;"></span>
-                        <span>Fully Booked</span>
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-dot" style="background: #94a3b8;"></span>
-                        <span>Slot Passed</span>
-                    </div>
-                </div>
-
-                <div class="slots-grid" id="slots-grid-container">
-                    @foreach ($slots as $slot)
-                        @php
-                            $isSelectable = $slot['is_selectable'];
-                            $isPassed = $slot['is_past'] || $slot['status'] === 'passed';
-                            $pillClass = $isPassed
-                                ? 'pill-passed'
-                                : match($slot['status']) {
-                                    'available' => ($slot['available_slots'] === 1 ? 'pill-limited' : 'pill-available'),
-                                    'fully_booked' => 'pill-full',
-                                    default => 'pill-closed',
-                                };
-                            $badgeLabel = $isPassed ? 'Slot Passed' : $slot['status_label'];
-                        @endphp
-                        <div class="slot-card {{ $isSelectable ? 'selectable' : 'disabled' }}"
-                             data-hour="{{ $slot['hour'] }}"
-                             data-time-label="{{ $slot['time_label'] }}"
-                             data-available="{{ $slot['available_slots'] }}"
-                             @if ($isSelectable)
-                                onclick="openReservationModal({{ $slot['hour'] }}, '{{ $slot['time_label'] }}', {{ $slot['available_slots'] }})"
-                             @endif>
-                            <div class="slot-time">
-                                <span>{{ $slot['time_label'] }}</span>
-                                <span class="slot-pill {{ $pillClass }}">
-                                    {{ $badgeLabel }}
-                                </span>
-                            </div>
-                            <div class="slot-info-row">
-                                <span>
-                                    @if ($isPassed)
-                                        Slot Passed
-                                    @elseif ($slot['reason'])
-                                        {{ $slot['reason'] }}
-                                    @elseif ($slot['status'] === 'fully_booked')
-                                        Capacity Reached ({{ $slot['total_capacity'] }}/{{ $slot['total_capacity'] }})
-                                    @else
-                                        Capacity: {{ $slot['total_capacity'] }} slots max
-                                    @endif
-                                </span>
-                                @if ($isSelectable)
-                                    <span style="color: var(--primary); font-weight: 700;">Select &rarr;</span>
-                                @endif
-                            </div>
+                    <!-- Add-on Equipment Options Section -->
+                    <div class="bg-surface-container-lowest p-5 sm:p-6 rounded-xl shadow-sm border border-outline-variant/30 flex flex-col gap-4">
+                        <div class="flex items-center justify-between">
+                            <h3 class="font-headline-sm text-headline-sm text-on-surface">Add-on Amenities &amp; Equipment</h3>
+                            <span class="font-label-sm text-label-sm text-on-surface-variant">Optional rental items</span>
                         </div>
-                    @endforeach
-                </div>
-            </div>
-        </main>
-
-        <!-- RESERVATION MODAL DIALOG -->
-        <div class="modal-overlay" id="reservation-modal" onclick="handleOverlayClick(event)">
-            <div class="modal-dialog">
-                <div class="modal-header">
-                    <h3 class="modal-title" id="modal-court-title">Reserve Court Slot</h3>
-                    <button type="button" class="modal-close-btn" onclick="closeReservationModal()">
-                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
-                        </svg>
-                    </button>
-                </div>
-
-                <!-- STEP 1: CUSTOMER DETAILS -->
-                <div id="modal-step-details">
-                    <form id="court-reservation-form" onsubmit="submitReservation(event)">
-                        @csrf
-                        <input type="hidden" name="court_id" id="form-court-id" value="{{ $selectedCourt->id }}">
-                        <input type="hidden" name="booking_date" id="form-booking-date" value="{{ $selectedDate }}">
-                        <input type="hidden" name="start_hour" id="form-start-hour" value="">
-
-                        <div class="modal-body">
-                            <!-- Summary Banner -->
-                            <div class="selected-summary-banner">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5">
+                            <!-- Included Amenity -->
+                            <label class="p-4 rounded-xl bg-surface-container-low flex flex-col justify-between gap-3 border border-outline-variant/20">
+                                <div class="flex items-start justify-between">
+                                    <div class="w-9 h-9 rounded-lg bg-surface-container-high flex items-center justify-center text-primary">
+                                        <span class="material-symbols-outlined text-[20px]">lightbulb</span>
+                                    </div>
+                                    <input checked="" class="accent-primary w-4 h-4 rounded" disabled="" type="checkbox"/>
+                                </div>
                                 <div>
-                                    <div style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700; letter-spacing: 0.04em;">Selected Schedule</div>
-                                    <div id="modal-summary-court" style="font-size: 1.05rem; font-weight: 700; color: var(--text-title);">{{ $selectedCourt->name }}</div>
-                                    <div id="modal-summary-schedule" style="font-size: 0.85rem; color: var(--primary); font-weight: 600;">&mdash;</div>
+                                    <span class="font-label-md text-label-md text-on-surface block font-semibold">Arena High-Bay Lighting</span>
+                                    <span class="font-body-sm text-body-sm text-tertiary-container font-medium">Included (Complimentary)</span>
                                 </div>
-                                <div style="text-align: right;">
-                                    <span class="slot-pill pill-available" id="modal-summary-badge">Available</span>
+                            </label>
+
+                            <!-- Dynamic Rental Items from DB -->
+                            @forelse($rentalItems as $item)
+                                <div class="p-4 rounded-xl bg-surface-container-low hover:bg-surface-container transition-colors flex flex-col justify-between gap-3 border border-outline-variant/20 rental-item-card" id="rental-card-{{ $item->id }}">
+                                    <div class="flex items-start justify-between gap-2">
+                                        <div class="flex items-center gap-2.5 min-w-0">
+                                            @if($item->picture_url)
+                                                <img src="{{ $item->picture_url }}" alt="{{ $item->name }}" class="w-10 h-10 rounded-lg object-cover border border-outline-variant/30 shrink-0">
+                                            @else
+                                                <div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-primary shrink-0">
+                                                    <span class="material-symbols-outlined text-[20px]">sports_tennis</span>
+                                                </div>
+                                            @endif
+                                            <div class="min-w-0">
+                                                <span class="font-label-md text-label-md text-on-surface block font-semibold truncate">{{ $item->name }}</span>
+                                                <span class="font-label-sm text-label-sm text-on-surface-variant block">{{ $item->available_stock }} available</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center justify-between pt-2 border-t border-outline-variant/10">
+                                        <span class="font-body-sm text-body-sm text-primary font-bold">+₱{{ number_format($item->rental_price, 2) }}</span>
+                                        <div class="flex items-center gap-1.5 bg-surface-container-lowest rounded-lg border border-outline-variant/30 px-1 py-0.5">
+                                            <button type="button" class="w-6 h-6 rounded flex items-center justify-center text-on-surface hover:bg-surface-container font-bold text-sm" onclick="changeRentalQty({{ $item->id }}, -1)">-</button>
+                                            <span class="w-6 text-center font-label-md text-label-md font-bold" id="rental-qty-{{ $item->id }}">0</span>
+                                            <button type="button" class="w-6 h-6 rounded flex items-center justify-center text-on-surface hover:bg-surface-container font-bold text-sm" onclick="changeRentalQty({{ $item->id }}, 1)">+</button>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-
-                            <!-- Full Name -->
-                            <div class="form-group">
-                                <label class="form-label" for="res-name">Full Name <span class="req">*</span></label>
-                                <input type="text"
-                                       id="res-name"
-                                       name="customer_name"
-                                       class="form-input"
-                                       placeholder="e.g. Maria Santos"
-                                       required>
-                                <div class="form-error" id="err-customer_name"></div>
-                            </div>
-
-                            <!-- Email Address -->
-                            <div class="form-group">
-                                <label class="form-label" for="res-email">Email Address <span class="req">*</span></label>
-                                <input type="email"
-                                       id="res-email"
-                                       name="customer_email"
-                                       class="form-input"
-                                       placeholder="e.g. maria@example.com"
-                                       required>
-                                <div class="form-help">A 6-digit verification passcode will be sent to this email address.</div>
-                                <div class="form-error" id="err-customer_email"></div>
-                            </div>
-
-                            <!-- Contact Number -->
-                            <div class="form-group">
-                                <label class="form-label" for="res-contact">Contact Number <span class="req">*</span></label>
-                                <input type="tel"
-                                       id="res-contact"
-                                       name="customer_contact"
-                                       class="form-input"
-                                       placeholder="e.g. 0917 123 4567"
-                                       required>
-                                <div class="form-error" id="err-customer_contact"></div>
-                            </div>
-
-                            <!-- Slots Count -->
-                            <div class="form-group">
-                                <label class="form-label" for="res-slots">Number of Slots</label>
-                                <select id="res-slots" name="slots_count" class="form-input" style="cursor: pointer;">
-                                    <option value="1">1 Slot</option>
-                                    <option value="2">2 Slots</option>
-                                    <option value="3">3 Slots</option>
-                                    <option value="4">4 Slots</option>
-                                </select>
-                            </div>
-
-                            <!-- Special Notes -->
-                            <div class="form-group" style="margin-bottom: 0;">
-                                <label class="form-label" for="res-notes">Special Requests / Notes (Optional)</label>
-                                <textarea id="res-notes"
-                                          name="notes"
-                                          class="form-input"
-                                          rows="2"
-                                          placeholder="Any equipment needs, player notes, etc."></textarea>
-                            </div>
-                        </div>
-
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-outline" onclick="closeReservationModal()">Cancel</button>
-                            <button type="submit" class="btn btn-primary" id="btn-submit-reservation">
-                                <span id="btn-submit-text">Send Verification Passcode &rarr;</span>
-                            </button>
-                        </div>
-                    </form>
-                </div>
-
-                <!-- STEP 2: ENTER PASSCODE -->
-                <div id="modal-step-passcode" style="display: none;">
-                    <div class="modal-body" style="text-align: center; padding: 26px 24px;">
-                        <div style="width: 54px; height: 54px; border-radius: 50%; background: var(--primary-light); color: var(--primary); display: inline-flex; align-items: center; justify-content: center; margin-bottom: 12px; border: 1px solid var(--primary-border);">
-                            <svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                            </svg>
-                        </div>
-                        <h4 style="font-size: 1.25rem; font-weight: 800; color: var(--text-title); margin-bottom: 4px;">Enter 6-Digit Passcode</h4>
-                        <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 16px;">
-                            We sent a real verification passcode to <strong id="passcode-target-email" style="color: var(--text-title);"></strong>.<br>Enter it below to proceed to payment.
-                        </p>
-
-                        <div class="pin-inputs-wrapper" id="modal-pin-inputs">
-                            <input type="text" maxlength="1" class="pin-box modal-pin" data-index="0" inputmode="numeric" autocomplete="one-time-code">
-                            <input type="text" maxlength="1" class="pin-box modal-pin" data-index="1" inputmode="numeric">
-                            <input type="text" maxlength="1" class="pin-box modal-pin" data-index="2" inputmode="numeric">
-                            <input type="text" maxlength="1" class="pin-box modal-pin" data-index="3" inputmode="numeric">
-                            <input type="text" maxlength="1" class="pin-box modal-pin" data-index="4" inputmode="numeric">
-                            <input type="text" maxlength="1" class="pin-box modal-pin" data-index="5" inputmode="numeric">
-                        </div>
-
-                        <div class="form-error" id="err-modal-passcode" style="text-align: center; margin: 10px 0;"></div>
-
-                        <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 12px;">
-                            Passcode expires in 30 minutes.
+                            @empty
+                                <div class="col-span-2 p-4 rounded-xl bg-surface-container-low text-center text-on-surface-variant font-body-sm text-body-sm">
+                                    No equipment rentals currently available.
+                                </div>
+                            @endforelse
                         </div>
                     </div>
 
-                    <div class="modal-footer" style="justify-content: space-between;">
-                        <button type="button" class="btn btn-outline" onclick="backToStepDetails()" style="font-size: 0.85rem;">
-                            &larr; Back
-                        </button>
-                        <div style="display: flex; align-items: center; gap: 10px;">
-                            <button type="button" class="btn btn-outline" id="btn-modal-resend" onclick="resendModalPasscode()" style="font-size: 0.85rem;">
-                                Resend Passcode
-                            </button>
-                            <button type="button" class="btn btn-primary" id="btn-modal-verify" onclick="submitModalPasscode()">
-                                <span id="btn-modal-verify-text">Verify &amp; Proceed &rarr;</span>
-                            </button>
+                </div>
+
+                <!-- ─── RIGHT COLUMN: Sticky Reservation & Authentication Sidebar (Approx 35%) ─── -->
+                <div class="lg:col-span-4 flex flex-col gap-6 lg:sticky lg:top-20">
+
+                    <!-- Reservation Details Summary Card -->
+                    <div class="bg-surface-container-lowest p-6 rounded-xl shadow-md border border-outline-variant/30 flex flex-col gap-5">
+                        <div class="flex items-center justify-between pb-3 bg-surface-container-low -mx-6 -mt-6 p-6 rounded-t-xl border-b border-outline-variant/20">
+                            <div class="flex items-center gap-2">
+                                <span class="w-2.5 h-2.5 rounded-full bg-tertiary-container animate-pulse"></span>
+                                <h3 class="font-headline-sm text-headline-sm text-on-surface">Reservation Details</h3>
+                            </div>
+                            <!-- Live Expiration Timer -->
+                            <div class="px-2.5 py-1 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm flex items-center gap-1 font-bold">
+                                <span class="material-symbols-outlined text-[14px]">timer</span>
+                                <span id="reservationTimer">Reserved 10:00</span>
+                            </div>
+                        </div>
+
+                        <!-- Summary breakdown details -->
+                        <div class="flex flex-col gap-3 font-body-sm text-body-sm">
+                            <div class="flex justify-between items-start pb-2 border-b border-surface-container-low">
+                                <span class="text-on-surface-variant">Facility</span>
+                                <span class="font-semibold text-on-surface text-right">Truant Recreation Complex<br/><span class="text-on-surface-variant font-normal">Arena Building C</span></span>
+                            </div>
+                            <div class="flex justify-between items-center pb-2 border-b border-surface-container-low">
+                                <span class="text-on-surface-variant">Court Allocation</span>
+                                <span class="font-semibold text-on-surface" id="summaryCourtAlloc">{{ $selectedCourt->name }}</span>
+                            </div>
+                            <div class="flex justify-between items-center pb-2 border-b border-surface-container-low">
+                                <span class="text-on-surface-variant">Date</span>
+                                <span class="font-semibold text-on-surface" id="summaryDateVal">{{ \Carbon\Carbon::parse($selectedDate)->format('l, M d, Y') }}</span>
+                            </div>
+                            <div class="flex justify-between items-center pb-2 border-b border-surface-container-low">
+                                <span class="text-on-surface-variant">Time &amp; Duration</span>
+                                <span class="font-semibold text-primary" id="summaryTimeSlot">Select a time slot below</span>
+                            </div>
+
+                            <!-- Price Breakdown Calculation -->
+                            <div class="flex flex-col gap-1.5 pt-1">
+                                <div class="flex justify-between text-on-surface-variant">
+                                    <span>Court Slot Hourly Fee</span>
+                                    <span id="summaryCourtRate">₱{{ number_format($selectedCourt->hourly_rate, 2) }}</span>
+                                </div>
+                                <div class="flex justify-between text-on-surface-variant">
+                                    <span>Equipment Rentals</span>
+                                    <span id="summaryRentalsRate">₱0.00</span>
+                                </div>
+                                <div class="flex justify-between text-on-surface-variant">
+                                    <span>Arena Facility Fee</span>
+                                    <span class="text-tertiary-container font-semibold">WAIVED</span>
+                                </div>
+                                <div class="flex justify-between text-tertiary font-semibold hidden" id="summaryVoucherRow">
+                                    <span id="summaryVoucherLabel">Voucher Discount</span>
+                                    <span id="summaryVoucherDiscount">-₱0.00</span>
+                                </div>
+                            </div>
+
+                            <!-- Voucher Secret Field -->
+                            <div class="pt-2">
+                                <label for="voucher-code-input" class="font-label-md text-label-md font-bold text-on-surface block mb-1">
+                                    Have a Voucher Code?
+                                </label>
+                                <div class="flex items-center gap-2">
+                                    <input type="text" id="voucher-code-input" placeholder="Secret Voucher Code" class="flex-1 uppercase font-body-sm text-body-sm px-3 py-2 bg-surface-container-low rounded-lg border border-outline-variant/30 text-on-surface outline-none focus:ring-1 focus:ring-primary"/>
+                                    <button type="button" onclick="applySecretVoucher()" class="px-3 py-2 bg-surface-container-high text-primary hover:bg-primary hover:text-on-primary rounded-lg font-label-sm text-label-sm font-bold transition-colors">Apply</button>
+                                </div>
+                                <p id="voucherMsg" class="font-label-sm text-label-sm mt-1 hidden"></p>
+                            </div>
+
+                            <div class="flex justify-between items-center pt-3 border-t border-surface-container-high">
+                                <span class="font-headline-sm text-headline-sm text-on-surface">Total Due</span>
+                                <div class="text-right">
+                                    <span class="font-headline-sm text-headline-sm text-primary font-bold" id="summaryTotalPrice">₱{{ number_format($selectedCourt->hourly_rate, 2) }}</span>
+                                    <span class="block text-label-sm font-label-sm text-on-surface-variant">PHP (Tax included)</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2 p-2.5 rounded-lg bg-surface-container-low text-on-surface-variant text-label-sm font-label-sm mt-1">
+                                <span class="material-symbols-outlined text-[16px] text-tertiary-container">policy</span>
+                                <span>Free cancellation up to 4 hours before session.</span>
+                            </div>
                         </div>
                     </div>
+
+                    <!-- Authentication & Fast Checkout Box -->
+                    <div class="bg-surface-container-lowest p-6 rounded-xl shadow-md border border-outline-variant/30 flex flex-col gap-4" id="player-info-section">
+                        <div class="flex items-start justify-between">
+                            <div>
+                                <div class="font-label-sm text-label-sm text-on-surface-variant font-semibold">Player information</div>
+                                <h4 class="font-headline-sm text-headline-sm text-on-surface font-bold">Contact details</h4>
+                            </div>
+                            @auth
+                                <span class="px-2.5 py-0.5 rounded-full text-label-sm font-label-sm bg-tertiary-fixed text-on-tertiary-fixed font-bold flex items-center gap-1">
+                                    <span class="material-symbols-outlined text-[14px]">check</span> Verified
+                                </span>
+                            @else
+                                <span class="px-2.5 py-0.5 rounded-full text-label-sm font-label-sm bg-surface-container-high text-primary font-bold">
+                                    Required
+                                </span>
+                            @endauth
+                        </div>
+
+                        @auth
+                            <!-- Authenticated Profile View -->
+                            <div class="p-4 rounded-xl bg-surface-container-low border border-outline-variant/20 flex items-center gap-3">
+                                <img src="{{ auth()->user()->avatar_url }}" class="w-12 h-12 rounded-full object-cover border-2 border-primary/20" alt="{{ auth()->user()->name }}"/>
+                                <div class="flex flex-col min-w-0 flex-1">
+                                    <span class="font-label-lg text-label-lg text-on-surface font-bold truncate">{{ auth()->user()->name }}</span>
+                                    <span class="font-body-sm text-body-sm text-on-surface-variant truncate">{{ auth()->user()->email }}</span>
+                                    <span class="text-label-sm font-label-sm text-tertiary-container font-semibold mt-0.5 flex items-center gap-1">
+                                        <span class="material-symbols-outlined text-[14px]">verified</span> Verified Member
+                                    </span>
+                                </div>
+                            </div>
+
+                            <form id="courtBookingForm" onsubmit="handleReservationSubmit(event)" class="flex flex-col gap-3">
+                                <div class="flex items-center gap-2 pt-1">
+                                    <input checked="" required="" class="accent-primary w-4 h-4 rounded cursor-pointer" id="authWaiverCheck" type="checkbox"/>
+                                    <label class="font-body-sm text-body-sm text-on-surface-variant cursor-pointer" for="authWaiverCheck">
+                                        I agree to the Truant Safety Guidelines and Court Etiquette.
+                                    </label>
+                                </div>
+
+                                <button id="btnConfirmReservation" class="w-full mt-2 py-3.5 px-4 rounded-xl bg-primary text-on-primary font-label-lg text-label-lg font-bold hover:bg-primary-container transition-all flex items-center justify-center gap-2 shadow-md active:scale-95" type="submit">
+                                    <span id="btnConfirmText">Confirm &amp; Book Court</span>
+                                    <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                                </button>
+                            </form>
+                        @else
+                            <!-- Guest Notice Box -->
+                            <div class="p-3.5 rounded-xl bg-surface-container-low border border-dashed border-outline-variant/60 flex items-center gap-3">
+                                <div class="w-9 h-9 rounded-lg bg-surface-container-high flex items-center justify-center text-primary shrink-0">
+                                    <span class="material-symbols-outlined text-[20px]">badge</span>
+                                </div>
+                                <div class="min-w-0">
+                                    <div class="font-label-md text-label-md font-bold text-on-surface">Sign in to book</div>
+                                    <div class="font-body-sm text-body-sm text-on-surface-variant">Your profile fills in contact details automatically</div>
+                                </div>
+                            </div>
+
+                            <!-- Segmented Tabs: I have an account / I'm new here -->
+                            <div class="grid grid-cols-2 gap-1 p-1 bg-surface-container-low rounded-xl border border-outline-variant/20">
+                                <button type="button" id="tabBtnAccount" onclick="switchGuestAuthTab('account')" class="py-1.5 px-2 rounded-lg font-label-sm text-label-sm font-bold bg-surface-container-lowest text-on-surface shadow-xs transition-all">
+                                    I have an account
+                                </button>
+                                <button type="button" id="tabBtnNew" onclick="switchGuestAuthTab('new')" class="py-1.5 px-2 rounded-lg font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface transition-all">
+                                    I'm new here
+                                </button>
+                            </div>
+
+                            <!-- Social SSO: Log in with Gmail -->
+                            <a href="{{ route('auth.google') }}?redirect={{ urlencode(request()->fullUrl()) }}" class="w-full flex items-center justify-center gap-2.5 py-3 px-4 rounded-xl bg-surface-container-low hover:bg-surface-container text-on-surface font-label-md text-label-md font-bold transition-all shadow-xs border border-outline-variant/20">
+                                <svg class="w-4 h-4" viewBox="0 0 24 24">
+                                    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+                                    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
+                                    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"></path>
+                                    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"></path>
+                                </svg>
+                                <span>Log in with Gmail</span>
+                            </a>
+
+                            <!-- Divider: OR USE EMAIL -->
+                            <div class="relative flex items-center justify-center my-1">
+                                <div class="w-full h-px bg-surface-container-high"></div>
+                                <span class="absolute bg-surface-container-lowest px-2.5 text-[11px] font-bold text-outline uppercase tracking-wider">OR USE EMAIL</span>
+                            </div>
+
+                            <form id="courtBookingForm" onsubmit="handleReservationSubmit(event)" class="flex flex-col gap-3">
+                                <div id="newUserNameGroup" class="hidden flex flex-col gap-1">
+                                    <label class="font-label-md text-label-md text-on-surface">Full Name</label>
+                                    <input id="guestNameInput" class="bg-surface-container-low px-3.5 py-2.5 rounded-xl font-body-md text-body-md text-on-surface outline-none focus:ring-2 focus:ring-primary border border-outline-variant/30" placeholder="e.g. Marcus Vance" type="text" value="Guest Player"/>
+                                </div>
+                                <div class="flex flex-col gap-1">
+                                    <label class="font-label-md text-label-md text-on-surface">Corporate Email</label>
+                                    <input id="guestEmailInput" required="" class="bg-surface-container-low px-3.5 py-2.5 rounded-xl font-body-md text-body-md text-on-surface outline-none focus:ring-2 focus:ring-primary border border-outline-variant/30" placeholder="name@company.com" type="email"/>
+                                </div>
+                                <div class="flex flex-col gap-1">
+                                    <label class="font-label-md text-label-md text-on-surface">Password</label>
+                                    <input id="guestPasswordInput" class="bg-surface-container-low px-3.5 py-2.5 rounded-xl font-body-md text-body-md text-on-surface outline-none focus:ring-2 focus:ring-primary border border-outline-variant/30" placeholder="••••••••" type="password"/>
+                                </div>
+                                <div class="flex flex-col gap-1">
+                                    <label class="font-label-md text-label-md text-on-surface">Contact Number</label>
+                                    <input id="guestPhoneInput" class="bg-surface-container-low px-3.5 py-2.5 rounded-xl font-body-md text-body-md text-on-surface outline-none focus:ring-2 focus:ring-primary border border-outline-variant/30" placeholder="0917-123-4567" type="tel"/>
+                                </div>
+                                <div class="flex items-center gap-2 pt-1">
+                                    <input checked="" required="" class="accent-primary w-4 h-4 rounded cursor-pointer" id="guestWaiverCheck" type="checkbox"/>
+                                    <label class="font-body-sm text-body-sm text-on-surface-variant cursor-pointer" for="guestWaiverCheck">
+                                        I agree to the Truant Safety Guidelines and Court Etiquette.
+                                    </label>
+                                </div>
+
+                                <button id="btnConfirmReservation" class="w-full mt-2 py-3.5 px-4 rounded-xl bg-primary text-on-primary font-label-lg text-label-lg font-bold hover:bg-primary-container transition-all flex items-center justify-center gap-2 shadow-md active:scale-95" type="submit">
+                                    <span id="btnConfirmText">Sign in with email</span>
+                                    <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                                </button>
+                            </form>
+
+                            <div class="text-center pt-1" id="switchAuthNotice">
+                                <span class="font-body-sm text-body-sm text-on-surface-variant">New to Truant Enterprises?</span>
+                                <button type="button" onclick="switchGuestAuthTab('new')" class="font-label-sm text-label-sm text-primary font-bold hover:underline ml-1">Create Account</button>
+                            </div>
+                        @endauth
+                    </div>
+
+                    <!-- Venue Support & Contact Card -->
+                    <div class="p-4 rounded-xl bg-surface-container-low flex items-center gap-3 border border-outline-variant/20">
+                        <div class="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center text-primary shrink-0">
+                            <span class="material-symbols-outlined text-[20px]">headset_mic</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="font-label-md text-label-md text-on-surface font-semibold">Arena Operations Desk</span>
+                            <span class="font-body-sm text-body-sm text-on-surface-variant">Building C Concierge: ext. 4410</span>
+                        </div>
+                    </div>
+
                 </div>
+
             </div>
         </div>
+    </main>
 
-        <!-- Footer -->
-        <footer class="site-footer">
-            <div style="max-width: 1240px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px;">
-                <div>
-                    &copy; {{ date('Y') }} Truant Enterprises. Court reservation and sports facilities management.
-                </div>
-                <div style="display: flex; gap: 20px;">
-                    <a href="{{ url('/') }}" style="color: var(--text-muted); text-decoration: none;">Upcoming Events</a>
-                    <a href="{{ route('court-booking.index') }}" style="color: var(--primary); text-decoration: none; font-weight: 600;">Book a Court</a>
-                    <a href="{{ url('/admin/login') }}" style="color: var(--text-muted); text-decoration: none;">Administrator Login</a>
-                </div>
+    <!-- ═══ 4. PASSCODE VERIFICATION MODAL ═══ -->
+    <div id="passcodeModal" class="fixed inset-0 z-50 bg-on-surface/50 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="bg-surface-container-lowest max-w-md w-full rounded-2xl shadow-xl p-6 sm:p-8 flex flex-col items-center text-center gap-4 border border-outline-variant/30">
+            <div class="w-12 h-12 rounded-full bg-primary-container text-on-primary flex items-center justify-center shadow-sm">
+                <span class="material-symbols-outlined text-[24px]">lock</span>
             </div>
-        </footer>
+            <div>
+                <h3 class="font-headline-sm text-headline-sm text-on-surface">Enter Verification Passcode</h3>
+                <p class="font-body-sm text-body-sm text-on-surface-variant mt-1" id="passcodeModalSubtitle">
+                    A 6-digit verification code has been sent to your email.
+                </p>
+            </div>
+            <div class="flex items-center gap-2 my-2" id="modalPinInputs">
+                <input type="text" maxlength="1" class="pin-box w-11 h-14 text-center font-headline-md text-headline-md font-bold rounded-xl bg-surface-container-low border border-outline-variant/30 outline-none focus:ring-2 focus:ring-primary focus:bg-surface-container-lowest" data-idx="0" inputmode="numeric"/>
+                <input type="text" maxlength="1" class="pin-box w-11 h-14 text-center font-headline-md text-headline-md font-bold rounded-xl bg-surface-container-low border border-outline-variant/30 outline-none focus:ring-2 focus:ring-primary focus:bg-surface-container-lowest" data-idx="1" inputmode="numeric"/>
+                <input type="text" maxlength="1" class="pin-box w-11 h-14 text-center font-headline-md text-headline-md font-bold rounded-xl bg-surface-container-low border border-outline-variant/30 outline-none focus:ring-2 focus:ring-primary focus:bg-surface-container-lowest" data-idx="2" inputmode="numeric"/>
+                <input type="text" maxlength="1" class="pin-box w-11 h-14 text-center font-headline-md text-headline-md font-bold rounded-xl bg-surface-container-low border border-outline-variant/30 outline-none focus:ring-2 focus:ring-primary focus:bg-surface-container-lowest" data-idx="3" inputmode="numeric"/>
+                <input type="text" maxlength="1" class="pin-box w-11 h-14 text-center font-headline-md text-headline-md font-bold rounded-xl bg-surface-container-low border border-outline-variant/30 outline-none focus:ring-2 focus:ring-primary focus:bg-surface-container-lowest" data-idx="4" inputmode="numeric"/>
+                <input type="text" maxlength="1" class="pin-box w-11 h-14 text-center font-headline-md text-headline-md font-bold rounded-xl bg-surface-container-low border border-outline-variant/30 outline-none focus:ring-2 focus:ring-primary focus:bg-surface-container-lowest" data-idx="5" inputmode="numeric"/>
+            </div>
+            <p id="passcodeError" class="font-label-sm text-label-sm text-error hidden"></p>
+            <button type="button" onclick="submitPasscodeVerification()" id="btnVerifyPasscode" class="w-full py-3 px-4 rounded-xl bg-primary text-on-primary font-label-lg text-label-lg font-bold hover:bg-primary-container transition-all">
+                Verify Passcode &amp; Proceed &rarr;
+            </button>
+            <div class="flex items-center justify-between w-full text-label-sm font-label-sm pt-2">
+                <button type="button" onclick="resendPasscode()" class="text-primary hover:underline font-semibold" id="btnResendPasscode">Resend code</button>
+                <button type="button" onclick="closePasscodeModal()" class="text-on-surface-variant hover:text-on-surface">Cancel</button>
+            </div>
+        </div>
     </div>
 
-    <!-- Frontend Script for Dynamic Interaction -->
+    <!-- Global Footer Partial (Desktop Footer + Mobile Bottom Navigation) -->
+    @include('partials.footer', ['active' => 'book-a-court'])
+
+    <!-- ═══ 7. CLIENT-SIDE INTERACTIVITY SCRIPTS ═══ -->
     <script>
+        // State variables
         let currentCourtId = {{ $selectedCourt->id }};
         let currentCourtName = "{{ addslashes($selectedCourt->name) }}";
+        let currentCourtRate = {{ $selectedCourt->hourly_rate }};
         let currentDate = "{{ $selectedDate }}";
+        let currentYear = {{ $currentYear }};
+        let currentMonth = {{ $currentMonth }};
+        let selectedHour = null;
+        let selectedTimeLabel = null;
+        let activeVoucher = null;
+        let rentalQuantities = {};
+        let pendingReservation = null;
 
-        function selectCourt(courtId) {
-            currentCourtId = courtId;
-            document.querySelectorAll('.court-card').forEach(card => {
-                if (parseInt(card.dataset.courtId) === courtId) {
-                    card.classList.add('selected');
-                    currentCourtName = card.dataset.courtName;
+        const rentalItemsData = @json($rentalItems);
+        let monthAvailabilityData = @json($monthAvailability);
+
+        // Calendar month generator
+        function renderCalendarGrid() {
+            const container = document.getElementById('calendarDaysGrid');
+            if (!container) return;
+            container.innerHTML = '';
+
+            const firstDay = new Date(currentYear, currentMonth - 1, 1).getDay();
+            const daysInMonth = new Date(currentYear, currentMonth, 0).getDate();
+            const prevMonthDays = new Date(currentYear, currentMonth - 1, 0).getDate();
+
+            // Previous month trailing days
+            for (let i = firstDay - 1; i >= 0; i--) {
+                const dayNum = prevMonthDays - i;
+                const div = document.createElement('div');
+                div.className = "p-2 sm:p-2.5 rounded-lg text-center opacity-30 pointer-events-none text-body-sm";
+                div.textContent = dayNum;
+                container.appendChild(div);
+            }
+
+            // Days of the active month
+            const todayStr = "{{ \Carbon\Carbon::now('Asia/Manila')->toDateString() }}";
+            for (let d = 1; d <= daysInMonth; d++) {
+                const monthPad = String(currentMonth).padStart(2, '0');
+                const dayPad = String(d).padStart(2, '0');
+                const dateKey = `${currentYear}-${monthPad}-${dayPad}`;
+                const isSelected = (dateKey === currentDate);
+                const isPast = (dateKey < todayStr);
+
+                const dayAvail = monthAvailabilityData ? monthAvailabilityData[dateKey] : null;
+                const hasSlots = dayAvail ? dayAvail.has_available_slots : true;
+
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.onclick = () => selectDate(dateKey);
+
+                if (isSelected) {
+                    btn.className = "p-2 sm:p-2.5 rounded-xl text-center font-label-md text-label-md bg-primary text-on-primary shadow-md relative flex flex-col items-center transform scale-105 transition-transform";
+                    btn.innerHTML = `<span class="font-bold">${d}</span><span class="w-1.5 h-1.5 rounded-full bg-tertiary-fixed mt-0.5"></span>`;
+                } else if (isPast) {
+                    btn.className = "p-2 sm:p-2.5 rounded-lg text-center font-label-md text-label-md bg-surface-container-low/40 opacity-40 text-outline relative flex flex-col items-center pointer-events-none";
+                    btn.innerHTML = `<span>${d}</span><span class="w-1.5 h-1.5 rounded-full bg-outline mt-0.5"></span>`;
                 } else {
-                    card.classList.remove('selected');
+                    btn.className = "p-2 sm:p-2.5 rounded-lg text-center font-label-md text-label-md bg-surface-container-low hover:bg-surface-container text-on-surface transition-colors relative flex flex-col items-center border border-outline-variant/10 active:scale-95";
+                    const dotClass = hasSlots ? "bg-tertiary-container" : "bg-outline";
+                    btn.innerHTML = `<span>${d}</span><span class="w-1.5 h-1.5 rounded-full ${dotClass} mt-0.5"></span>`;
                 }
-            });
-            document.getElementById('form-court-id').value = courtId;
-            fetchSlots();
+                container.appendChild(btn);
+            }
         }
 
-        function selectDate(dateStr) {
-            currentDate = dateStr;
-            document.getElementById('court-booking-date').value = dateStr;
-            document.getElementById('form-booking-date').value = dateStr;
+        // Navigate Month
+        async function navigateMonth(delta) {
+            currentMonth += delta;
+            if (currentMonth > 12) {
+                currentMonth = 1;
+                currentYear++;
+            } else if (currentMonth < 1) {
+                currentMonth = 12;
+                currentYear--;
+            }
 
-            // Update Quick date active states
-            document.querySelectorAll('.quick-date-btn').forEach(btn => {
-                if (btn.getAttribute('onclick').includes(dateStr)) {
-                    btn.classList.add('active');
-                } else {
-                    btn.classList.remove('active');
-                }
-            });
-
-            fetchSlots();
-        }
-
-        async function fetchSlots() {
-            const container = document.getElementById('slots-grid-container');
-            container.style.opacity = '0.5';
+            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            document.getElementById('calendar-month-title').textContent = `${monthNames[currentMonth - 1]} ${currentYear}`;
 
             try {
-                const res = await fetch(`{{ route('court-booking.slots') }}?court_id=${currentCourtId}&date=${currentDate}`);
-                const data = await res.json();
+                const res = await fetch(`{{ route('court-booking.monthAvailability') }}?court_id=${currentCourtId}&year=${currentYear}&month=${currentMonth}`);
+                if (res.ok) {
+                    const data = await res.json();
+                    monthAvailabilityData = data.availability || {};
+                }
+            } catch (err) {
+                console.error("Month availability fetch error:", err);
+            }
 
-                document.getElementById('display-selected-date').textContent = data.formatted_date;
+            renderCalendarGrid();
+        }
 
-                let html = '';
-                data.slots.forEach(slot => {
-                    const isPassed = slot.is_past || slot.status === 'passed';
-                    let pillClass = 'pill-closed';
-                    if (isPassed) {
-                        pillClass = 'pill-passed';
-                    } else if (slot.status === 'available') {
-                        pillClass = (slot.available_slots === 1 ? 'pill-limited' : 'pill-available');
-                    } else if (slot.status === 'fully_booked') {
-                        pillClass = 'pill-full';
-                    }
+        // Select Date
+        async function selectDate(dateStr) {
+            currentDate = dateStr;
+            const d = new Date(dateStr + "T00:00:00");
+            const opts = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
+            const formatted = d.toLocaleDateString('en-US', opts);
+            document.getElementById('selected-date-display').textContent = formatted;
+            document.getElementById('summaryDateVal').textContent = d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
 
-                    const isSelectable = slot.is_selectable;
-                    const cardClass = isSelectable ? 'selectable' : 'disabled';
-                    const clickAttr = isSelectable
-                        ? `onclick="openReservationModal(${slot.hour}, '${slot.time_label}', ${slot.available_slots})"`
-                        : '';
+            renderCalendarGrid();
+            await loadSlotsForDate(dateStr);
+        }
 
-                    let infoText = 'Capacity: ' + slot.total_capacity + ' slots max';
-                    if (isPassed) {
-                        infoText = 'Slot Passed';
-                    } else if (slot.reason) {
-                        infoText = slot.reason;
-                    } else if (slot.status === 'fully_booked') {
-                        infoText = `Capacity Reached (${slot.total_capacity}/${slot.total_capacity})`;
-                    }
+        // Load Slots for Date
+        async function loadSlotsForDate(dateStr) {
+            const container = document.getElementById('slotContainer');
+            if (!container) return;
+            container.innerHTML = `<div class="col-span-2 py-8 text-center text-on-surface-variant font-label-md">Loading court slots...</div>`;
 
-                    const badgeLabel = isPassed ? 'Slot Passed' : slot.status_label;
-                    const actionHtml = isSelectable ? '<span style="color: var(--primary); font-weight: 700;">Select &rarr;</span>' : '';
+            try {
+                const res = await fetch(`{{ route('court-booking.slots') }}?court_id=${currentCourtId}&date=${dateStr}`);
+                if (res.ok) {
+                    const data = await res.json();
+                    renderSlotCards(data.slots || []);
+                }
+            } catch (err) {
+                container.innerHTML = `<div class="col-span-2 py-8 text-center text-error font-label-md">Unable to load slots. Please retry.</div>`;
+            }
+        }
 
-                    html += `
-                        <div class="slot-card ${cardClass}" data-hour="${slot.hour}" ${clickAttr}>
-                            <div class="slot-time">
-                                <span>${slot.time_label}</span>
-                                <span class="slot-pill ${pillClass}">
-                                    ${badgeLabel}
-                                </span>
-                            </div>
-                            <div class="slot-info-row">
-                                <span>${infoText}</span>
-                                ${actionHtml}
-                            </div>
+        function renderSlotCards(slots) {
+            const container = document.getElementById('slotContainer');
+            if (!container) return;
+            container.innerHTML = '';
+
+            slots.forEach(slot => {
+                const isSelectable = slot.is_selectable;
+                const isPassed = slot.is_past;
+                const isClosed = (slot.status === 'closed');
+                const isBooked = (slot.status === 'fully_booked');
+
+                const div = document.createElement('div');
+                div.className = `slot-card p-4 rounded-xl transition-all border border-outline-variant/30 flex items-center justify-between group relative overflow-hidden ${isSelectable ? 'bg-surface-container-low hover:bg-surface-container cursor-pointer' : 'bg-surface-container-low/50 opacity-60 pointer-events-none'}`;
+                div.setAttribute('data-hour', slot.hour);
+                div.setAttribute('data-label', slot.time_label);
+                div.setAttribute('data-rate', currentCourtRate);
+                div.setAttribute('data-status', slot.status);
+                div.setAttribute('data-selectable', isSelectable ? '1' : '0');
+                if (isSelectable) {
+                    div.onclick = () => handleSlotClick(div, slot.hour, slot.time_label);
+                }
+
+                let subText = "Regulation Play • " + slot.available_slots + " court" + (slot.available_slots === 1 ? '' : 's') + " open";
+                if (isPassed) subText = "Past schedule window";
+                else if (isClosed) subText = slot.reason || "Maintenance window";
+                else if (isBooked) subText = "Reserved by other players";
+
+                let statusBadge = `<span class="text-label-sm font-label-sm text-tertiary-container font-semibold flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-tertiary-container"></span> Available</span>`;
+                if (isPassed) {
+                    statusBadge = `<span class="text-label-sm font-label-sm text-outline font-medium">Slot Passed</span>`;
+                } else if (isClosed) {
+                    statusBadge = `<span class="text-label-sm font-label-sm text-error font-medium">Closed</span>`;
+                } else if (isBooked) {
+                    statusBadge = `<span class="text-label-sm font-label-sm text-error font-medium">Booked</span>`;
+                } else if (slot.available_slots === 1) {
+                    statusBadge = `<span class="text-label-sm font-label-sm text-error font-bold flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-error"></span> 1 Left</span>`;
+                }
+
+                div.innerHTML = `
+                    <div class="flex flex-col gap-1 min-w-0 pr-2">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="font-label-lg text-label-lg font-bold text-on-surface">${slot.time_label}</span>
+                            <span class="px-2 py-0.5 rounded-md text-label-sm font-label-sm bg-surface-container-high text-primary">${currentCourtName}</span>
                         </div>
-                    `;
+                        <span class="font-body-sm text-body-sm text-on-surface-variant truncate">${subText}</span>
+                    </div>
+                    <div class="flex flex-col items-end shrink-0">
+                        <span class="font-label-lg text-label-lg font-bold text-on-surface">₱${currentCourtRate.toFixed(2)}</span>
+                        ${statusBadge}
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        // Switch Court
+        function switchCourt(courtId) {
+            window.location.href = `{{ route('court-booking.index') }}?court_id=${courtId}&date=${currentDate}`;
+        }
+
+        // Filter by Court Type
+        function filterByCourtType(type, btn) {
+            document.querySelectorAll('.sport-filter-btn').forEach(b => {
+                b.classList.remove('bg-primary', 'text-on-primary', 'font-semibold');
+                b.classList.add('bg-surface-container-low', 'text-on-surface-variant', 'font-medium');
+            });
+            btn.classList.remove('bg-surface-container-low', 'text-on-surface-variant', 'font-medium');
+            btn.classList.add('bg-primary', 'text-on-primary', 'font-semibold');
+
+            const select = document.getElementById('courtSelector');
+            if (!select) return;
+            const options = Array.from(select.options);
+            const match = options.find(opt => type === 'all' || opt.text.toLowerCase().includes(type.toLowerCase()));
+            if (match && match.value != currentCourtId) {
+                switchCourt(match.value);
+            }
+        }
+
+        // Filter Slot Segment (Morning, Afternoon, Evening)
+        function filterSlotSegment(segment, btn) {
+            document.querySelectorAll('.slot-filter-btn').forEach(b => {
+                b.classList.remove('bg-surface-container-lowest', 'text-primary', 'font-bold', 'shadow-xs');
+                b.classList.add('text-on-surface-variant');
+            });
+            btn.classList.add('bg-surface-container-lowest', 'text-primary', 'font-bold', 'shadow-xs');
+            btn.classList.remove('text-on-surface-variant');
+
+            document.querySelectorAll('.slot-card').forEach(card => {
+                const hour = parseInt(card.getAttribute('data-hour'));
+                let show = true;
+                if (segment === 'morning') show = (hour >= 6 && hour < 12);
+                else if (segment === 'afternoon') show = (hour >= 12 && hour < 18);
+                else if (segment === 'evening') show = (hour >= 18 || hour < 6);
+                card.style.display = show ? 'flex' : 'none';
+            });
+        }
+
+        // Quick Search Filter Slots
+        function filterSlotsQuick(query) {
+            const q = query.trim().toLowerCase();
+            document.querySelectorAll('.slot-card').forEach(card => {
+                const label = (card.getAttribute('data-label') || '').toLowerCase();
+                card.style.display = (!q || label.includes(q)) ? 'flex' : 'none';
+            });
+        }
+
+        // Handle Slot Selection
+        function handleSlotClick(el, hour, timeLabel) {
+            document.querySelectorAll('.slot-card').forEach(card => {
+                if (card.getAttribute('data-selectable') === '1') {
+                    card.classList.remove('bg-primary-fixed/30', 'ring-2', 'ring-primary');
+                    card.classList.add('bg-surface-container-low');
+                }
+            });
+
+            el.classList.remove('bg-surface-container-low');
+            el.classList.add('bg-primary-fixed/30', 'ring-2', 'ring-primary');
+
+            selectedHour = hour;
+            selectedTimeLabel = timeLabel;
+
+            document.getElementById('summaryTimeSlot').textContent = `${timeLabel} (1h)`;
+            updateTotalCalculation();
+        }
+
+        // Rental items stepper
+        function changeRentalQty(itemId, delta) {
+            const current = rentalQuantities[itemId] || 0;
+            const item = rentalItemsData.find(i => i.id == itemId);
+            const max = item ? item.available_stock : 99;
+            const next = Math.max(0, Math.min(max, current + delta));
+            rentalQuantities[itemId] = next;
+
+            const el = document.getElementById(`rental-qty-${itemId}`);
+            if (el) el.textContent = next;
+
+            const card = document.getElementById(`rental-card-${itemId}`);
+            if (card) {
+                if (next > 0) {
+                    card.classList.add('ring-1', 'ring-primary', 'bg-primary-fixed/15');
+                } else {
+                    card.classList.remove('ring-1', 'ring-primary', 'bg-primary-fixed/15');
+                }
+            }
+
+            updateTotalCalculation();
+        }
+
+        // Secret Voucher
+        async function applySecretVoucher() {
+            const input = document.getElementById('voucherCodeInput');
+            const code = (input.value || '').trim().toUpperCase();
+            const msg = document.getElementById('voucherMsg');
+
+            if (!code) {
+                msg.textContent = 'Please enter a voucher code.';
+                msg.className = 'font-label-sm text-label-sm mt-1 text-error';
+                msg.classList.remove('hidden');
+                return;
+            }
+
+            try {
+                const rentalsPayload = [];
+                Object.keys(rentalQuantities).forEach(k => {
+                    if (rentalQuantities[k] > 0) rentalsPayload.push({ item_id: k, quantity: rentalQuantities[k] });
                 });
 
-                container.innerHTML = html;
+                const res = await fetch(`{{ route('court-booking.applyVoucher') }}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Accept': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        voucher_code: code,
+                        court_id: currentCourtId,
+                        slots_count: 1,
+                        rentals: rentalsPayload,
+                    }),
+                });
+                const data = await res.json();
+                if (res.ok && data.success && data.voucher) {
+                    activeVoucher = data.voucher;
+                    msg.textContent = data.voucher.message || `Voucher ${code} applied!`;
+                    msg.className = 'font-label-sm text-label-sm mt-1 text-tertiary-container font-semibold';
+                    msg.classList.remove('hidden');
+                    updateTotalCalculation();
+                } else {
+                    activeVoucher = null;
+                    msg.textContent = data.message || 'Invalid or expired voucher.';
+                    msg.className = 'font-label-sm text-label-sm mt-1 text-error';
+                    msg.classList.remove('hidden');
+                    updateTotalCalculation();
+                }
             } catch (err) {
-                console.error("Error loading slots:", err);
-            } finally {
-                container.style.opacity = '1';
+                msg.textContent = 'Error verifying voucher.';
+                msg.className = 'font-label-sm text-label-sm mt-1 text-error';
+                msg.classList.remove('hidden');
             }
         }
 
-        let activeBookingReference = null;
-        let activeBookingToken = null;
-        let resendCountdownTimer = null;
+        // Total Calculation
+        function updateTotalCalculation() {
+            const courtFee = currentCourtRate;
+            let rentalsFee = 0;
+            Object.keys(rentalQuantities).forEach(k => {
+                const qty = rentalQuantities[k];
+                const item = rentalItemsData.find(i => i.id == k);
+                if (item && qty > 0) rentalsFee += qty * parseFloat(item.rental_price);
+            });
 
-        function openReservationModal(hour, timeLabel, availableSlots) {
-            // Reset to Step 1
-            document.getElementById('modal-step-details').style.display = 'block';
-            document.getElementById('modal-step-passcode').style.display = 'none';
-            document.getElementById('form-start-hour').value = hour;
-            document.getElementById('modal-court-title').textContent = `Reserve ${currentCourtName}`;
-            document.getElementById('modal-summary-court').textContent = currentCourtName;
-            document.getElementById('modal-summary-schedule').textContent = `${formatDateString(currentDate)} \u2022 ${timeLabel}`;
-            document.getElementById('modal-summary-badge').textContent = `${availableSlots} slot(s) available`;
-
-            // Adjust slots dropdown
-            const slotsSelect = document.getElementById('res-slots');
-            slotsSelect.innerHTML = '';
-            for (let i = 1; i <= Math.min(availableSlots, 4); i++) {
-                const opt = document.createElement('option');
-                opt.value = i;
-                opt.textContent = `${i} Slot${i > 1 ? 's' : ''}`;
-                slotsSelect.appendChild(opt);
+            const subtotal = courtFee + rentalsFee;
+            let discount = 0;
+            if (activeVoucher && activeVoucher.discount_amount) {
+                discount = Math.min(subtotal, parseFloat(activeVoucher.discount_amount));
+                document.getElementById('summaryVoucherRow').classList.remove('hidden');
+                document.getElementById('summaryVoucherLabel').textContent = `Voucher (${activeVoucher.code})`;
+                document.getElementById('summaryVoucherDiscount').textContent = `-₱${discount.toFixed(2)}`;
+            } else {
+                document.getElementById('summaryVoucherRow').classList.add('hidden');
             }
 
-            // Clear errors
-            document.querySelectorAll('.form-error').forEach(el => { el.style.display = 'none'; el.textContent = ''; });
-
-            document.getElementById('reservation-modal').classList.add('open');
+            const grandTotal = Math.max(0, subtotal - discount);
+            document.getElementById('summaryRentalsRate').textContent = `₱${rentalsFee.toFixed(2)}`;
+            document.getElementById('summaryTotalPrice').textContent = `₱${grandTotal.toFixed(2)}`;
+            const btnText = document.getElementById('btnConfirmText');
+            if (btnText) btnText.textContent = `Confirm & Book Court (₱${grandTotal.toFixed(2)})`;
         }
 
-        function backToStepDetails() {
-            document.getElementById('modal-step-passcode').style.display = 'none';
-            document.getElementById('modal-step-details').style.display = 'block';
-            document.getElementById('modal-court-title').textContent = `Reserve ${currentCourtName}`;
-        }
-
-        function closeReservationModal() {
-            document.getElementById('reservation-modal').classList.remove('open');
-            clearInterval(resendCountdownTimer);
-        }
-
-        function handleOverlayClick(event) {
-            if (event.target === document.getElementById('reservation-modal')) {
-                closeReservationModal();
-            }
-        }
-
-        function formatDateString(str) {
-            const parts = str.split('-');
-            if (parts.length === 3) {
-                const d = new Date(parts[0], parts[1] - 1, parts[2]);
-                return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-            }
-            return str;
-        }
-
-        async function submitReservation(event) {
+        // Reservation Form Submission
+        async function handleReservationSubmit(event) {
             event.preventDefault();
-            const form = document.getElementById('court-reservation-form');
-            const submitBtn = document.getElementById('btn-submit-reservation');
-            const submitText = document.getElementById('btn-submit-text');
+            if (selectedHour === null) {
+                alert('Please select an available time slot before continuing.');
+                return;
+            }
 
-            submitBtn.disabled = true;
-            submitText.textContent = 'Sending Verification Passcode...';
+            const btn = document.getElementById('btnConfirmReservation');
+            btn.disabled = true;
 
-            // Clear errors
-            document.querySelectorAll('.form-error').forEach(el => { el.style.display = 'none'; el.textContent = ''; });
+            const isAuth = {{ auth()->check() ? 'true' : 'false' }};
+            const name = isAuth ? "{{ auth()->user()?->name }}" : document.getElementById('guestNameInput')?.value;
+            const email = isAuth ? "{{ auth()->user()?->email }}" : document.getElementById('guestEmailInput')?.value;
+            const phone = isAuth ? "{{ auth()->user()?->phone_number ?? '0917-000-0000' }}" : (document.getElementById('guestPhoneInput')?.value || '0917-000-0000');
 
-            const formData = new FormData(form);
+            const payload = {
+                court_id: currentCourtId,
+                booking_date: currentDate,
+                start_hour: selectedHour,
+                slots_count: 1,
+                customer_name: name,
+                customer_email: email,
+                customer_contact: phone,
+                voucher_code: activeVoucher ? activeVoucher.code : null,
+                terms_agreed: true,
+                rentals: [],
+            };
+
+            Object.keys(rentalQuantities).forEach(k => {
+                if (rentalQuantities[k] > 0) payload.rentals.push({ item_id: k, quantity: rentalQuantities[k] });
+            });
 
             try {
                 const res = await fetch(`{{ route('court-booking.reserve') }}`, {
                     method: 'POST',
                     headers: {
-                        'X-Requested-With': 'XMLHttpRequest',
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
                         'Accept': 'application/json',
                     },
-                    body: formData,
+                    body: JSON.stringify(payload),
                 });
-
                 const data = await res.json();
-
                 if (res.ok && data.success) {
-                    // Transition to Step 2: Passcode Entry
-                    activeBookingReference = data.reference_code;
-                    activeBookingToken = data.token;
-                    document.getElementById('passcode-target-email').textContent = data.masked_email;
-                    document.getElementById('modal-step-details').style.display = 'none';
-                    document.getElementById('modal-step-passcode').style.display = 'block';
-                    document.getElementById('modal-court-title').textContent = 'Email Passcode Verification';
-
-                    // Clear PIN boxes and focus first
-                    const pins = document.querySelectorAll('.modal-pin');
-                    pins.forEach(p => { p.value = ''; p.classList.remove('filled'); });
-                    pins[0]?.focus();
-
-                    // Start 60s cooldown timer for resend
-                    startResendTimer(60);
-                } else if (res.status === 422 && data.errors) {
-                    for (const [key, msgs] of Object.entries(data.errors)) {
-                        const errEl = document.getElementById(`err-${key}`);
-                        if (errEl) {
-                            errEl.textContent = msgs[0];
-                            errEl.style.display = 'block';
-                        }
+                    if (data.is_verified) {
+                        window.location.href = data.verification_url;
+                    } else {
+                        pendingReservation = data;
+                        openPasscodeModal(data.masked_email || email);
                     }
                 } else {
-                    alert(data.message || 'Unable to complete reservation. Please try again.');
+                    alert(data.message || 'Unable to reserve court. Please check selected time slot.');
+                    btn.disabled = false;
                 }
             } catch (err) {
-                console.error("Submission error:", err);
                 alert('A network error occurred. Please try again.');
-            } finally {
-                submitBtn.disabled = false;
-                submitText.textContent = 'Send Verification Passcode \u2192';
+                btn.disabled = false;
             }
         }
 
-        async function submitModalPasscode() {
-            const pins = document.querySelectorAll('.modal-pin');
-            let passcode = '';
-            pins.forEach(p => passcode += p.value.trim());
+        // Passcode Modal Controls
+        function openPasscodeModal(maskedEmail) {
+            document.getElementById('passcodeModalSubtitle').textContent = `A 6-digit verification code was sent to ${maskedEmail}.`;
+            const modal = document.getElementById('passcodeModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            const first = modal.querySelector('.pin-box');
+            if (first) first.focus();
+        }
 
-            const errEl = document.getElementById('err-modal-passcode');
-            errEl.style.display = 'none';
-            errEl.textContent = '';
+        function closePasscodeModal() {
+            const modal = document.getElementById('passcodeModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            const btn = document.getElementById('btnConfirmReservation');
+            if (btn) btn.disabled = false;
+        }
 
-            if (passcode.length < 6) {
-                errEl.textContent = 'Please enter all 6 digits of the passcode.';
-                errEl.style.display = 'block';
+        async function submitPasscodeVerification() {
+            const pins = document.querySelectorAll('#modalPinInputs .pin-box');
+            let code = '';
+            pins.forEach(p => code += p.value.trim());
+
+            const err = document.getElementById('passcodeError');
+            if (code.length < 6) {
+                err.textContent = 'Please enter all 6 digits.';
+                err.classList.remove('hidden');
                 return;
             }
+            err.classList.add('hidden');
 
-            const btn = document.getElementById('btn-modal-verify');
-            const btnText = document.getElementById('btn-modal-verify-text');
+            const btn = document.getElementById('btnVerifyPasscode');
             btn.disabled = true;
-            btnText.textContent = 'Verifying...';
 
             try {
                 const res = await fetch(`{{ route('court-booking.verifyPasscode') }}`, {
@@ -1508,34 +1150,29 @@
                         'Accept': 'application/json',
                     },
                     body: JSON.stringify({
-                        reference_code: activeBookingReference,
-                        token: activeBookingToken,
-                        passcode: passcode,
+                        token: pendingReservation.token,
+                        reference_code: pendingReservation.reference_code,
+                        passcode: code,
                     }),
                 });
-
                 const data = await res.json();
-
                 if (res.ok && data.success) {
                     window.location.href = data.redirect_url;
                 } else {
-                    errEl.textContent = data.message || 'Invalid passcode. Please try again.';
-                    errEl.style.display = 'block';
-                    pins.forEach(p => { p.classList.add('error'); });
+                    err.textContent = data.message || 'Invalid passcode.';
+                    err.classList.remove('hidden');
+                    btn.disabled = false;
                 }
-            } catch (err) {
-                errEl.textContent = 'A network error occurred. Please try again.';
-                errEl.style.display = 'block';
-            } finally {
+            } catch (e) {
+                err.textContent = 'Network error. Please try again.';
+                err.classList.remove('hidden');
                 btn.disabled = false;
-                btnText.textContent = 'Verify & Proceed \u2192';
             }
         }
 
-        async function resendModalPasscode() {
-            const btn = document.getElementById('btn-modal-resend');
-            if (btn.disabled) return;
-
+        async function resendPasscode() {
+            if (!pendingReservation) return;
+            const btn = document.getElementById('btnResendPasscode');
             btn.disabled = true;
             btn.textContent = 'Resending...';
 
@@ -1548,98 +1185,67 @@
                         'Accept': 'application/json',
                     },
                     body: JSON.stringify({
-                        reference_code: activeBookingReference,
-                        token: activeBookingToken,
+                        token: pendingReservation.token,
+                        reference_code: pendingReservation.reference_code,
                     }),
                 });
-
                 const data = await res.json();
-                if (res.ok && data.success) {
-                    alert(data.message);
-                    startResendTimer(60);
-                } else {
-                    alert(data.message || 'Unable to resend passcode.');
-                    btn.disabled = false;
-                    btn.textContent = 'Resend Passcode';
-                }
+                alert(data.message || 'New passcode sent!');
             } catch (err) {
-                alert('A network error occurred while resending.');
+                alert('Failed to resend passcode.');
+            } finally {
                 btn.disabled = false;
-                btn.textContent = 'Resend Passcode';
+                btn.textContent = 'Resend code';
             }
         }
 
-        function startResendTimer(seconds) {
-            const btn = document.getElementById('btn-modal-resend');
-            if (!btn) return;
-            btn.disabled = true;
-            clearInterval(resendCountdownTimer);
+        function switchGuestAuthTab(tab) {
+            const tabAccount = document.getElementById('tabBtnAccount');
+            const tabNew = document.getElementById('tabBtnNew');
+            const nameGroup = document.getElementById('newUserNameGroup');
+            const btnText = document.getElementById('btnConfirmText');
+            const notice = document.getElementById('switchAuthNotice');
 
-            let remaining = seconds;
-            btn.textContent = `Resend in ${remaining}s`;
-
-            resendCountdownTimer = setInterval(() => {
-                remaining--;
-                if (remaining <= 0) {
-                    clearInterval(resendCountdownTimer);
-                    btn.disabled = false;
-                    btn.textContent = 'Resend Passcode';
-                } else {
-                    btn.textContent = `Resend in ${remaining}s`;
-                }
-            }, 1000);
+            if (tab === 'account') {
+                tabAccount?.classList.add('bg-surface-container-lowest', 'text-on-surface', 'shadow-xs', 'font-bold');
+                tabAccount?.classList.remove('text-on-surface-variant');
+                tabNew?.classList.remove('bg-surface-container-lowest', 'text-on-surface', 'shadow-xs', 'font-bold');
+                tabNew?.classList.add('text-on-surface-variant');
+                if (nameGroup) nameGroup.classList.add('hidden');
+                if (btnText) btnText.textContent = `Sign in with email`;
+                if (notice) notice.innerHTML = `<span class="font-body-sm text-body-sm text-on-surface-variant">New to Truant Enterprises?</span> <button type="button" onclick="switchGuestAuthTab('new')" class="font-label-sm text-label-sm text-primary font-bold hover:underline ml-1">Create Account</button>`;
+            } else {
+                tabNew?.classList.add('bg-surface-container-lowest', 'text-on-surface', 'shadow-xs', 'font-bold');
+                tabNew?.classList.remove('text-on-surface-variant');
+                tabAccount?.classList.remove('bg-surface-container-lowest', 'text-on-surface', 'shadow-xs', 'font-bold');
+                tabAccount?.classList.add('text-on-surface-variant');
+                if (nameGroup) nameGroup.classList.remove('hidden');
+                if (btnText) btnText.textContent = `Register & Book Court`;
+                if (notice) notice.innerHTML = `<span class="font-body-sm text-body-sm text-on-surface-variant">Already have an account?</span> <button type="button" onclick="switchGuestAuthTab('account')" class="font-label-sm text-label-sm text-primary font-bold hover:underline ml-1">Sign In</button>`;
+            }
         }
 
-        // Setup PIN box auto-advance, backspace, and paste handling
+        // Pin inputs setup
         document.addEventListener('DOMContentLoaded', () => {
-            setupPinInputs(document.querySelectorAll('.modal-pin'), submitModalPasscode);
-        });
+            renderCalendarGrid();
+            updateTotalCalculation();
 
-        function setupPinInputs(inputs, autoSubmitFn) {
-            inputs.forEach((input, idx) => {
+            const pinInputs = document.querySelectorAll('#modalPinInputs .pin-box');
+            pinInputs.forEach((input, i) => {
                 input.addEventListener('input', (e) => {
                     const val = e.target.value.replace(/\D/g, '');
                     e.target.value = val ? val[0] : '';
-                    if (e.target.value) {
-                        e.target.classList.add('filled');
-                        if (idx < inputs.length - 1) {
-                            inputs[idx + 1].focus();
-                        } else if (autoSubmitFn) {
-                            let allFilled = true;
-                            inputs.forEach(i => { if (!i.value) allFilled = false; });
-                            if (allFilled) autoSubmitFn();
-                        }
-                    } else {
-                        e.target.classList.remove('filled');
+                    if (e.target.value && i < pinInputs.length - 1) {
+                        pinInputs[i + 1].focus();
                     }
                 });
-
                 input.addEventListener('keydown', (e) => {
-                    if (e.key === 'Backspace' && !e.target.value && idx > 0) {
-                        inputs[idx - 1].focus();
-                    }
-                });
-
-                input.addEventListener('paste', (e) => {
-                    e.preventDefault();
-                    const text = (e.clipboardData || window.clipboardData).getData('text').replace(/\D/g, '');
-                    if (!text) return;
-
-                    inputs.forEach((inp, i) => {
-                        inp.value = text[i] || '';
-                        if (text[i]) inp.classList.add('filled');
-                        else inp.classList.remove('filled');
-                    });
-
-                    const nextIdx = Math.min(text.length, inputs.length - 1);
-                    inputs[nextIdx]?.focus();
-
-                    if (text.length >= inputs.length && autoSubmitFn) {
-                        autoSubmitFn();
+                    if (e.key === 'Backspace' && !e.target.value && i > 0) {
+                        pinInputs[i - 1].focus();
                     }
                 });
             });
-        }
+        });
     </script>
 </body>
 </html>

@@ -157,6 +157,28 @@
                         <td style="color: #64748b; font-weight: 500;">Slots:</td>
                         <td style="color: #0f172a; font-weight: 600; text-align: right;">{{ $booking->slots_count }} slot</td>
                     </tr>
+                    @if($booking->court_fee > 0)
+                    <tr>
+                        <td style="color: #64748b; font-weight: 500;">Court Fee:</td>
+                        <td style="color: #0f172a; font-weight: 600; text-align: right;">₱{{ number_format($booking->court_fee, 2) }}</td>
+                    </tr>
+                    @endif
+                    @if($booking->rentals && $booking->rentals->isNotEmpty())
+                    <tr>
+                        <td style="color: #64748b; font-weight: 500; vertical-align: top;">Equipment Rentals:</td>
+                        <td style="color: #0f172a; font-weight: 600; text-align: right;">
+                            @foreach($booking->rentals as $rental)
+                                <div>{{ $rental->item->name ?? 'Item' }} &times; {{ $rental->quantity }} (₱{{ number_format($rental->subtotal, 2) }})</div>
+                            @endforeach
+                        </td>
+                    </tr>
+                    @endif
+                    @if($booking->total_amount > 0)
+                    <tr style="border-top: 2px solid #e2e8f0;">
+                        <td style="color: #0f172a; font-weight: 700; font-size: 15px; padding-top: 10px;">Total Amount:</td>
+                        <td style="color: #4f46e5; font-weight: 800; font-size: 16px; text-align: right; padding-top: 10px;">₱{{ number_format($booking->total_amount, 2) }}</td>
+                    </tr>
+                    @endif
                 </table>
             </div>
 

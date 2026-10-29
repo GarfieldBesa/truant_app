@@ -42,6 +42,21 @@ class CourtBookingForm
                     ->default(1)
                     ->minValue(1)
                     ->required(),
+                TextInput::make('court_fee')
+                    ->label('Court Fee (PHP)')
+                    ->numeric()
+                    ->prefix('₱')
+                    ->default(0.00),
+                TextInput::make('rentals_fee')
+                    ->label('Rentals Fee (PHP)')
+                    ->numeric()
+                    ->prefix('₱')
+                    ->default(0.00),
+                TextInput::make('total_amount')
+                    ->label('Total Amount (PHP)')
+                    ->numeric()
+                    ->prefix('₱')
+                    ->default(0.00),
                 Select::make('status')
                     ->label('Reservation Status')
                     ->options([

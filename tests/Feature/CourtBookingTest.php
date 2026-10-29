@@ -6,6 +6,7 @@ use App\Mail\CourtBookingVerificationMail;
 use App\Models\Court;
 use App\Models\CourtBooking;
 use App\Models\CourtUnavailability;
+use App\Models\User;
 use App\Services\CourtBookingService;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -124,13 +125,18 @@ class CourtBookingTest extends TestCase
         }
     }
 
-    public function test_customer_can_reserve_slot_and_receives_verification_email(): void
+    public function test_customer_can_reserve_slot_and_receives_auto_verification(): void
     {
         Mail::fake();
 
         $bookingDate = now()->addDays(4)->toDateString();
+        $user = User::factory()->create([
+            'name' => 'Maria Santos',
+            'email' => 'maria@example.com',
+            'phone_number' => '09171234567',
+        ]);
 
-        $response = $this->postJson(route('court-booking.reserve'), [
+        $response = $this->actingAs($user)->postJson(route('court-booking.reserve'), [
             'court_id' => $this->pickleballCourt->id,
             'booking_date' => $bookingDate,
             'start_hour' => 10,
@@ -139,28 +145,20 @@ class CourtBookingTest extends TestCase
             'customer_email' => 'maria@example.com',
             'customer_contact' => '09171234567',
             'notes' => 'Please prepare 2 extra paddles',
+            'terms_agreed' => true,
         ]);
 
         $response->assertStatus(200);
-        $response->assertJsonStructure(['success', 'reference_code', 'verification_url']);
+        $response->assertJsonStructure(['success', 'reference_code', 'verification_url', 'is_verified']);
+        $this->assertTrue($response->json('is_verified'));
 
         $booking = CourtBooking::where('customer_email', 'maria@example.com')->first();
         $this->assertNotNull($booking);
-        $this->assertEquals('pending_verification', $booking->status);
+        $this->assertEquals('verified', $booking->status);
         $this->assertEquals(10, $booking->start_hour);
         $this->assertEquals(11, $booking->end_hour);
         $this->assertNotNull($booking->verification_token);
-
-        // Passcode must be generated and valid
-        $this->assertNotNull($booking->verification_passcode);
-        $this->assertEquals(6, strlen($booking->verification_passcode));
-        $this->assertNotNull($booking->passcode_expires_at);
-
-        Mail::assertSent(CourtBookingVerificationMail::class, function ($mail) use ($booking) {
-            return $mail->booking->id === $booking->id
-                && $mail->hasTo('maria@example.com')
-                && $mail->booking->verification_passcode === $booking->verification_passcode;
-        });
+        $this->assertEquals($user->id, $booking->user_id);
 
         // Slot availability should now be 3 slots remaining
         $service = app(CourtBookingService::class);
@@ -390,7 +388,8 @@ class CourtBookingTest extends TestCase
         $viewResponse->assertSee('Slot Passed');
 
         // Attempting to reserve passed hour 10 should be rejected by validation
-        $response = $this->postJson(route('court-booking.reserve'), [
+        $user = User::factory()->create();
+        $response = $this->actingAs($user)->postJson(route('court-booking.reserve'), [
             'court_id' => $this->pickleballCourt->id,
             'booking_date' => $today,
             'start_hour' => 10,
@@ -398,6 +397,7 @@ class CourtBookingTest extends TestCase
             'customer_name' => 'Late Customer',
             'customer_email' => 'late@example.com',
             'customer_contact' => '09170001122',
+            'terms_agreed' => true,
         ]);
 
         $response->assertStatus(422);

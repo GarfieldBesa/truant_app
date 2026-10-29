@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Courts;
 
+use App\Filament\Resources\Courts\Pages\CreateCourt;
 use App\Filament\Resources\Courts\Pages\EditCourt;
 use App\Filament\Resources\Courts\Pages\ListCourts;
 use App\Filament\Resources\Courts\Schemas\CourtForm;
@@ -45,6 +46,7 @@ class CourtResource extends Resource
     {
         return [
             'index' => ListCourts::route('/'),
+            'create' => CreateCourt::route('/create'),
             'edit' => EditCourt::route('/{record}/edit'),
         ];
     }

@@ -38,23 +38,38 @@ class CourtBookingPublicController extends Controller
             abort(503, 'Court booking is currently unavailable. No courts active.');
         }
 
-        $selectedCourtId = $request->query('court_id', $courts->first()->id);
-        $selectedCourt = $courts->firstWhere('id', $selectedCourtId) ?: $courts->first();
+        // Default to "Pickle ball court" if present
+        $pickleCourt = $courts->first(fn ($c) => str_contains(strtolower($c->name), 'pickle'));
+        $defaultCourt = $pickleCourt ?: $courts->first();
+
+        $selectedCourtId = $request->query('court_id', $defaultCourt->id);
+        $selectedCourt = $courts->firstWhere('id', $selectedCourtId) ?: $defaultCourt;
 
         $localToday = CourtBookingService::localNow()->toDateString();
         $selectedDate = $request->query('date', $localToday);
-        // Ensure date is not in the past
         if (Carbon::parse($selectedDate, 'Asia/Manila')->startOfDay()->isBefore(CourtBookingService::localNow()->startOfDay())) {
             $selectedDate = $localToday;
         }
 
+        $dateCarbon = Carbon::parse($selectedDate, 'Asia/Manila');
+        $currentYear = $dateCarbon->year;
+        $currentMonth = $dateCarbon->month;
+
         $slots = $this->bookingService->getHourlySlotsForDate($selectedCourt, $selectedDate);
+        $monthAvailability = $this->bookingService->getMonthAvailability($selectedCourt, $currentYear, $currentMonth);
+        $rentalItems = \App\Models\RentalItem::active()->get();
+        $currentUser = auth()->user();
 
         return view('court-booking.index', [
             'courts' => $courts,
             'selectedCourt' => $selectedCourt,
             'selectedDate' => $selectedDate,
+            'currentYear' => $currentYear,
+            'currentMonth' => $currentMonth,
             'slots' => $slots,
+            'monthAvailability' => $monthAvailability,
+            'rentalItems' => $rentalItems,
+            'currentUser' => $currentUser,
         ]);
     }
 
@@ -88,35 +103,178 @@ class CourtBookingPublicController extends Controller
     }
 
     /**
+     * AJAX endpoint to get whole month availability summary for calendar view.
+     */
+    public function getMonthAvailability(Request $request): JsonResponse
+    {
+        $request->validate([
+            'court_id' => 'required|exists:courts,id',
+            'year' => 'required|integer|min:2020|max:2099',
+            'month' => 'required|integer|between:1,12',
+        ]);
+
+        $court = Court::findOrFail($request->court_id);
+        $year = (int) $request->year;
+        $month = (int) $request->month;
+
+        $days = $this->bookingService->getMonthAvailability($court, $year, $month);
+        $monthCarbon = Carbon::createFromDate($year, $month, 1, 'Asia/Manila');
+
+        return response()->json([
+            'court_id' => $court->id,
+            'year' => $year,
+            'month' => $month,
+            'month_label' => $monthCarbon->format('F Y'),
+            'days' => $days,
+        ]);
+    }
+
+    /**
+     * AJAX endpoint to get available rental equipment for a selected date and hour.
+     */
+    public function getRentalItems(Request $request): JsonResponse
+    {
+        $request->validate([
+            'date' => 'required|date',
+            'hour' => 'required|integer|between:0,23',
+        ]);
+
+        $items = $this->bookingService->getAvailableRentalItems($request->date, (int) $request->hour);
+
+        return response()->json([
+            'date' => $request->date,
+            'hour' => (int) $request->hour,
+            'items' => $items,
+        ]);
+    }
+
+    /**
+     * AJAX endpoint to secretly validate and apply a voucher promo code.
+     */
+    public function applyVoucher(Request $request): JsonResponse
+    {
+        $request->validate([
+            'voucher_code' => 'required|string|max:50',
+            'court_id' => 'required|exists:courts,id',
+            'slots_count' => 'nullable|integer|min:1|max:4',
+            'rentals' => 'nullable|array',
+        ]);
+
+        $court = Court::findOrFail($request->court_id);
+        $slotsCount = (int) ($request->slots_count ?? 1);
+        $courtFee = round(($court->hourly_rate ?? 0.00) * $slotsCount, 2);
+
+        $rentalsFee = 0.00;
+        $rentals = $request->input('rentals', []);
+        if (is_array($rentals)) {
+            foreach ($rentals as $rental) {
+                $itemId = (int) ($rental['item_id'] ?? $rental['id'] ?? 0);
+                $qty = (int) ($rental['quantity'] ?? $rental['qty'] ?? 0);
+                if ($qty > 0) {
+                    $item = \App\Models\RentalItem::where('id', $itemId)->where('is_active', true)->first();
+                    if ($item) {
+                        $rentalsFee += round($qty * (float) $item->rental_price, 2);
+                    }
+                }
+            }
+        }
+
+        $subtotal = round($courtFee + $rentalsFee, 2);
+
+        $result = $this->bookingService->validateAndCalculateVoucher(
+            $request->voucher_code,
+            $subtotal,
+            $request->user()
+        );
+
+        if (!$result['valid']) {
+            return response()->json([
+                'success' => false,
+                'message' => $result['message'],
+            ], 422);
+        }
+
+        return response()->json([
+            'success' => true,
+            'voucher' => $result,
+        ]);
+    }
+
+    /**
      * Handle slot reservation form submission.
      */
     public function reserve(Request $request)
     {
+        // Enforce player information / authentication
+        if (!$request->user()) {
+            if ($request->wantsJson() || $request->ajax()) {
+                return response()->json([
+                    'success' => false,
+                    'auth_required' => true,
+                    'message' => 'Player information is required. Please sign in with Google or create an account to book.',
+                ], 401);
+            }
+
+            return redirect()->route('login', ['redirect' => url()->previous()])
+                ->with('warning', 'Player information is required. Please sign in or create an account to book.');
+        }
+
         $validated = $request->validate([
             'court_id' => 'required|exists:courts,id',
             'booking_date' => 'required|date|after_or_equal:today',
             'start_hour' => 'required|integer|between:0,23',
             'slots_count' => 'nullable|integer|min:1|max:4',
-            'customer_name' => 'required|string|max:255',
-            'customer_email' => 'required|email|max:255',
-            'customer_contact' => 'required|string|max:50',
+            'customer_name' => 'nullable|string|max:255',
+            'customer_email' => 'nullable|email|max:255',
+            'customer_contact' => 'nullable|string|max:50',
+            'voucher_code' => 'nullable|string|max:50',
             'notes' => 'nullable|string|max:1000',
+            'terms_agreed' => 'required|accepted',
+            'rentals' => 'nullable|array',
+            'rentals.*.id' => 'nullable|integer',
+            'rentals.*.item_id' => 'nullable|integer',
+            'rentals.*.quantity' => 'nullable|integer|min:0',
+            'rentals.*.qty' => 'nullable|integer|min:0',
+        ], [
+            'terms_agreed.accepted' => 'You must check and agree to the Terms and Conditions before continuing to payment.',
+            'terms_agreed.required' => 'You must check and agree to the Terms and Conditions before continuing to payment.',
         ]);
+
+        $user = $request->user();
+        $validated['customer_name'] = $user->name;
+        $validated['customer_email'] = $user->email;
+        $validated['customer_contact'] = !empty($validated['customer_contact'])
+            ? trim($validated['customer_contact'])
+            : ($user->phone_number ?? '');
 
         $court = Court::findOrFail($validated['court_id']);
 
         try {
-            $booking = $this->bookingService->createPendingReservation($court, $validated);
+            $booking = $this->bookingService->createPendingReservation($court, $validated, $user);
+            $isVerified = $booking->isVerified();
 
             if ($request->wantsJson() || $request->ajax()) {
                 return response()->json([
                     'success' => true,
+                    'is_verified' => $isVerified,
                     'reference_code' => $booking->reference_code,
                     'token' => $booking->verification_token,
+                    'court_fee' => $booking->court_fee,
+                    'rentals_fee' => $booking->rentals_fee,
+                    'discount_amount' => $booking->discount_amount,
+                    'voucher_code' => $booking->voucher_code,
+                    'total_amount' => $booking->total_amount,
                     'masked_email' => $this->maskEmail($booking->customer_email),
-                    'message' => 'Verification passcode sent to ' . $this->maskEmail($booking->customer_email) . '! Please check your inbox.',
+                    'message' => $isVerified
+                        ? 'Your court booking has been confirmed! Redirecting to confirmation & payment...'
+                        : 'Verification passcode sent to ' . $this->maskEmail($booking->customer_email) . '! Please check your inbox.',
                     'verification_url' => route('court-booking.verify', ['token' => $booking->verification_token]),
                 ]);
+            }
+
+            if ($isVerified) {
+                return redirect()->route('court-booking.verify', ['token' => $booking->verification_token])
+                    ->with('success', 'Your reservation is confirmed! You can now proceed to payment.');
             }
 
             return redirect()->route('court-booking.index', [
@@ -130,6 +288,7 @@ class CourtBookingPublicController extends Controller
                 'time_slot' => $booking->time_slot,
                 'date' => Carbon::parse($validated['booking_date'])->format('F d, Y'),
                 'token' => $booking->verification_token,
+                'total_amount' => $booking->total_amount,
             ]);
         } catch (ValidationException $e) {
             if ($request->wantsJson() || $request->ajax()) {

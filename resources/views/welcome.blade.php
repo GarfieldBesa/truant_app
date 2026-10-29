@@ -1,618 +1,238 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html class="h-full" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Truant Enterprises — Upcoming Events & Registrations</title>
-    <meta name="description" content="Discover and register for upcoming conferences, summits, and corporate events on Truant Enterprises. Check real-time dates and registration availability.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta content="mobile_tab" name="shell-type">
+    <title>Truant Enterprises — Upcoming Events &amp; Registrations</title>
+    <meta name="description" content="Discover company summits, wellness marathons, and networking forums across the Truant network. Check real-time dates and registration availability.">
 
-    <!-- Google Fonts -->
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CDN & Custom Theme Config -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#3525cd",
+                        "error": "#ba1a1a",
+                        "surface-variant": "#dae2fd",
+                        "background": "#faf8ff",
+                        "on-primary": "#ffffff",
+                        "secondary-container": "#6063ee",
+                        "tertiary-container": "#006e4b",
+                        "surface": "#faf8ff",
+                        "surface-container-highest": "#dae2fd",
+                        "inverse-surface": "#283044",
+                        "on-primary-fixed": "#0f0069",
+                        "on-tertiary-container": "#67f4b7",
+                        "secondary-fixed": "#e1e0ff",
+                        "primary-container": "#4f46e5",
+                        "error-container": "#ffdad6",
+                        "surface-dim": "#d2d9f4",
+                        "inverse-on-surface": "#eef0ff",
+                        "surface-container": "#eaedff",
+                        "on-error": "#ffffff",
+                        "on-surface": "#131b2e",
+                        "tertiary-fixed": "#6ffbbe",
+                        "secondary": "#4648d4",
+                        "on-secondary": "#ffffff",
+                        "primary-fixed-dim": "#c3c0ff",
+                        "on-tertiary-fixed": "#002113",
+                        "surface-bright": "#faf8ff",
+                        "on-background": "#131b2e",
+                        "on-secondary-container": "#fffbff",
+                        "outline": "#777587",
+                        "inverse-primary": "#c3c0ff",
+                        "primary-fixed": "#e2dfff",
+                        "on-secondary-fixed": "#07006c",
+                        "on-primary-container": "#dad7ff",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "surface-container-low": "#f2f3ff",
+                        "secondary-fixed-dim": "#c0c1ff",
+                        "outline-variant": "#c7c4d8",
+                        "surface-tint": "#4d44e3",
+                        "on-surface-variant": "#464555",
+                        "surface-container-high": "#e2e7ff",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "on-primary-fixed-variant": "#3323cc",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed-variant": "#2f2ebe",
+                        "on-error-container": "#93000a",
+                        "tertiary": "#005338"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "space-sm": "0.5rem",
+                        "space-lg": "1.5rem",
+                        "gutter": "1.5rem",
+                        "margin": "2rem",
+                        "space-xs": "0.25rem",
+                        "space-md": "1rem",
+                        "gutter-mobile": "1rem",
+                        "margin-mobile": "1rem",
+                        "space-xl": "2rem"
+                    },
+                    fontFamily: {
+                        "body-md": ["Plus Jakarta Sans", "sans-serif"],
+                        "label-lg": ["Plus Jakarta Sans", "sans-serif"],
+                        "headline-lg": ["Plus Jakarta Sans", "sans-serif"],
+                        "headline-sm": ["Plus Jakarta Sans", "sans-serif"],
+                        "label-md": ["Plus Jakarta Sans", "sans-serif"],
+                        "headline-md": ["Plus Jakarta Sans", "sans-serif"],
+                        "headline-xl": ["Plus Jakarta Sans", "sans-serif"],
+                        "body-lg": ["Plus Jakarta Sans", "sans-serif"],
+                        "label-sm": ["Plus Jakarta Sans", "sans-serif"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans", "sans-serif"],
+                        "headline-xl-mobile": ["Plus Jakarta Sans", "sans-serif"],
+                        "body-sm": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    fontSize: {
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "label-lg": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+                        "headline-lg": ["28px", { "lineHeight": "36px", "fontWeight": "700" }],
+                        "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "700" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "fontWeight": "600" }],
+                        "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "700" }],
+                        "headline-xl": ["40px", { "lineHeight": "48px", "fontWeight": "800" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-sm": ["11px", { "lineHeight": "14px", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["22px", { "lineHeight": "30px", "fontWeight": "700" }],
+                        "headline-xl-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "800" }],
+                        "body-sm": ["12px", { "lineHeight": "18px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        };
+    </script>
 
     <style>
-        :root {
-            --bg-page: #ffffff;
-            --bg-subtle: #f8fafc;
-            --bg-card: #ffffff;
-            --border-color: #e2e8f0;
-            --border-hover: #cbd5e1;
-            --text-title: #0f172a;
-            --text-body: #334155;
-            --text-muted: #64748b;
-            --text-light: #94a3b8;
-            --primary: #4f46e5;
-            --primary-hover: #4338ca;
-            --primary-light: #eef2ff;
-            --success-bg: #ecfdf5;
-            --success-text: #065f46;
-            --success-border: #a7f3d0;
-            --warning-bg: #fffbeb;
-            --warning-text: #92400e;
-            --warning-border: #fde68a;
-            --danger-bg: #fef2f2;
-            --danger-text: #991b1b;
-            --danger-border: #fecaca;
-            --radius-md: 10px;
-            --radius-lg: 16px;
-            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
-            --shadow-md: 0 4px 16px -2px rgba(0, 0, 0, 0.06), 0 2px 6px -1px rgba(0, 0, 0, 0.04);
-            --shadow-hover: 0 16px 32px -4px rgba(15, 23, 42, 0.08), 0 4px 12px -2px rgba(15, 23, 42, 0.04);
-            --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-            --font-display: 'Space Grotesk', var(--font-sans);
+        @layer base {
+            html, body {
+                width: 100vw;
+                min-height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            body {
+                overscroll-behavior-y: none;
+                -webkit-tap-highlight-color: transparent;
+                min-height: max(884px, 100dvh);
+            }
+            .pb-safe {
+                padding-bottom: env(safe-area-inset-bottom, 0px);
+            }
+            .pt-safe {
+                padding-top: env(safe-area-inset-top, 0px);
+            }
+        }
+        ::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html, body {
-            min-height: 100vh;
-            background-color: var(--bg-page);
-            color: var(--text-body);
-            font-family: var(--font-sans);
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        .site-wrapper {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        /* ─── Header ─────────────────────────────────────────────── */
-        header.site-header {
-            position: sticky;
-            top: 0;
-            z-index: 50;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--border-color);
-            transition: all 0.2s ease;
-        }
-
-        .header-container {
-            max-width: 1240px;
-            margin: 0 auto;
-            padding: 16px 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .brand-link {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-            color: var(--text-title);
-        }
-
-        .brand-logo-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            background: linear-gradient(135deg, var(--primary) 0%, #3b82f6 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #ffffff;
-            box-shadow: 0 4px 10px rgba(79, 70, 229, 0.25);
-        }
-
-        .brand-info {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .brand-title {
-            font-family: var(--font-display);
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--text-title);
-            letter-spacing: -0.02em;
-            line-height: 1.2;
-        }
-
-        .brand-subtitle {
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        nav.header-nav {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .nav-link {
-            text-decoration: none;
-            color: var(--text-body);
-            font-size: 0.925rem;
-            font-weight: 600;
-            padding: 8px 14px;
-            border-radius: 8px;
-            transition: all 0.15s ease;
-        }
-
-        .nav-link:hover {
-            color: var(--primary);
-            background: var(--bg-subtle);
-        }
-
-        .nav-link.active {
-            color: var(--primary);
-            background: var(--primary-light);
-        }
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 9px 18px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            border-radius: var(--radius-md);
-            text-decoration: none;
-            cursor: pointer;
-            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-            border: 1px solid transparent;
-        }
-
-        .btn-outline {
-            color: var(--text-body);
-            background: #ffffff;
-            border-color: var(--border-color);
-        }
-
-        .btn-outline:hover {
-            background: var(--bg-subtle);
-            border-color: var(--border-hover);
-            color: var(--text-title);
-        }
-
-        .btn-primary {
-            background: var(--primary);
-            color: #ffffff;
-            box-shadow: 0 2px 8px rgba(79, 70, 229, 0.25);
-        }
-
-        .btn-primary:hover {
-            background: var(--primary-hover);
-            box-shadow: 0 4px 14px rgba(79, 70, 229, 0.35);
-            transform: translateY(-1px);
-        }
-
-        /* ─── Hero Intro Section ──────────────────────────────────── */
-        section.hero-section {
-            background: linear-gradient(180deg, #ffffff 0%, var(--bg-subtle) 100%);
-            border-bottom: 1px solid var(--border-color);
-            padding: 56px 24px 44px;
-            text-align: center;
-        }
-
-        .hero-container {
-            max-width: 860px;
-            margin: 0 auto;
-        }
-
-        .hero-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 6px 14px;
-            border-radius: 9999px;
-            background: #ffffff;
-            border: 1px solid var(--border-color);
-            box-shadow: var(--shadow-sm);
-            color: var(--primary);
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-bottom: 18px;
-        }
-
-        .hero-title {
-            font-family: var(--font-display);
-            font-size: clamp(2rem, 4.5vw, 3rem);
-            font-weight: 800;
-            color: var(--text-title);
-            line-height: 1.2;
-            letter-spacing: -0.03em;
-            margin-bottom: 16px;
-        }
-
-        .hero-description {
-            font-size: 1.1rem;
-            color: var(--text-muted);
-            line-height: 1.6;
-            margin-bottom: 24px;
-        }
-
-        .hero-stats {
-            display: flex;
-            justify-content: center;
-            gap: 32px;
-            margin-top: 20px;
-        }
-
-        .stat-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.925rem;
-            font-weight: 600;
-            color: var(--text-body);
-        }
-
-        .stat-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #10b981;
-            box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
-        }
-
-        /* ─── Main Content / Events Grid ──────────────────────────── */
-        main.main-content {
-            flex: 1;
-            max-width: 1240px;
-            width: 100%;
-            margin: 0 auto;
-            padding: 48px 24px 72px;
-        }
-
-        .section-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 36px;
-        }
-
-        .section-heading-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .section-title {
-            font-family: var(--font-display);
-            font-size: 1.65rem;
-            font-weight: 700;
-            color: var(--text-title);
-            letter-spacing: -0.02em;
-        }
-
-        .section-subtitle {
-            font-size: 0.95rem;
-            color: var(--text-muted);
-        }
-
-        .events-count-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 12px;
-            background: var(--bg-subtle);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--text-body);
-        }
-
-        /* ─── 2 Cards Per Row Grid ────────────────────────────────── */
-        .events-grid {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 32px;
-            margin-bottom: 48px;
-        }
-
-        /* ─── Event Card (Equal Height & Size) ────────────────────── */
-        .event-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            overflow: hidden;
-            box-shadow: var(--shadow-md);
-            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
-
-        .event-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--border-hover);
-            box-shadow: var(--shadow-hover);
-        }
-
-        /* Fixed Banner Display */
-        .card-banner-wrapper {
+        /* ─── Customer Header & Dropdown Styles ─── */
+        .user-menu-container {
             position: relative;
-            width: 100%;
-            height: 220px;
-            background-color: #f1f5f9;
-            overflow: hidden;
+            display: inline-block;
         }
-
-        .card-banner-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.4s ease;
-        }
-
-        .event-card:hover .card-banner-img {
-            transform: scale(1.03);
-        }
-
-        /* Fallback Graphic Banner if No Image */
-        .card-banner-fallback {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            color: #ffffff;
-            padding: 20px;
-            text-align: center;
-        }
-
-        .card-banner-fallback svg {
-            width: 44px;
-            height: 44px;
-            opacity: 0.6;
-            margin-bottom: 8px;
-        }
-
-        /* Status Badge on Banner */
-        .card-status-badge {
-            position: absolute;
-            top: 16px;
-            right: 16px;
-            padding: 6px 12px;
-            border-radius: 9999px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            letter-spacing: 0.02em;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
-            backdrop-filter: blur(8px);
-            z-index: 2;
-        }
-
-        .badge-open {
-            background: rgba(236, 253, 245, 0.95);
-            color: var(--success-text);
-            border: 1px solid var(--success-border);
-        }
-
-        .badge-upcoming {
-            background: rgba(255, 251, 235, 0.95);
-            color: var(--warning-text);
-            border: 1px solid var(--warning-border);
-        }
-
-        .badge-closed {
-            background: rgba(241, 245, 249, 0.95);
-            color: var(--text-muted);
-            border: 1px solid var(--border-color);
-        }
-
-        .live-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: #10b981;
-            box-shadow: 0 0 6px #10b981;
-        }
-
-        /* Card Content Area */
-        .card-body {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            padding: 24px;
-        }
-
-        /* Date & Timeline meta */
-        .card-meta-row {
+        .user-menu-trigger {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            margin-bottom: 12px;
-            gap: 12px;
-        }
-
-        .event-date-chip {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.875rem;
-            font-weight: 700;
-            color: var(--primary);
-        }
-
-        .event-date-chip svg {
-            width: 16px;
-            height: 16px;
-        }
-
-        .registration-deadline {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            font-weight: 500;
-        }
-
-        /* Admission Badge Pill */
-        .admission-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            font-size: 0.78rem;
-            font-weight: 700;
-            padding: 3px 9px;
-            border-radius: 6px;
-            letter-spacing: 0.01em;
-            white-space: nowrap;
-        }
-
-        .admission-free {
-            background: #ecfdf5;
-            color: #065f46;
-            border: 1px solid #a7f3d0;
-        }
-
-        .admission-paid {
-            background: #eff6ff;
-            color: #1d4ed8;
-            border: 1px solid #bfdbfe;
-        }
-
-        .desc-admission-highlight {
-            font-weight: 700;
-            color: var(--text-title);
-            margin-right: 4px;
-        }
-
-        .desc-admission-val-free {
-            color: #059669;
-            font-weight: 700;
-        }
-
-        .desc-admission-val-paid {
-            color: #2563eb;
-            font-weight: 700;
-        }
-
-        /* Title */
-        .card-event-title {
-            font-family: var(--font-display);
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--text-title);
-            line-height: 1.35;
-            margin-bottom: 12px;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .card-event-title a {
-            color: inherit;
-            text-decoration: none;
-            transition: color 0.15s ease;
-        }
-
-        .card-event-title a:hover {
-            color: var(--primary);
-        }
-
-        /* Clamped Description for Uniform Card Sizing */
-        .card-event-desc {
-            font-size: 0.925rem;
-            color: var(--text-body);
-            line-height: 1.55;
-            margin-bottom: 24px;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            min-height: 4.3em;
-        }
-
-        /* Bottom Action Footer */
-        .card-footer-action {
-            margin-top: auto;
-            padding-top: 18px;
-            border-top: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-        }
-
-        .btn-card-action {
-            width: 100%;
-            padding: 11px 18px;
-            font-size: 0.925rem;
-            font-weight: 600;
-            border-radius: 8px;
-            text-align: center;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
             gap: 8px;
-            text-decoration: none;
-            transition: all 0.2s ease;
-        }
-
-        .btn-card-primary {
-            background: var(--primary);
-            color: #ffffff;
-            box-shadow: 0 2px 6px rgba(79, 70, 229, 0.2);
-        }
-
-        .btn-card-primary:hover {
-            background: var(--primary-hover);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
-        }
-
-        .btn-card-roster {
+            padding: 5px 12px 5px 6px;
             background: #ffffff;
-            color: var(--text-title);
-            border: 1px solid var(--border-color);
-            cursor: pointer;
-            font-family: inherit;
-        }
-
-        .btn-card-roster:hover {
-            background: #f8fafc;
-            border-color: var(--primary);
-            color: var(--primary);
-            transform: translateY(-1px);
-        }
-
-        .event-roster-chip {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            padding: 4px 10px;
+            border: 1px solid #e2e8f0;
             border-radius: 9999px;
-            background: #f1f5f9;
-            color: #334155;
-            font-size: 0.775rem;
-            font-weight: 600;
-            border: 1px solid var(--border-color);
             cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #0f172a;
             transition: all 0.15s ease;
+            user-select: none;
+        }
+        .user-menu-trigger:hover {
+            border-color: #3525cd;
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+        }
+        .user-avatar-img {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1.5px solid #4f46e5;
+        }
+        .user-dropdown-panel {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: calc(100% + 8px);
+            width: 240px;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            padding: 6px 0;
+            text-align: left;
+        }
+        .user-menu-container.open .user-dropdown-panel {
+            display: block;
+            animation: userDropdownAnim 0.15s ease-out;
+        }
+        @keyframes userDropdownAnim {
+            from { opacity: 0; transform: translateY(-4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .user-dropdown-header {
+            padding: 10px 14px;
+            border-bottom: 1px solid #e2e8f0;
+            margin-bottom: 4px;
+        }
+        .user-dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            padding: 8px 14px;
+            color: #334155;
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: background 0.1s ease;
+            background: none;
+            border: none;
+            width: 100%;
+            cursor: pointer;
             font-family: inherit;
         }
-
-        .event-roster-chip:hover {
-            background: #e0e7ff;
-            color: var(--primary);
-            border-color: #c7d2fe;
+        .user-dropdown-item:hover {
+            background: #f8fafc;
+            color: #3525cd;
+        }
+        .user-dropdown-divider {
+            height: 1px;
+            background: #e2e8f0;
+            margin: 4px 0;
         }
 
         /* ─── Registered Players Modal Styles ─── */
@@ -625,17 +245,15 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 16px;
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.22s ease, visibility 0.22s ease;
         }
-
         .roster-modal-backdrop.is-open {
             opacity: 1;
             visibility: visible;
         }
-
         .roster-modal-dialog {
             background: #ffffff;
             width: 100%;
@@ -648,31 +266,27 @@
             overflow: hidden;
             transform: scale(0.96) translateY(12px);
             transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-            border: 1px solid var(--border-color);
+            border: 1px solid #e2e8f0;
         }
-
         .roster-modal-backdrop.is-open .roster-modal-dialog {
             transform: scale(1) translateY(0);
         }
-
         .roster-modal-header {
-            padding: 20px 24px 16px;
-            border-bottom: 1px solid var(--border-color);
+            padding: 18px 22px 14px;
+            border-bottom: 1px solid #e2e8f0;
             background: linear-gradient(to right, #f8fafc, #ffffff);
             display: flex;
             align-items: flex-start;
             justify-content: space-between;
             gap: 16px;
         }
-
         .modal-badge-group {
             display: flex;
             align-items: center;
             gap: 8px;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
             flex-wrap: wrap;
         }
-
         .modal-event-badge {
             display: inline-flex;
             align-items: center;
@@ -680,31 +294,28 @@
             font-size: 0.75rem;
             font-weight: 700;
             text-transform: uppercase;
-            color: var(--primary);
+            color: #3525cd;
             background: #eef2ff;
             padding: 3px 10px;
             border-radius: 9999px;
             letter-spacing: 0.04em;
         }
-
         .modal-event-title {
-            font-family: var(--font-display);
-            font-size: 1.35rem;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.25rem;
             font-weight: 800;
-            color: var(--text-title);
+            color: #0f172a;
             margin: 0 0 4px 0;
-            line-height: 1.25;
+            line-height: 1.3;
         }
-
         .modal-event-meta {
-            font-size: 0.85rem;
-            color: var(--text-muted);
+            font-size: 0.82rem;
+            color: #64748b;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             flex-wrap: wrap;
         }
-
         .modal-close-btn {
             background: #f1f5f9;
             border: none;
@@ -715,206 +326,169 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            color: var(--text-muted);
+            color: #64748b;
             font-size: 1.4rem;
             line-height: 1;
             transition: all 0.2s ease;
             flex-shrink: 0;
         }
-
         .modal-close-btn:hover {
             background: #e2e8f0;
-            color: var(--text-title);
+            color: #0f172a;
         }
-
         .roster-modal-body {
-            padding: 20px 24px;
+            padding: 18px 22px;
             overflow-y: auto;
             flex: 1;
         }
-
         .modal-stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 12px;
-            margin-bottom: 18px;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 10px;
+            margin-bottom: 16px;
         }
-
         .modal-stat-card {
-            background: var(--bg-subtle);
-            border: 1px solid var(--border-color);
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
             border-radius: 10px;
-            padding: 12px 16px;
+            padding: 10px 14px;
             display: flex;
             align-items: center;
             gap: 12px;
         }
-
         .modal-stat-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 8px;
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
         }
-
         .modal-stat-val {
-            font-family: var(--font-display);
-            font-size: 1.35rem;
+            font-size: 1.25rem;
             font-weight: 800;
-            color: var(--text-title);
-            line-height: 1;
+            color: #0f172a;
+            line-height: 1.1;
         }
-
         .modal-stat-lbl {
-            font-size: 0.775rem;
-            color: var(--text-muted);
+            font-size: 0.72rem;
+            color: #64748b;
             font-weight: 600;
-            margin-top: 2px;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
         }
-
         .modal-toolbar {
             display: flex;
+            flex-wrap: wrap;
             align-items: center;
             justify-content: space-between;
-            gap: 12px;
-            margin-bottom: 18px;
-            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 16px;
         }
-
         .modal-search-wrapper {
             position: relative;
             flex: 1;
-            min-width: 220px;
+            min-width: 200px;
         }
-
         .modal-search-icon {
             position: absolute;
             left: 12px;
             top: 50%;
             transform: translateY(-50%);
-            color: var(--text-light);
+            color: #94a3b8;
             pointer-events: none;
         }
-
         .modal-search-input {
             width: 100%;
-            padding: 9px 12px 9px 38px;
-            border: 1px solid var(--border-color);
+            padding: 8px 12px 8px 36px;
+            background: #ffffff;
+            border: 1.5px solid #e2e8f0;
             border-radius: 8px;
-            font-size: 0.875rem;
-            background: var(--bg-subtle);
+            font-size: 0.85rem;
+            color: #0f172a;
             outline: none;
-            font-family: inherit;
-            transition: all 0.2s ease;
-        }
-
-        .modal-search-input:focus {
-            background: #ffffff;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
-        }
-
-        .modal-filter-tabs {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .modal-tab-btn {
-            padding: 7px 12px;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            border: 1px solid var(--border-color);
-            background: #ffffff;
-            color: var(--text-body);
-            cursor: pointer;
-            font-family: inherit;
             transition: all 0.15s ease;
         }
-
+        .modal-search-input:focus {
+            border-color: #3525cd;
+            box-shadow: 0 0 0 3px rgba(53, 37, 205, 0.12);
+        }
+        .modal-filter-tabs {
+            display: flex;
+            background: #f1f5f9;
+            padding: 3px;
+            border-radius: 8px;
+            gap: 2px;
+        }
+        .modal-tab-btn {
+            padding: 6px 12px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: #64748b;
+            background: transparent;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
         .modal-tab-btn.active {
-            background: var(--primary);
-            color: #ffffff;
-            border-color: var(--primary);
-        }
-
-        .modal-team-block {
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            margin-bottom: 16px;
-            overflow: hidden;
             background: #ffffff;
+            color: #0f172a;
+            font-weight: 700;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
         }
-
+        .modal-team-block {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            margin-bottom: 14px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+        }
         .modal-team-header {
+            padding: 10px 16px;
             background: #f8fafc;
-            border-bottom: 1px solid var(--border-color);
-            padding: 12px 18px;
+            border-bottom: 1px solid #e2e8f0;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 10px;
-            flex-wrap: wrap;
         }
-
         .modal-team-title {
-            font-family: var(--font-display);
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 700;
-            color: var(--text-title);
+            color: #0f172a;
             display: flex;
             align-items: center;
             gap: 8px;
-            margin: 0;
         }
-
-        .modal-ref-badge {
-            font-family: monospace;
-            font-size: 0.775rem;
-            background: #ffffff;
-            border: 1px solid var(--border-color);
-            padding: 2px 8px;
-            border-radius: 4px;
-            color: var(--text-body);
-        }
-
         .modal-member-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 0.875rem;
+            font-size: 0.82rem;
         }
-
         .modal-member-table th {
-            background: #ffffff;
-            color: var(--text-muted);
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            padding: 9px 16px;
-            border-bottom: 1px solid var(--border-color);
             text-align: left;
+            padding: 8px 14px;
+            background: #ffffff;
+            color: #64748b;
+            font-weight: 700;
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            border-bottom: 1px solid #e2e8f0;
         }
-
         .modal-member-table td {
-            padding: 11px 16px;
-            border-bottom: 1px solid var(--border-color);
+            padding: 10px 14px;
+            border-bottom: 1px solid #f1f5f9;
+            color: #334155;
             vertical-align: middle;
         }
-
-        .modal-member-table tr:last-child td {
-            border-bottom: none;
-        }
-
         .modal-avatar-cell {
             display: flex;
             align-items: center;
             gap: 10px;
         }
-
         .modal-avatar-circle {
             width: 30px;
             height: 30px;
@@ -922,434 +496,266 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 700;
-            font-size: 0.8rem;
+            font-weight: 800;
+            font-size: 0.76rem;
             flex-shrink: 0;
         }
-
         .avatar-team-theme {
-            background: #e0e7ff;
-            color: #4338ca;
+            background: #e0f2fe;
+            color: #0369a1;
         }
-
         .avatar-ind-theme {
-            background: #d1fae5;
+            background: #ecfdf5;
             color: #065f46;
         }
-
-        .modal-role-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            padding: 2px 8px;
-            border-radius: 9999px;
-            font-size: 0.725rem;
+        .modal-ref-badge {
+            font-family: monospace;
+            background: #f1f5f9;
+            color: #475569;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.72rem;
             font-weight: 700;
+            border: 1px solid #e2e8f0;
         }
-
+        .modal-role-pill {
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: 9999px;
+            display: inline-block;
+        }
         .role-team-member {
-            background: #e0e7ff;
-            color: #4338ca;
+            background: #e0f2fe;
+            color: #0369a1;
         }
-
         .role-individual {
-            background: #d1fae5;
-            color: #065f46;
+            background: #f1f5f9;
+            color: #64748b;
         }
-
         .roster-modal-footer {
-            padding: 14px 24px;
-            border-top: 1px solid var(--border-color);
+            padding: 12px 20px;
             background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 12px;
             flex-wrap: wrap;
         }
-
-        /* ─── Clean Pagination Styling ────────────────────────────── */
-        .pagination-wrapper {
-            margin-top: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .custom-pagination {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            list-style: none;
-        }
-
-        .page-item {
-            display: inline-block;
-        }
-
-        .page-link {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-width: 40px;
-            height: 40px;
-            padding: 0 14px;
-            border-radius: 8px;
-            background: #ffffff;
-            border: 1px solid var(--border-color);
-            color: var(--text-body);
-            font-size: 0.9rem;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.15s ease;
-        }
-
-        .page-link:hover {
-            background: var(--bg-subtle);
-            border-color: var(--border-hover);
-            color: var(--primary);
-        }
-
-        .page-item.active .page-link {
-            background: var(--primary);
-            border-color: var(--primary);
-            color: #ffffff;
-            box-shadow: 0 2px 8px rgba(79, 70, 229, 0.25);
-        }
-
-        .page-item.disabled .page-link {
-            opacity: 0.45;
-            cursor: not-allowed;
-            pointer-events: none;
-            background: var(--bg-subtle);
-        }
-
-        /* ─── Empty State ─────────────────────────────────────────── */
-        .empty-state-box {
-            text-align: center;
-            padding: 64px 24px;
-            background: var(--bg-subtle);
-            border-radius: var(--radius-lg);
-            border: 2px dashed var(--border-color);
-            grid-column: span 2;
-        }
-
-        .empty-state-icon {
-            width: 56px;
-            height: 56px;
-            color: var(--text-light);
-            margin: 0 auto 16px;
-        }
-
-        .empty-state-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--text-title);
-            margin-bottom: 8px;
-        }
-
-        .empty-state-desc {
-            font-size: 0.95rem;
-            color: var(--text-muted);
-            max-width: 460px;
-            margin: 0 auto;
-        }
-
-        /* ─── Footer ──────────────────────────────────────────────── */
-        footer.site-footer {
-            background: #ffffff;
-            border-top: 1px solid var(--border-color);
-            margin-top: auto;
-            padding: 48px 24px 28px;
-        }
-
-        .footer-container {
-            max-width: 1240px;
-            margin: 0 auto;
-        }
-
-        .footer-top {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr;
-            gap: 48px;
-            margin-bottom: 36px;
-        }
-
-        .footer-brand-desc {
-            font-size: 0.925rem;
-            color: var(--text-muted);
-            max-width: 380px;
-            line-height: 1.6;
-            margin-top: 12px;
-        }
-
-        .footer-col-title {
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: var(--text-title);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 16px;
-        }
-
-        .footer-links-list {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .footer-link-item a {
-            text-decoration: none;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            transition: color 0.15s ease;
-        }
-
-        .footer-link-item a:hover {
-            color: var(--primary);
-        }
-
-        .footer-bottom {
-            padding-top: 24px;
-            border-top: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        .footer-status-chip {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-weight: 600;
-            color: #059669;
-        }
-
-        .footer-status-chip .dot {
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            background: #10b981;
-        }
-
-        /* ─── Responsive Media Queries ────────────────────────────── */
-        @media (max-width: 900px) {
-            .events-grid {
-                grid-template-columns: 1fr;
-            }
-            .footer-top {
-                grid-template-columns: 1fr;
-                gap: 32px;
-            }
-        }
-
-        @media (max-width: 640px) {
-            .header-container {
-                padding: 14px 16px;
-            }
-            header nav.header-nav {
-                display: none;
-            }
-            .hero-stats {
-                flex-direction: column;
-                align-items: center;
-                gap: 12px;
-            }
-            .footer-bottom {
-                flex-direction: column;
-                gap: 12px;
-                text-align: center;
-            }
-        }
     </style>
 </head>
-<body>
-    <div class="site-wrapper">
-        <!-- Professional Header -->
-        <header class="site-header">
-            <div class="header-container">
-                <a href="{{ url('/') }}" class="brand-link" id="header-brand-link">
-                    <div class="brand-logo-icon">
-                        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                        </svg>
-                    </div>
-                    <div class="brand-info">
-                        <span class="brand-title">Truant Enterprises</span>
-                        <span class="brand-subtitle">Enterprise Suite</span>
-                    </div>
-                </a>
+<body class="bg-background text-on-surface font-body-md text-body-md antialiased flex flex-col min-h-screen selection:bg-primary-fixed selection:text-on-primary-fixed">
 
-                <nav class="header-nav">
-                    <a href="{{ url('/') }}" class="nav-link active" id="nav-events-link">Events</a>
-                    {{-- 
-<a href="{{ route('court-booking.index') }}" class="nav-link" id="nav-book-court-link">Book a Court</a> 
---}}
-                </nav>
+    <!-- Global Header Partial (Desktop + Mobile) -->
+    @include('partials.header', [
+        'active' => 'events',
+        'searchPlaceholder' => 'Search events, topics, or dates...',
+        'mobileSubtitle' => 'Events & Summits'
+    ])
 
-                <div class="header-actions">
-                    <a href="{{ url('/admin/login') }}" class="btn btn-primary" id="btn-login-header">
-                        <span>Login</span>
-                        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
-                        </svg>
-                    </a>
+    <!-- ═══ MAIN SHELL (pt-16 pb-20 on mobile, lg:pb-12) ═══ -->
+    <main class="flex-1 flex flex-col relative w-full pt-16 pb-20 lg:pb-12 bg-background">
+        <div class="flex flex-col w-full">
+
+            <!-- 1. Hero Intro Discovery Section -->
+            <section class="px-gutter-mobile pt-space-md pb-space-sm flex flex-col gap-space-sm max-w-7xl mx-auto w-full">
+                <div class="flex flex-col gap-space-xs">
+                    <span class="font-label-sm text-label-sm text-primary uppercase tracking-wider font-bold">Enterprise Discovery</span>
+                    <h1 class="font-headline-xl-mobile md:font-headline-xl text-headline-xl-mobile md:text-headline-xl text-on-surface tracking-tight" id="page-hero-heading">
+                        Explore Upcoming Events
+                    </h1>
+                    <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed max-w-2xl">
+                        Discover company summits, wellness marathons, and networking forums across the Truant network. Check real-time dates and registration availability.
+                    </p>
                 </div>
+
+                <!-- Carousel Feature Chips -->
+                <div class="flex items-center gap-space-xs overflow-x-auto pb-1 pt-1 no-scrollbar">
+                    <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container text-on-surface-variant shrink-0 shadow-sm border border-outline-variant/20">
+                        <span class="w-2 h-2 rounded-full bg-tertiary-fixed-dim animate-pulse"></span>
+                        <span class="font-label-sm text-label-sm font-semibold">Active Registrations</span>
+                    </div>
+                    <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container text-on-surface-variant shrink-0 shadow-sm border border-outline-variant/20">
+                        <span class="material-symbols-outlined text-[16px] text-primary">verified</span>
+                        <span class="font-label-sm text-label-sm font-semibold">Instant Reference</span>
+                    </div>
+                    <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container text-on-surface-variant shrink-0 shadow-sm border border-outline-variant/20">
+                        <span class="material-symbols-outlined text-[16px] text-secondary">qr_code_2</span>
+                        <span class="font-label-sm text-label-sm font-semibold">Automated Badges</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. Sticky Search & Filter Toolbar -->
+            <section class="sticky top-16 z-30 px-gutter-mobile py-space-sm bg-surface/90 backdrop-blur-md flex flex-col gap-space-sm border-y border-outline-variant/20 shadow-sm">
+                <div class="max-w-7xl mx-auto w-full flex flex-col gap-space-sm">
+                    <div class="relative flex items-center w-full">
+                        <span class="material-symbols-outlined absolute left-3.5 text-outline text-[20px] pointer-events-none">search</span>
+                        <input 
+                            class="w-full h-11 pl-10 pr-11 bg-surface-container-lowest text-on-surface rounded-xl shadow-sm font-body-md text-body-md placeholder:text-outline focus:outline-none focus:ring-2 focus:ring-primary/25 border border-outline-variant/40 transition-all" 
+                            id="eventsSearch" 
+                            placeholder="Search events, topics, or dates..." 
+                            type="search"
+                            autocomplete="off"
+                        />
+                        <button aria-label="Filter events" class="absolute right-1 w-9 h-9 flex items-center justify-center rounded-lg text-on-surface-variant hover:text-primary transition-colors active:scale-95" type="button" onclick="document.getElementById('eventsSearch')?.focus()">
+                            <span class="material-symbols-outlined text-[20px]">tune</span>
+                        </button>
+                    </div>
+
+                    <!-- Category Filter Chips -->
+                    <div class="flex items-center gap-2 overflow-x-auto pb-0.5 no-scrollbar" id="categoryChips">
+                        <button class="h-8 px-3.5 rounded-full font-label-sm text-label-sm bg-primary text-on-primary shrink-0 transition-transform active:scale-95 shadow-sm font-semibold" data-category="all" type="button">
+                            All ({{ $events->total() }})
+                        </button>
+                        <button class="h-8 px-3.5 rounded-full font-label-sm text-label-sm bg-surface-container-lowest text-on-surface-variant hover:text-on-surface shrink-0 shadow-sm transition-transform active:scale-95 border border-outline-variant/30 font-medium" data-category="free" type="button">
+                            Free Admission
+                        </button>
+                        <button class="h-8 px-3.5 rounded-full font-label-sm text-label-sm bg-surface-container-lowest text-on-surface-variant hover:text-on-surface shrink-0 shadow-sm transition-transform active:scale-95 border border-outline-variant/30 font-medium" data-category="paid" type="button">
+                            Paid Admission
+                        </button>
+                        <button class="h-8 px-3.5 rounded-full font-label-sm text-label-sm bg-surface-container-lowest text-on-surface-variant hover:text-on-surface shrink-0 shadow-sm transition-transform active:scale-95 border border-outline-variant/30 font-medium" data-category="open" type="button">
+                            Registration Open
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. Subheader Counter -->
+            <div class="max-w-7xl mx-auto w-full px-gutter-mobile pt-space-sm pb-space-xs flex items-center justify-between">
+                <div class="flex items-center gap-1.5">
+                    <span class="font-headline-sm text-headline-sm text-on-surface font-bold">Scheduled Events</span>
+                    <span class="font-label-sm text-label-sm text-on-surface-variant">({{ $events->count() }} of {{ $events->total() }})</span>
+                </div>
+                <span class="font-label-sm text-label-sm px-2.5 py-1 rounded-full bg-surface-container text-on-surface-variant font-semibold">Real-time sync</span>
             </div>
-        </header>
 
-        <!-- Clean Intro Hero -->
-        <section class="hero-section">
-            <div class="hero-container">
-                <div class="hero-pill">
-                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                    </svg>
-                    <span>Official Event Registrations &amp; Schedules</span>
-                </div>
-
-                <h1 class="hero-title" id="page-hero-heading">Explore Upcoming Events</h1>
-                <p class="hero-description">
-                    ####
-                </p>
-
-                <div class="hero-stats">
-                    <div class="stat-item">
-                        <span class="stat-dot"></span>
-                        <span>Active Registrations Open</span>
-                    </div>
-                    <div class="stat-item">
-                        <svg width="16" height="16" fill="none" stroke="#4f46e5" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
-                        <span>Instant Registration Reference</span>
-                    </div>
-                    <div class="stat-item">
-                        <svg width="16" height="16" fill="none" stroke="#4f46e5" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/>
-                        </svg>
-                        <span>Automated Attendee Badges</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Main Body: 2-Card Per Row Grid -->
-        <main class="main-content">
-            <div class="section-header">
-                <div class="section-heading-group">
-                    <h2 class="section-title">Scheduled Events</h2>
-                    <p class="section-subtitle">Showing 6 events per page with real-time status</p>
-                </div>
-                <div class="events-count-badge">
-                    <span>Total Events: <strong>{{ $events->total() }}</strong></span>
-                </div>
-            </div>
-
-            <!-- Events Grid -->
-            <div class="events-grid" id="events-grid-container">
+            <!-- 4. Events Grid (Mobile 1-Column, Desktop 2-Column) -->
+            <section class="max-w-7xl mx-auto w-full px-gutter-mobile py-space-sm grid grid-cols-1 md:grid-cols-2 gap-space-md md:gap-space-lg" id="eventsGrid">
                 @forelse ($events as $event)
                     @php
                         $isOpen = $event->isRegistrationOpen();
                         $statusText = $event->registration_status;
                         $activeBanner = ($event->registrationForm && $event->registrationForm->banner) ? $event->registrationForm->banner : $event->banner;
                     @endphp
-                    <article class="event-card" id="event-card-{{ $event->id }}">
-                        <!-- Card Banner -->
-                        <div class="card-banner-wrapper">
+                    <article 
+                        class="flex flex-col bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-200 border border-outline-variant/30" 
+                        id="event-card-{{ $event->id }}"
+                        data-category="{{ $event->isFreeAdmission() ? 'free' : 'paid' }}"
+                        data-status="{{ $isOpen ? 'open' : (str_starts_with($statusText, 'Opens') ? 'upcoming' : 'closed') }}"
+                    >
+                        <!-- Card Banner (16:9 Aspect Ratio) -->
+                        <div class="relative w-full aspect-[16/9] bg-surface-container overflow-hidden">
                             @if ($activeBanner)
                                 <img 
+                                    class="w-full h-full object-cover transition-transform duration-300 hover:scale-105" 
                                     src="{{ asset('storage/' . $activeBanner) }}" 
                                     alt="{{ $event->name }} Banner"
-                                    class="card-banner-img"
                                     loading="lazy"
-                                >
+                                />
                             @else
-                                <div class="card-banner-fallback">
-                                    <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                                    </svg>
-                                    <span style="font-weight: 600; font-size: 0.95rem;">{{ $event->name }}</span>
+                                <div class="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-slate-800 to-slate-950 text-white p-4 text-center">
+                                    <span class="material-symbols-outlined text-[44px] text-white/50 mb-1">event</span>
+                                    <span class="font-bold text-sm tracking-wide">{{ $event->name }}</span>
                                 </div>
                             @endif
 
-                            <!-- Status Badge -->
-                            <div class="card-status-badge {{ $isOpen ? 'badge-open' : (str_starts_with($statusText, 'Opens') ? 'badge-upcoming' : 'badge-closed') }}">
+                            <!-- Status Badge Top-Right -->
+                            <div class="absolute top-3 right-3">
                                 @if ($isOpen)
-                                    <span class="live-dot"></span>
-                                    <span>Registration Open</span>
+                                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface/90 backdrop-blur-md text-tertiary font-label-sm text-label-sm shadow-sm font-bold border border-tertiary/20">
+                                        <span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
+                                        Registration Open
+                                    </span>
                                 @elseif (str_starts_with($statusText, 'Opens'))
-                                    <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                    </svg>
-                                    <span>{{ $statusText }}</span>
+                                    <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-surface/90 backdrop-blur-md text-amber-800 font-label-sm text-label-sm shadow-sm font-bold border border-amber-300">
+                                        <span class="material-symbols-outlined text-[14px]">schedule</span>
+                                        {{ $statusText }}
+                                    </span>
                                 @else
-                                    <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
-                                    </svg>
-                                    <span>Registration Closed</span>
+                                    <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-surface/90 backdrop-blur-md text-on-surface-variant font-label-sm text-label-sm shadow-sm font-bold border border-outline-variant/40">
+                                        <span class="material-symbols-outlined text-[14px]">lock</span>
+                                        Registration Closed
+                                    </span>
                                 @endif
                             </div>
                         </div>
 
-                        <!-- Card Body (Uniform Size) -->
-                        <div class="card-body">
-                            <!-- Meta: Event Date & Admission Tag -->
-                            <div class="card-meta-row">
-                                <span class="event-date-chip">
-                                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                                    </svg>
-                                    <time datetime="{{ $event->event_date?->toDateString() }}">
-                                        {{ $event->event_date ? $event->event_date->format('F d, Y') : 'Date TBA' }}
-                                    </time>
-                                </span>
+                        <!-- Card Body -->
+                        <div class="p-space-md flex flex-col gap-space-sm flex-1 justify-between">
+                            <div class="flex flex-col gap-space-sm">
+                                <!-- Meta: Date and Admission Tag -->
+                                <div class="flex flex-wrap items-center justify-between gap-2">
+                                    <div class="inline-flex items-center gap-1.5 text-primary font-label-sm text-label-sm font-semibold">
+                                        <span class="material-symbols-outlined text-[18px]">calendar_today</span>
+                                        <time datetime="{{ $event->event_date?->toDateString() }}">
+                                            {{ $event->event_date ? $event->event_date->format('F d, Y') : 'Date TBA' }}
+                                        </time>
+                                    </div>
 
-                                <span class="admission-pill {{ $event->isFreeAdmission() ? 'admission-free' : 'admission-paid' }}">
                                     @if ($event->isFreeAdmission())
-                                        <span>🎟️ Free Admission</span>
+                                        <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm font-bold shadow-sm">
+                                            <span class="material-symbols-outlined text-[14px]">confirmation_number</span>
+                                            Free Admission
+                                        </span>
                                     @else
-                                        <span>💳 Paid Admission{{ $event->ticket_price ? ' (' . $event->ticket_price . ')' : '' }}</span>
+                                        <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-surface-variant text-on-surface font-label-sm text-label-sm font-bold shadow-sm">
+                                            <span class="material-symbols-outlined text-[14px] text-secondary">payments</span>
+                                            Paid Admission{{ $event->ticket_price ? ' (' . $event->ticket_price . ')' : '' }}
+                                        </span>
                                     @endif
-                                </span>
+                                </div>
+
+                                <!-- Title -->
+                                <div class="flex flex-col gap-1">
+                                    <h2 class="font-headline-md text-headline-md text-on-surface tracking-tight leading-snug font-bold">
+                                        <a href="{{ route('events.public.show', $event) }}" class="hover:text-primary transition-colors">
+                                            {{ $event->name }}
+                                        </a>
+                                    </h2>
+
+                                    <!-- Description with Admission Highlight -->
+                                    <p class="font-body-md text-body-md text-on-surface-variant line-clamp-2 leading-relaxed">
+                                        <strong class="text-on-surface font-label-lg">
+                                            Admission: {{ $event->admission_label }}{{ (! $event->isFreeAdmission() && $event->ticket_price) ? ' (' . $event->ticket_price . ')' : '' }}
+                                        </strong> &bull; {{ Str::limit(strip_tags($event->description), 140) }}
+                                    </p>
+                                </div>
                             </div>
 
-                            <!-- Title -->
-                            <h3 class="card-event-title">
-                                <a href="{{ route('events.public.show', $event) }}">
-                                    {{ $event->name }}
-                                </a>
-                            </h3>
-
-                            <!-- Description with Admission Status -->
-                            <p class="card-event-desc">
-                                <span class="desc-admission-highlight">
-                                    Admission: 
-                                    <span class="{{ $event->isFreeAdmission() ? 'desc-admission-val-free' : 'desc-admission-val-paid' }}">
-                                        {{ $event->admission_label }}{{ (! $event->isFreeAdmission() && $event->ticket_price) ? ' (' . $event->ticket_price . ')' : '' }}
-                                    </span>
-                                    &bull;
-                                </span>
-                                {{ Str::limit(strip_tags($event->description), 140) }}
-                            </p>
-
-                            <!-- Bottom Action Buttons: Roster + Event Details -->
-                            <div class="card-footer-action">
-                                <button type="button" class="btn-card-action btn-card-roster" onclick="openEventRoster({{ $event->id }})" id="btn-view-players-{{ $event->id }}" title="View all registered players and team rosters for {{ $event->name }}">
-                                    <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
-                                    </svg>
+                            <!-- Footer Actions: Registered Players on Left + View & Register on Right -->
+                            <div class="pt-space-xs flex items-center justify-between gap-space-sm border-t border-outline-variant/30 mt-auto">
+                                <button 
+                                    type="button" 
+                                    class="flex items-center gap-1.5 text-on-surface-variant hover:text-primary font-label-sm text-label-sm font-semibold transition-colors py-1.5 px-2 rounded-lg hover:bg-surface-container active:scale-95" 
+                                    onclick="openEventRoster({{ $event->id }})" 
+                                    id="btn-view-players-{{ $event->id }}" 
+                                    title="View registered players and team rosters"
+                                >
+                                    <span class="material-symbols-outlined text-[18px] text-primary">group</span>
                                     <span>Registered Players ({{ $event->registrations->count() }})</span>
                                 </button>
-                                <a href="{{ route('events.public.show', $event) }}" class="btn-card-action btn-card-primary" id="btn-view-event-{{ $event->id }}">
-                                    <span>View Event &amp; Register</span>
-                                    <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
-                                    </svg>
-                                </a>
+
+                                @if ($isOpen || str_starts_with($statusText, 'Opens'))
+                                    <a 
+                                        href="{{ route('events.public.show', $event) }}" 
+                                        class="h-11 px-4 rounded-xl bg-primary text-on-primary font-label-lg text-label-lg flex items-center gap-1.5 active:scale-95 transition-all shadow-sm shrink-0 hover:bg-primary-container" 
+                                        id="btn-view-event-{{ $event->id }}"
+                                    >
+                                        <span>View &amp; Register</span>
+                                        <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                                    </a>
+                                @else
+                                    <a 
+                                        href="{{ route('events.public.show', $event) }}" 
+                                        class="h-11 px-4 rounded-xl bg-surface-container text-on-surface-variant font-label-lg text-label-lg flex items-center gap-1.5 active:scale-95 transition-all shrink-0 hover:bg-surface-container-high" 
+                                        id="btn-view-event-{{ $event->id }}"
+                                    >
+                                        <span>View Archive</span>
+                                        <span class="material-symbols-outlined text-[18px]">history</span>
+                                    </a>
+                                @endif
                             </div>
 
                             <!-- Embedded Roster Data for Zero-Lag Popup -->
@@ -1359,110 +765,75 @@
                         </div>
                     </article>
                 @empty
-                    <div class="empty-state-box">
-                        <svg class="empty-state-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                        </svg>
-                        <h4 class="empty-state-title">No Events Available Yet</h4>
-                        <p class="empty-state-desc">Please check back soon for new conferences, workshops, and gatherings.</p>
+                    <div class="col-span-full text-center py-16 px-4 bg-surface-container-lowest rounded-xl border-2 border-dashed border-outline-variant/40">
+                        <span class="material-symbols-outlined text-[48px] text-outline mb-2">event_busy</span>
+                        <h4 class="font-headline-sm text-headline-sm text-on-surface font-bold mb-1">No Events Available Yet</h4>
+                        <p class="font-body-md text-body-md text-on-surface-variant max-w-md mx-auto">Please check back soon for new conferences, workshops, and gatherings across Truant Enterprises.</p>
                     </div>
                 @endforelse
-            </div>
+            </section>
 
-            <!-- Pagination (6 events per page) -->
-            @if ($events->hasPages())
-                <div class="pagination-wrapper" aria-label="Events pagination">
-                    <ul class="custom-pagination">
+            <!-- 5. Mobile-Styled Pagination Section -->
+            <section class="max-w-7xl mx-auto w-full px-gutter-mobile py-space-md flex flex-col items-center gap-space-md">
+                @if ($events->hasPages())
+                    <div class="flex items-center justify-center gap-1.5 w-full flex-wrap" aria-label="Events pagination">
                         {{-- Previous Page Link --}}
                         @if ($events->onFirstPage())
-                            <li class="page-item disabled" aria-disabled="true">
-                                <span class="page-link">&laquo; Previous</span>
-                            </li>
+                            <button aria-label="Previous Page" class="h-10 px-3.5 rounded-xl bg-surface-container text-on-surface-variant font-label-sm text-label-sm opacity-50 flex items-center gap-1 cursor-not-allowed" disabled type="button">
+                                <span class="material-symbols-outlined text-[16px]">chevron_left</span>
+                                <span>&laquo; Previous</span>
+                            </button>
                         @else
-                            <li class="page-item">
-                                <a class="page-link" href="{{ $events->previousPageUrl() }}" rel="prev">&laquo; Previous</a>
-                            </li>
+                            <a href="{{ $events->previousPageUrl() }}" rel="prev" aria-label="Previous Page" class="h-10 px-3.5 rounded-xl bg-surface-container-lowest text-on-surface font-label-sm text-label-sm shadow-sm flex items-center gap-1 active:scale-95 transition-transform hover:bg-surface-container border border-outline-variant/30">
+                                <span class="material-symbols-outlined text-[16px]">chevron_left</span>
+                                <span>&laquo; Previous</span>
+                            </a>
                         @endif
 
                         {{-- Pagination Elements --}}
                         @foreach ($events->getUrlRange(1, $events->lastPage()) as $page => $url)
                             @if ($page == $events->currentPage())
-                                <li class="page-item active" aria-current="page">
-                                    <span class="page-link">{{ $page }}</span>
-                                </li>
+                                <button class="w-10 h-10 rounded-xl bg-primary text-on-primary font-label-sm text-label-sm shadow-sm flex items-center justify-center font-bold" type="button">
+                                    {{ $page }}
+                                </button>
                             @else
-                                <li class="page-item">
-                                    <a class="page-link" href="{{ $url }}">{{ $page }}</a>
-                                </li>
+                                <a href="{{ $url }}" class="w-10 h-10 rounded-xl bg-surface-container-lowest text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm shadow-sm flex items-center justify-center active:scale-95 transition-transform border border-outline-variant/30 hover:bg-surface-container">
+                                    {{ $page }}
+                                </a>
                             @endif
                         @endforeach
 
                         {{-- Next Page Link --}}
                         @if ($events->hasMorePages())
-                            <li class="page-item">
-                                <a class="page-link" href="{{ $events->nextPageUrl() }}" rel="next">Next &raquo;</a>
-                            </li>
+                            <a href="{{ $events->nextPageUrl() }}" rel="next" aria-label="Next Page" class="h-10 px-3.5 rounded-xl bg-surface-container-lowest text-on-surface font-label-sm text-label-sm shadow-sm flex items-center gap-1 active:scale-95 transition-transform hover:bg-surface-container border border-outline-variant/30">
+                                <span>Next &raquo;</span>
+                                <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+                            </a>
                         @else
-                            <li class="page-item disabled" aria-disabled="true">
-                                <span class="page-link">Next &raquo;</span>
-                            </li>
+                            <button aria-label="Next Page" class="h-10 px-3.5 rounded-xl bg-surface-container text-on-surface-variant font-label-sm text-label-sm opacity-50 flex items-center gap-1 cursor-not-allowed" disabled type="button">
+                                <span>Next &raquo;</span>
+                                <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+                            </button>
                         @endif
-                    </ul>
+                    </div>
+                @endif
+
+                <!-- All Systems Operational Status Pill -->
+                <div class="w-full flex items-center justify-between p-3.5 rounded-xl bg-surface-container-low text-on-surface-variant border border-outline-variant/20 shadow-sm">
+                    <div class="flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-tertiary-fixed-dim"></span>
+                        <span class="font-label-sm text-label-sm text-on-surface font-semibold">All Systems Operational</span>
+                    </div>
+                    <span class="font-label-sm text-label-sm opacity-80 font-mono">v2.4.6 Enterprise</span>
                 </div>
-            @endif
-        </main>
+            </section>
+        </div>
+    </main>
 
-        <!-- Professional Footer -->
-        <footer class="site-footer">
-            <div class="footer-container">
-                <div class="footer-top">
-                    <div>
-                        <a href="{{ url('/') }}" class="brand-link" style="margin-bottom: 8px;">
-                            <div class="brand-logo-icon" style="width: 32px; height: 32px; border-radius: 8px;">
-                                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                                </svg>
-                            </div>
-                            <span class="brand-title" style="font-size: 1.15rem;">Truant Enterprises</span>
-                        </a>
-                        <p class="footer-brand-desc">
-                            A unified enterprise management suite integrating modern workforce records, biometric timesheets, automated payroll computations, and dynamic event registrations.
-                        </p>
-                    </div>
+    <!-- Global Footer Partial (Desktop Footer + Mobile Bottom Navigation) -->
+    @include('partials.footer', ['active' => 'events'])
 
-                    <div>
-                        <h4 class="footer-col-title">Quick Links</h4>
-                        <ul class="footer-links-list">
-                            <li class="footer-link-item"><a href="{{ url('/') }}">Upcoming Events</a></li>
-                            <li class="footer-link-item"><a href="{{ route('court-booking.index') }}">Book a Court</a></li>
-                            <li class="footer-link-item"><a href="{{ url('/admin/login') }}">Administrator Login</a></li>
-                        </ul>
-                    </div>
-
-                    <div>
-                        <h4 class="footer-col-title">Administration</h4>
-                        <ul class="footer-links-list">
-                            <li class="footer-link-item"><a href="{{ url('/admin/login') }}">Administrator Login</a></li>
-                            <li class="footer-link-item"><a href="{{ url('/admin/events') }}">Event Form Builder</a></li>
-                            <li class="footer-link-item"><a href="{{ url('/admin/payroll') }}">Payroll Management</a></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="footer-bottom">
-                    <div>
-                        <span>&copy; {{ date('Y') }} Truant Enterprises. All rights reserved.</span>
-                    </div>
-                    <div class="footer-status-chip">
-                        <span class="dot"></span>
-                        <span>All Systems Operational</span>
-                    </div>
-                </div>
-            </div>
-        </footer>
-    </div>
-
-    <!-- Registered Players & Teams Interactive Modal Dialog -->
+    <!-- ═══ REGISTERED PLAYERS & TEAMS INTERACTIVE MODAL DIALOG ═══ -->
     <div class="roster-modal-backdrop" id="rosterModalBackdrop" onclick="handleBackdropClick(event)" role="dialog" aria-modal="true" aria-labelledby="modalEventTitle">
         <div class="roster-modal-dialog">
             <!-- Modal Header -->
@@ -1470,9 +841,7 @@
                 <div>
                     <div class="modal-badge-group">
                         <span class="modal-event-badge">
-                            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
-                            </svg>
+                            <span class="material-symbols-outlined text-[14px]">group</span>
                             <span>Official Event Roster</span>
                         </span>
                         <span id="modalEventStatus" style="font-size: 0.75rem; font-weight: 700; color: #059669;">● Registration Open</span>
@@ -1493,21 +862,17 @@
                 <div class="modal-stats-grid">
                     <div class="modal-stat-card">
                         <div class="modal-stat-icon" style="background: #e0e7ff; color: #4338ca;">
-                            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
-                            </svg>
+                            <span class="material-symbols-outlined text-[20px]">groups</span>
                         </div>
                         <div>
                             <div class="modal-stat-val" id="modalStatTotalPlayers">0</div>
-                            <div class="modal-stat-lbl">Total Registered Players</div>
+                            <div class="modal-stat-lbl">Total Registered</div>
                         </div>
                     </div>
 
                     <div class="modal-stat-card">
                         <div class="modal-stat-icon" style="background: #e0f2fe; color: #0284c7;">
-                            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
-                            </svg>
+                            <span class="material-symbols-outlined text-[20px]">shield</span>
                         </div>
                         <div>
                             <div class="modal-stat-val" id="modalStatTotalTeams">0</div>
@@ -1517,13 +882,11 @@
 
                     <div class="modal-stat-card">
                         <div class="modal-stat-icon" style="background: #ecfdf5; color: #059669;">
-                            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                            </svg>
+                            <span class="material-symbols-outlined text-[20px]">person</span>
                         </div>
                         <div>
                             <div class="modal-stat-val" id="modalStatIndividual">0</div>
-                            <div class="modal-stat-lbl">Individual / Solo Players</div>
+                            <div class="modal-stat-lbl">Individual / Solo</div>
                         </div>
                     </div>
                 </div>
@@ -1531,9 +894,7 @@
                 <!-- Search & Filter Controls -->
                 <div class="modal-toolbar">
                     <div class="modal-search-wrapper">
-                        <svg class="modal-search-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                        </svg>
+                        <span class="material-symbols-outlined modal-search-icon text-[16px]">search</span>
                         <input 
                             type="text" 
                             id="modalRosterSearch" 
@@ -1549,10 +910,10 @@
                             All Players
                         </button>
                         <button type="button" class="modal-tab-btn" id="modal-tab-teams" onclick="setModalTab('teams')">
-                            Grouped by Teams
+                            Teams
                         </button>
                         <button type="button" class="modal-tab-btn" id="modal-tab-individual" onclick="setModalTab('individual')">
-                            Individual (No Team)
+                            Solo Players
                         </button>
                     </div>
                 </div>
@@ -1565,27 +926,80 @@
 
             <!-- Modal Footer -->
             <div class="roster-modal-footer">
-                <a href="#" id="modalViewDedicatedLink" class="btn btn-outline" style="font-size: 0.85rem; padding: 7px 14px;">
-                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-                    </svg>
-                    <span>Open Full Page Directory</span>
+                <a href="#" id="modalViewDedicatedLink" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 text-slate-700 text-xs font-semibold hover:bg-slate-50 transition-colors">
+                    <span class="material-symbols-outlined text-[16px]">open_in_new</span>
+                    <span>Full Page Directory</span>
                 </a>
 
                 <div style="display: flex; gap: 8px;">
-                    <button type="button" class="btn btn-outline" onclick="closeRosterModal()" style="font-size: 0.85rem; padding: 7px 14px;">Close</button>
-                    <a href="#" id="modalRegisterCtaLink" class="btn btn-primary" style="font-size: 0.85rem; padding: 7px 16px;">
+                    <button type="button" class="px-3.5 py-1.5 rounded-lg border border-slate-200 text-slate-700 text-xs font-semibold hover:bg-slate-50 transition-colors" onclick="closeRosterModal()">Close</button>
+                    <a href="#" id="modalRegisterCtaLink" class="inline-flex items-center gap-1 px-4 py-1.5 rounded-lg bg-primary text-white text-xs font-bold hover:bg-primary-container shadow-sm transition-colors">
                         <span>Register for Event</span>
-                        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
-                        </svg>
+                        <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
                     </a>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal Logic Scripts -->
+    <!-- ═══ CLIENT-SIDE SEARCH & FILTER SCRIPT ═══ -->
+    <script>
+        (function () {
+            const searchInput = document.getElementById('eventsSearch');
+            const cards = document.querySelectorAll('#eventsGrid article');
+            const categoryChips = document.querySelectorAll('#categoryChips button');
+            let activeCategory = 'all';
+
+            function filterEvents() {
+                const query = (searchInput?.value || '').toLowerCase().trim();
+                let visibleCount = 0;
+
+                cards.forEach((card) => {
+                    const title = card.querySelector('h2')?.innerText.toLowerCase() || '';
+                    const desc = card.querySelector('p')?.innerText.toLowerCase() || '';
+                    const cardCategory = card.getAttribute('data-category') || '';
+                    const cardStatus = card.getAttribute('data-status') || '';
+
+                    const matchesSearch = !query || title.includes(query) || desc.includes(query);
+                    let matchesCategory = true;
+
+                    if (activeCategory === 'free') {
+                        matchesCategory = cardCategory === 'free';
+                    } else if (activeCategory === 'paid') {
+                        matchesCategory = cardCategory === 'paid';
+                    } else if (activeCategory === 'open') {
+                        matchesCategory = cardStatus === 'open';
+                    }
+
+                    if (matchesSearch && matchesCategory) {
+                        card.style.display = 'flex';
+                        visibleCount++;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            }
+
+            if (searchInput) {
+                searchInput.addEventListener('input', filterEvents);
+            }
+
+            categoryChips.forEach((chip) => {
+                chip.addEventListener('click', function () {
+                    categoryChips.forEach((c) => {
+                        c.classList.remove('bg-primary', 'text-on-primary');
+                        c.classList.add('bg-surface-container-lowest', 'text-on-surface-variant');
+                    });
+                    this.classList.remove('bg-surface-container-lowest', 'text-on-surface-variant');
+                    this.classList.add('bg-primary', 'text-on-primary');
+                    activeCategory = this.getAttribute('data-category') || 'all';
+                    filterEvents();
+                });
+            });
+        })();
+    </script>
+
+    <!-- ═══ ROSTER MODAL LOGIC SCRIPT ═══ -->
     <script>
         let currentModalRoster = null;
         let currentModalTab = 'all';
@@ -1605,7 +1019,6 @@
             if (data) {
                 displayRosterModal(data);
             } else {
-                // Fetch dynamically via AJAX
                 fetch(`/events/${eventId}/players`, {
                     headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' }
                 })
@@ -1715,11 +1128,9 @@
 
             if (currentModalRoster.total_players === 0) {
                 container.innerHTML = `
-                    <div style="padding: 36px 16px; text-align: center; color: var(--text-muted);">
-                        <svg width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="margin: 0 auto 12px; color: var(--text-light);">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
-                        </svg>
-                        <h4 style="font-weight: 700; color: var(--text-title); margin-bottom: 4px;">No Players Registered Yet</h4>
+                    <div style="padding: 36px 16px; text-align: center; color: #64748b;">
+                        <span class="material-symbols-outlined text-[40px] text-slate-300 mb-2 block">group_off</span>
+                        <h4 style="font-weight: 700; color: #0f172a; margin-bottom: 4px;">No Players Registered Yet</h4>
                         <p style="font-size: 0.875rem;">Be the first to sign up for this event!</p>
                     </div>
                 `;
@@ -1754,18 +1165,18 @@
                             const initial = m.name ? m.name.charAt(0).toUpperCase() : '?';
                             memberRows += `
                                 <tr>
-                                    <td style="width: 40px; color: var(--text-light); font-weight: 700;">${idx + 1}</td>
+                                    <td style="width: 36px; color: #94a3b8; font-weight: 700;">${idx + 1}</td>
                                     <td>
                                         <div class="modal-avatar-cell">
                                             <div class="modal-avatar-circle avatar-team-theme">${initial}</div>
                                             <div>
-                                                <div style="font-weight: 700; color: var(--text-title);">${m.name}</div>
-                                                <div style="font-size: 0.75rem; color: var(--text-muted);">${teamName}</div>
+                                                <div style="font-weight: 700; color: #0f172a;">${m.name}</div>
+                                                <div style="font-size: 0.75rem; color: #64748b;">${teamName}</div>
                                             </div>
                                         </div>
                                     </td>
                                     <td><span class="modal-ref-badge">${m.reference || '—'}</span></td>
-                                    <td style="color: var(--text-muted); font-size: 0.8rem;">${m.registered_at || '—'}</td>
+                                    <td style="color: #64748b; font-size: 0.8rem;">${m.registered_at || '—'}</td>
                                     <td style="text-align: right;">
                                         <span class="modal-role-pill role-team-member">Team Member</span>
                                     </td>
@@ -1777,9 +1188,7 @@
                             <div class="modal-team-block">
                                 <div class="modal-team-header">
                                     <div class="modal-team-title">
-                                        <svg width="18" height="18" fill="none" stroke="#0284c7" stroke-width="2" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
-                                        </svg>
+                                        <span class="material-symbols-outlined text-[18px] text-sky-600">shield</span>
                                         <span>${teamName}</span>
                                     </div>
                                     <div style="display: flex; align-items: center; gap: 8px;">
@@ -1795,8 +1204,8 @@
                                             <tr>
                                                 <th>#</th>
                                                 <th>Player Name</th>
-                                                <th>Registration Ref#</th>
-                                                <th>Registered Date</th>
+                                                <th>Ref#</th>
+                                                <th>Date</th>
                                                 <th style="text-align: right;">Role</th>
                                             </tr>
                                         </thead>
@@ -1812,10 +1221,10 @@
 
                 if (teamsHtml) {
                     html += `
-                        <div style="margin-bottom: 24px;">
-                            <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--text-title); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                        <div style="margin-bottom: 20px;">
+                            <h4 style="font-size: 0.92rem; font-weight: 700; color: #0f172a; margin-bottom: 10px; display: flex; align-items: gap: 6px;">
                                 <span>Grouped by Teams</span>
-                                <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">(Official Squads)</span>
+                                <span style="font-size: 0.75rem; color: #64748b; font-weight: 600;">(Official Squads)</span>
                             </h4>
                             ${teamsHtml}
                         </div>
@@ -1838,18 +1247,18 @@
                         const initial = ind.name ? ind.name.charAt(0).toUpperCase() : '?';
                         indRows += `
                             <tr>
-                                <td style="width: 40px; color: var(--text-light); font-weight: 700;">${idx + 1}</td>
+                                <td style="width: 36px; color: #94a3b8; font-weight: 700;">${idx + 1}</td>
                                 <td>
                                     <div class="modal-avatar-cell">
                                         <div class="modal-avatar-circle avatar-ind-theme">${initial}</div>
                                         <div>
-                                            <div style="font-weight: 700; color: var(--text-title);">${ind.name}</div>
-                                            <div style="font-size: 0.75rem; color: var(--text-muted);">Solo / Free Agent</div>
+                                            <div style="font-weight: 700; color: #0f172a;">${ind.name}</div>
+                                            <div style="font-size: 0.75rem; color: #64748b;">Solo / Free Agent</div>
                                         </div>
                                     </div>
                                 </td>
                                 <td><span class="modal-ref-badge">${ind.reference || '—'}</span></td>
-                                <td style="color: var(--text-muted); font-size: 0.8rem;">${ind.registered_at || '—'}</td>
+                                <td style="color: #64748b; font-size: 0.8rem;">${ind.registered_at || '—'}</td>
                                 <td style="text-align: right;">
                                     <span class="modal-role-pill role-individual">No Team Yet</span>
                                 </td>
@@ -1859,9 +1268,9 @@
 
                     html += `
                         <div>
-                            <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--text-title); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                            <h4 style="font-size: 0.92rem; font-weight: 700; color: #0f172a; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;">
                                 <span>Individual Players (No Team Yet)</span>
-                                <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">(${matchingIndividuals.length} Players)</span>
+                                <span style="font-size: 0.75rem; color: #64748b; font-weight: 600;">(${matchingIndividuals.length} Players)</span>
                             </h4>
                             <div class="modal-team-block">
                                 <div style="overflow-x: auto;">
@@ -1870,8 +1279,8 @@
                                             <tr>
                                                 <th>#</th>
                                                 <th>Player Name</th>
-                                                <th>Registration Ref#</th>
-                                                <th>Registered Date</th>
+                                                <th>Ref#</th>
+                                                <th>Date</th>
                                                 <th style="text-align: right;">Status</th>
                                             </tr>
                                         </thead>
@@ -1888,15 +1297,30 @@
 
             if (totalMatches === 0) {
                 container.innerHTML = `
-                    <div style="padding: 32px 16px; text-align: center; color: var(--text-muted);">
+                    <div style="padding: 32px 16px; text-align: center; color: #64748b;">
                         <p style="margin-bottom: 8px; font-weight: 600;">No players or teams match "${query}".</p>
-                        <button type="button" class="btn btn-outline" onclick="document.getElementById('modalRosterSearch').value = ''; renderModalRosterHtml();" style="font-size: 0.8rem; padding: 6px 14px;">Clear Search</button>
+                        <button type="button" class="px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors" onclick="document.getElementById('modalRosterSearch').value = ''; renderModalRosterHtml();">Clear Search</button>
                     </div>
                 `;
             } else {
                 container.innerHTML = html;
             }
         }
+
+        function toggleWelcomeUserDropdown(event) {
+            event.stopPropagation();
+            const wrap = document.getElementById('user-menu-wrap-welcome');
+            if (wrap) {
+                wrap.classList.toggle('open');
+            }
+        }
+
+        document.addEventListener('click', (event) => {
+            const wrap = document.getElementById('user-menu-wrap-welcome');
+            if (wrap && !wrap.contains(event.target)) {
+                wrap.classList.remove('open');
+            }
+        });
     </script>
 </body>
 </html>

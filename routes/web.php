@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\CourtBookingPublicController;
+use App\Http\Controllers\CustomerAuthController;
+use App\Http\Controllers\CustomerPortalController;
 use App\Http\Controllers\EventPublicController;
 use App\Http\Controllers\TimesheetPortalController;
 use Illuminate\Support\Facades\Route;
@@ -13,9 +15,26 @@ Route::post('/events/{event}/register-by-ref', [EventPublicController::class, 'r
 Route::post('/events/{event}/teams/check-member', [EventPublicController::class, 'lookupTeamMember'])->name('events.public.teams.checkMember');
 Route::post('/events/{event}/teams/register', [EventPublicController::class, 'registerTeam'])->name('events.public.teams.register');
 
+// Customer Authentication & Google OAuth Routes
+Route::get('/login', [CustomerAuthController::class, 'showLogin'])->name('login');
+Route::post('/login', [CustomerAuthController::class, 'login']);
+Route::get('/register', [CustomerAuthController::class, 'showRegister'])->name('register');
+Route::post('/register', [CustomerAuthController::class, 'register']);
+Route::post('/logout', [CustomerAuthController::class, 'logout'])->name('logout');
+
+Route::get('/auth/google', [CustomerAuthController::class, 'redirectToGoogle'])->name('auth.google');
+Route::get('/auth/google/callback', [CustomerAuthController::class, 'handleGoogleCallback'])->name('auth.google.callback');
+
+// Customer Portal / Booking History
+Route::get('/my-bookings', [CustomerPortalController::class, 'index'])->middleware('auth')->name('customer.bookings');
+Route::get('/my-account', [CustomerPortalController::class, 'index'])->middleware('auth')->name('customer.account');
+
 // Court Booking Routes
 Route::get('/book-a-court', [CourtBookingPublicController::class, 'index'])->name('court-booking.index');
 Route::get('/book-a-court/slots', [CourtBookingPublicController::class, 'getSlots'])->name('court-booking.slots');
+Route::get('/book-a-court/month-availability', [CourtBookingPublicController::class, 'getMonthAvailability'])->name('court-booking.monthAvailability');
+Route::get('/book-a-court/rental-items', [CourtBookingPublicController::class, 'getRentalItems'])->name('court-booking.rentalItems');
+Route::post('/book-a-court/apply-voucher', [CourtBookingPublicController::class, 'applyVoucher'])->name('court-booking.applyVoucher');
 Route::post('/book-a-court/reserve', [CourtBookingPublicController::class, 'reserve'])->name('court-booking.reserve');
 Route::post('/book-a-court/verify-passcode', [CourtBookingPublicController::class, 'verifyPasscode'])->name('court-booking.verifyPasscode');
 Route::post('/book-a-court/resend-passcode', [CourtBookingPublicController::class, 'resendPasscode'])->name('court-booking.resendPasscode');

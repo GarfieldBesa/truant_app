@@ -126,10 +126,173 @@ class CourtBookingService
     }
 
     /**
+     * Get monthly calendar availability overview for a court.
+     * Returns an array of day objects for the given month with status (available, fully_booked, closed, passed)
+     * and a green or red icon indicator.
+     */
+    public function getMonthAvailability(Court $court, int $year, int $month): array
+    {
+        $now = self::localNow();
+        $todayStr = $now->toDateString();
+        $currentHour = $now->hour;
+
+        $startDate = Carbon::createFromDate($year, $month, 1, 'Asia/Manila')->startOfDay();
+        $daysInMonth = $startDate->daysInMonth;
+        $endDate = $startDate->copy()->endOfMonth();
+
+        // 1. Fetch blackouts in this month
+        $fullDayBlackouts = CourtUnavailability::where('court_id', $court->id)
+            ->whereBetween('date', [$startDate->toDateString(), $endDate->toDateString()])
+            ->whereNull('hour')
+            ->pluck('reason', 'date')
+            ->toArray();
+
+        $hourlyBlackouts = CourtUnavailability::where('court_id', $court->id)
+            ->whereBetween('date', [$startDate->toDateString(), $endDate->toDateString()])
+            ->whereNotNull('hour')
+            ->get()
+            ->groupBy(fn ($item) => Carbon::parse($item->date)->toDateString());
+
+        // 2. Fetch active bookings in this month grouped by date and hour
+        $cutoffTime = now()->subMinutes(30);
+        $bookings = CourtBooking::where('court_id', $court->id)
+            ->whereBetween('booking_date', [$startDate->toDateString(), $endDate->toDateString()])
+            ->where(function ($query) use ($cutoffTime) {
+                $query->whereIn('status', ['confirmed', 'verified'])
+                    ->orWhere(function ($q) use ($cutoffTime) {
+                        $q->where('status', 'pending_verification')
+                            ->where('created_at', '>=', $cutoffTime);
+                    });
+            })
+            ->selectRaw('booking_date, start_hour, SUM(slots_count) as total_booked')
+            ->groupBy('booking_date', 'start_hour')
+            ->get()
+            ->groupBy(fn ($item) => Carbon::parse($item->booking_date)->toDateString());
+
+        $defaultCapacity = $court->default_slots_per_hour ?? 4;
+        $calendarDays = [];
+
+        for ($day = 1; $day <= $daysInMonth; $day++) {
+            $dateObj = Carbon::createFromDate($year, $month, $day, 'Asia/Manila')->startOfDay();
+            $dateStr = $dateObj->toDateString();
+            $isToday = ($dateStr === $todayStr);
+            $isPast = ($dateStr < $todayStr);
+
+            $dayBlackout = $fullDayBlackouts[$dateStr] ?? null;
+            $dayHourlyBlackouts = isset($hourlyBlackouts[$dateStr])
+                ? $hourlyBlackouts[$dateStr]->keyBy('hour')
+                : collect();
+            $dayBookings = isset($bookings[$dateStr])
+                ? $bookings[$dateStr]->keyBy('start_hour')
+                : collect();
+
+            if ($isPast) {
+                $status = 'passed';
+                $color = 'gray';
+                $availableHours = 0;
+            } elseif ($dayBlackout) {
+                $status = 'closed';
+                $color = 'red';
+                $availableHours = 0;
+            } else {
+                // Check all remaining hours for that date
+                $availableHours = 0;
+                for ($h = 0; $h < 24; $h++) {
+                    if ($isToday && $h <= $currentHour) {
+                        continue;
+                    }
+                    if ($dayHourlyBlackouts->has($h)) {
+                        continue;
+                    }
+                    $bookedSlots = (int) ($dayBookings->has($h) ? $dayBookings[$h]->total_booked : 0);
+                    if ($bookedSlots < $defaultCapacity) {
+                        $availableHours++;
+                    }
+                }
+
+                if ($availableHours > 0) {
+                    $status = 'available';
+                    $color = 'green';
+                } else {
+                    $status = 'fully_booked';
+                    $color = 'red';
+                }
+            }
+
+            $calendarDays[] = [
+                'date' => $dateStr,
+                'day' => $day,
+                'day_of_week' => $dateObj->dayOfWeek,
+                'is_today' => $isToday,
+                'is_past' => $isPast,
+                'status' => $status,
+                'color' => $color,
+                'available_hours_count' => $availableHours,
+                'is_selectable' => in_array($status, ['available', 'fully_booked']) && !$isPast,
+            ];
+        }
+
+        return $calendarDays;
+    }
+
+    /**
+     * Get active rental items with available stock computed for a specific date and hour slot.
+     */
+    public function getAvailableRentalItems(string $date, int $hour): array
+    {
+        $items = \App\Models\RentalItem::active()->get();
+
+        return $items->map(function (\App\Models\RentalItem $item) use ($date, $hour) {
+            $available = $item->getAvailableStockForSlot($date, $hour);
+            return [
+                'id' => $item->id,
+                'name' => $item->name,
+                'slug' => $item->slug,
+                'picture_url' => $item->picture_url,
+                'description' => $item->description,
+                'rental_price' => (float) $item->rental_price,
+                'formatted_price' => '₱' . number_format($item->rental_price, 2),
+                'total_stock' => $item->total_stock,
+                'available_stock' => $available,
+                'is_in_stock' => $available > 0,
+            ];
+        })->values()->toArray();
+    }
+
+    /**
      * Create a pending reservation and dispatch email verification.
      */
-    public function createPendingReservation(Court $court, array $data): CourtBooking
+    public function createPendingReservation(Court $court, array $data, ?User $user = null): CourtBooking
     {
+        // 1. Validate Terms Agreement
+        if (empty($data['terms_agreed'])) {
+            throw ValidationException::withMessages([
+                'terms_agreed' => ['Please read and agree to the Terms and Conditions before proceeding.'],
+            ]);
+        }
+
+        $user = $user ?? (auth()->check() ? auth()->user() : null);
+        $userId = $user?->id;
+        $isUserAuth = !is_null($user);
+        $status = $isUserAuth ? 'verified' : 'pending_verification';
+        $verifiedAt = $isUserAuth ? now() : null;
+
+        $customerName = $user ? $user->name : trim($data['customer_name'] ?? '');
+        $customerEmail = $user ? strtolower(trim($user->email)) : strtolower(trim($data['customer_email'] ?? ''));
+        $customerContact = !empty($data['customer_contact'])
+            ? trim($data['customer_contact'])
+            : ($user?->phone_number ?? trim($data['customer_contact'] ?? ''));
+
+        if (!$user && empty($customerEmail)) {
+            throw ValidationException::withMessages([
+                'auth' => ['Player information is required. Please sign in with Google or your email account to book.'],
+            ]);
+        }
+
+        if ($user && empty($user->phone_number) && !empty($customerContact)) {
+            $user->update(['phone_number' => $customerContact]);
+        }
+
         $date = Carbon::parse($data['booking_date'])->toDateString();
         $startHour = (int) $data['start_hour'];
         $slotsCount = (int) ($data['slots_count'] ?? 1);
@@ -148,18 +311,133 @@ class CourtBookingService
             ]);
         }
 
-        $booking = CourtBooking::create([
-            'court_id' => $court->id,
-            'booking_date' => $date,
-            'start_hour' => $startHour,
-            'end_hour' => $startHour + 1,
-            'slots_count' => $slotsCount,
-            'customer_name' => trim($data['customer_name']),
-            'customer_email' => strtolower(trim($data['customer_email'])),
-            'customer_contact' => trim($data['customer_contact']),
-            'notes' => $data['notes'] ?? null,
-            'status' => 'pending_verification',
-        ]);
+        // 2. Validate Rental Items and Available Inventory for this slot
+        $rentalsData = $data['rentals'] ?? [];
+        $rentalsToSave = [];
+        $rentalsFee = 0.00;
+
+        if (!empty($rentalsData) && is_array($rentalsData)) {
+            foreach ($rentalsData as $rentalReq) {
+                $itemId = (int) ($rentalReq['item_id'] ?? $rentalReq['id'] ?? 0);
+                $qty = (int) ($rentalReq['quantity'] ?? $rentalReq['qty'] ?? 0);
+
+                if ($qty <= 0) {
+                    continue;
+                }
+
+                $rentalItem = \App\Models\RentalItem::where('id', $itemId)->where('is_active', true)->first();
+                if (!$rentalItem) {
+                    throw ValidationException::withMessages([
+                        'rentals' => ['One or more selected equipment items are currently unavailable.'],
+                    ]);
+                }
+
+                $availableStock = $rentalItem->getAvailableStockForSlot($date, $startHour);
+                if ($qty > $availableStock) {
+                    throw ValidationException::withMessages([
+                        'rentals' => ["Requested quantity for '{$rentalItem->name}' exceeds stock. Only {$availableStock} available for this slot."],
+                    ]);
+                }
+
+                $subtotalItem = round($qty * (float) $rentalItem->rental_price, 2);
+                $rentalsFee += $subtotalItem;
+
+                $rentalsToSave[] = [
+                    'rental_item_id' => $rentalItem->id,
+                    'quantity' => $qty,
+                    'unit_price' => $rentalItem->rental_price,
+                    'subtotal' => $subtotalItem,
+                ];
+            }
+        }
+
+        // Calculate fees
+        $courtFee = round(($court->hourly_rate ?? 0.00) * $slotsCount, 2);
+        $subtotal = round($courtFee + $rentalsFee, 2);
+
+        // 3. Voucher & Secret Promo Calculation
+        $voucher = null;
+        $discountAmount = 0.00;
+        if (!empty($data['voucher_code'])) {
+            $voucherCode = strtoupper(trim($data['voucher_code']));
+            $voucher = \App\Models\Voucher::where('code', $voucherCode)->first();
+
+            if (!$voucher) {
+                throw ValidationException::withMessages([
+                    'voucher_code' => ['The voucher code entered is invalid or does not exist.'],
+                ]);
+            }
+
+            $check = $voucher->validateUsability($user, $subtotal);
+            if (!$check['valid']) {
+                throw ValidationException::withMessages([
+                    'voucher_code' => [$check['message']],
+                ]);
+            }
+
+            $discountAmount = $voucher->calculateDiscount($subtotal);
+        }
+
+        $totalAmount = max(0.00, round($subtotal - $discountAmount, 2));
+
+        // 4. Save Booking & Line Items in Transaction
+        $booking = \Illuminate\Support\Facades\DB::transaction(function () use (
+            $userId,
+            $status,
+            $verifiedAt,
+            $court,
+            $date,
+            $startHour,
+            $slotsCount,
+            $courtFee,
+            $rentalsFee,
+            $voucher,
+            $discountAmount,
+            $totalAmount,
+            $customerName,
+            $customerEmail,
+            $customerContact,
+            $data,
+            $rentalsToSave
+        ) {
+            $booking = CourtBooking::create([
+                'user_id' => $userId,
+                'court_id' => $court->id,
+                'booking_date' => $date,
+                'start_hour' => $startHour,
+                'end_hour' => $startHour + 1,
+                'slots_count' => $slotsCount,
+                'court_fee' => $courtFee,
+                'rentals_fee' => $rentalsFee,
+                'voucher_id' => $voucher?->id,
+                'voucher_code' => $voucher?->code,
+                'discount_amount' => $discountAmount,
+                'total_amount' => $totalAmount,
+                'terms_agreed' => true,
+                'customer_name' => $customerName,
+                'customer_email' => $customerEmail,
+                'customer_contact' => $customerContact,
+                'notes' => $data['notes'] ?? null,
+                'status' => $status,
+                'verified_at' => $verifiedAt,
+            ]);
+
+            if ($voucher) {
+                $voucher->increment('times_used');
+            }
+
+            foreach ($rentalsToSave as $rental) {
+                \App\Models\CourtBookingRental::create([
+                    'court_booking_id' => $booking->id,
+                    'rental_item_id' => $rental['rental_item_id'],
+                    'quantity' => $rental['quantity'],
+                    'unit_price' => $rental['unit_price'],
+                    'subtotal' => $rental['subtotal'],
+                ]);
+            }
+
+            return $booking;
+        });
 
         // Dispatch verification email
         $this->sendVerificationEmail($booking);
@@ -308,10 +586,14 @@ class CourtBookingService
             $paymentLabel = $booking->payment_mode_label;
 
             $admins = User::all();
+            $totalStr = $booking->total_amount > 0 ? " | Total: ₱" . number_format($booking->total_amount, 2) : "";
+            $rentalsCount = $booking->rentals()->sum('quantity');
+            $rentalsStr = $rentalsCount > 0 ? " ({$rentalsCount} rental item(s))" : "";
+
             foreach ($admins as $admin) {
                 Notification::make()
                     ->title("New Court Booking Confirmed (#{$booking->reference_code})")
-                    ->body("{$booking->customer_name} booked {$courtName} for {$date} ({$timeSlot}). Mode of Payment: {$paymentLabel}")
+                    ->body("{$booking->customer_name} booked {$courtName} for {$date} ({$timeSlot}){$rentalsStr}. Payment: {$paymentLabel}{$totalStr}")
                     ->icon('heroicon-o-calendar-days')
                     ->success()
                     ->sendToDatabase($admin);
@@ -319,5 +601,48 @@ class CourtBookingService
         } catch (\Throwable $e) {
             Log::info("Admin court booking notification skipped or logged: " . $e->getMessage());
         }
+    }
+
+    /**
+     * Secretly validate and compute discount for a voucher code.
+     */
+    public function validateAndCalculateVoucher(string $code, float $subtotal, ?User $user = null): array
+    {
+        $code = strtoupper(trim($code));
+        $voucher = \App\Models\Voucher::where('code', $code)->first();
+
+        if (!$voucher) {
+            return [
+                'valid' => false,
+                'message' => 'The voucher code entered is invalid or does not exist.',
+            ];
+        }
+
+        $check = $voucher->validateUsability($user, $subtotal);
+        if (!$check['valid']) {
+            return [
+                'valid' => false,
+                'message' => $check['message'],
+            ];
+        }
+
+        $discount = $voucher->calculateDiscount($subtotal);
+        $newTotal = max(0.00, round($subtotal - $discount, 2));
+
+        return [
+            'valid' => true,
+            'voucher_id' => $voucher->id,
+            'code' => $voucher->code,
+            'name' => $voucher->name,
+            'discount_type' => $voucher->discount_type,
+            'discount_value' => (float) $voucher->discount_value,
+            'discount_amount' => $discount,
+            'formatted_discount' => number_format($discount, 2),
+            'subtotal' => $subtotal,
+            'total_amount' => $newTotal,
+            'discounted_total' => $newTotal,
+            'formatted_total' => number_format($newTotal, 2),
+            'message' => "Secret voucher '{$voucher->code}' applied successfully! You saved ₱" . number_format($discount, 2) . ".",
+        ];
     }
 }

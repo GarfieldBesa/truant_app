@@ -1,695 +1,418 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="h-full" lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
     <title>Verify Reservation &amp; Payment — Truant Enterprises</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+    <meta name="description" content="Verify reservation passcode and confirm payment mode for your court booking at Truant Enterprises."/>
+    
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script id="tailwind-config">
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+            extend: {
+                colors: {
+                    "surface-container-high": "#e2e7ff",
+                    "primary": "#3525cd",
+                    "secondary-fixed": "#e1e0ff",
+                    "surface-container-low": "#f2f3ff",
+                    "tertiary-fixed": "#6ffbbe",
+                    "tertiary-container": "#006e4b",
+                    "surface": "#faf8ff",
+                    "inverse-on-surface": "#eef0ff",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary-fixed": "#07006c",
+                    "on-surface-variant": "#464555",
+                    "on-tertiary-fixed": "#002113",
+                    "on-background": "#131b2e",
+                    "on-surface": "#131b2e",
+                    "surface-container-highest": "#dae2fd",
+                    "on-primary-fixed": "#0f0069",
+                    "on-primary-container": "#dad7ff",
+                    "surface-variant": "#dae2fd",
+                    "error": "#ba1a1a",
+                    "on-secondary": "#ffffff",
+                    "outline": "#777587",
+                    "background": "#faf8ff",
+                    "tertiary-fixed-dim": "#4edea3",
+                    "outline-variant": "#c7c4d8",
+                    "surface-bright": "#faf8ff",
+                    "surface-tint": "#4d44e3",
+                    "on-tertiary": "#ffffff",
+                    "on-error": "#ffffff",
+                    "surface-container": "#eaedff",
+                    "primary-container": "#4f46e5",
+                    "on-primary": "#ffffff",
+                    "inverse-surface": "#283044",
+                    "inverse-primary": "#c3c0ff",
+                    "error-container": "#ffdad6",
+                    "on-tertiary-container": "#67f4b7",
+                    "on-secondary-container": "#fffbff",
+                    "secondary": "#4648d4",
+                    "on-primary-fixed-variant": "#3323cc",
+                    "tertiary": "#005338",
+                    "surface-dim": "#d2d9f4",
+                    "secondary-fixed-dim": "#c0c1ff",
+                    "primary-fixed-dim": "#c3c0ff",
+                    "on-secondary-fixed-variant": "#2f2ebe",
+                    "on-error-container": "#93000a",
+                    "primary-fixed": "#e2dfff",
+                    "on-tertiary-fixed-variant": "#005236",
+                    "secondary-container": "#6063ee"
+                },
+                borderRadius: {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+                },
+                spacing: {
+                    "gutter-mobile": "1rem",
+                    "space-xs": "0.25rem",
+                    "margin": "2rem",
+                    "margin-mobile": "1rem",
+                    "space-lg": "1.5rem",
+                    "gutter": "1.5rem",
+                    "space-sm": "0.5rem",
+                    "space-xl": "2rem",
+                    "space-md": "1rem"
+                },
+                fontFamily: {
+                    "headline-sm": ["Plus Jakarta Sans"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "label-lg": ["Plus Jakarta Sans"],
+                    "label-md": ["Plus Jakarta Sans"],
+                    "headline-xl-mobile": ["Plus Jakarta Sans"],
+                    "headline-lg-mobile": ["Plus Jakarta Sans"],
+                    "body-md": ["Plus Jakarta Sans"],
+                    "headline-xl": ["Plus Jakarta Sans"],
+                    "body-lg": ["Plus Jakarta Sans"],
+                    "body-sm": ["Plus Jakarta Sans"],
+                    "label-sm": ["Plus Jakarta Sans"],
+                    "headline-lg": ["Plus Jakarta Sans"]
+                },
+                fontSize: {
+                    "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "700" }],
+                    "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "700" }],
+                    "label-lg": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+                    "label-md": ["12px", { "lineHeight": "16px", "fontWeight": "600" }],
+                    "headline-xl-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "800" }],
+                    "headline-lg-mobile": ["22px", { "lineHeight": "30px", "fontWeight": "700" }],
+                    "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                    "headline-xl": ["40px", { "lineHeight": "48px", "fontWeight": "800" }],
+                    "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                    "body-sm": ["12px", { "lineHeight": "18px", "fontWeight": "400" }],
+                    "label-sm": ["11px", { "lineHeight": "14px", "fontWeight": "600" }],
+                    "headline-lg": ["28px", { "lineHeight": "36px", "fontWeight": "700" }]
+                }
+            }
+        }
+    };
+    </script>
     <style>
-        :root {
-            --bg-page: #f8fafc;
-            --bg-surface: #ffffff;
-            --bg-subtle: #f1f5f9;
-            --bg-card: #ffffff;
-            --border-color: #e2e8f0;
-            --border-hover: #cbd5e1;
-            --text-title: #0f172a;
-            --text-body: #334155;
-            --text-muted: #64748b;
-            --text-light: #94a3b8;
-            --primary: #4f46e5;
-            --primary-hover: #4338ca;
-            --primary-light: #eef2ff;
-            --primary-border: #c7d2fe;
-            --success-bg: #ecfdf5;
-            --success-text: #065f46;
-            --success-border: #a7f3d0;
-            --danger-bg: #fef2f2;
-            --danger-text: #991b1b;
-            --danger-border: #fecaca;
-            --radius-sm: 8px;
-            --radius-md: 12px;
-            --radius-lg: 16px;
-            --radius-full: 9999px;
-            --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.05), 0 1px 2px rgba(15, 23, 42, 0.03);
-            --shadow-md: 0 4px 16px -2px rgba(15, 23, 42, 0.06), 0 2px 6px -1px rgba(15, 23, 42, 0.04);
-            --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-            --font-display: 'Space Grotesk', var(--font-sans);
-            --font-mono: 'JetBrains Mono', monospace;
+        @layer base {
+            html, body { margin: 0; padding: 0; }
+            body { overscroll-behavior-y: none; -webkit-tap-highlight-color: transparent; }
+            .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); }
+            .pt-safe { padding-top: env(safe-area-inset-top, 0px); }
         }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: var(--font-sans);
-            background-color: var(--bg-page);
-            color: var(--text-body);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        /* ─── Header ─────────────────────────────────────────────── */
-        header.site-header {
-            position: sticky;
-            top: 0;
-            z-index: 50;
-            background: rgba(255, 255, 255, 0.96);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--border-color);
-            height: 70px;
-        }
-
-        .header-container {
-            max-width: 1000px;
-            margin: 0 auto;
-            height: 100%;
-            padding: 0 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .brand-link {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-            color: var(--text-title);
-        }
-
-        .brand-logo-icon {
-            width: 38px;
-            height: 38px;
-            border-radius: 10px;
-            background: linear-gradient(135deg, var(--primary) 0%, #3b82f6 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #ffffff;
-            box-shadow: 0 4px 10px rgba(79, 70, 229, 0.25);
-        }
-
-        .brand-title {
-            font-family: var(--font-display);
-            font-size: 1.15rem;
-            font-weight: 700;
-            color: var(--text-title);
-        }
-
-        .verify-main {
-            flex: 1;
-            max-width: 720px;
-            width: 100%;
-            margin: 0 auto;
-            padding: 40px 24px 60px 24px;
-        }
-
-        .card {
-            background: #ffffff;
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            padding: 36px 32px;
-            box-shadow: var(--shadow-md);
-            margin-bottom: 24px;
-        }
-
-        .badge-verified {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: var(--success-bg);
-            color: var(--success-text);
-            border: 1px solid var(--success-border);
-            font-size: 0.8rem;
-            font-weight: 700;
-            padding: 6px 14px;
-            border-radius: var(--radius-full);
-            margin-bottom: 16px;
-        }
-
-        .card-title {
-            font-family: var(--font-display);
-            font-size: 1.6rem;
-            font-weight: 800;
-            color: var(--text-title);
-            letter-spacing: -0.02em;
-            margin-bottom: 8px;
-        }
-
-        .card-desc {
-            font-size: 0.95rem;
-            color: var(--text-muted);
-            margin-bottom: 24px;
-        }
-
-        .summary-box {
-            background: var(--bg-subtle);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
-            padding: 20px 22px;
-            margin-bottom: 28px;
-        }
-
-        .summary-title {
-            font-size: 0.8rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--primary);
-            margin-bottom: 14px;
-        }
-
-        .summary-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid var(--border-color);
-            font-size: 0.92rem;
-        }
-
-        .summary-row:last-child {
-            border-bottom: none;
-            padding-bottom: 0;
-        }
-
-        .summary-label {
-            color: var(--text-muted);
-            font-weight: 500;
-        }
-
-        .summary-value {
-            color: var(--text-title);
-            font-weight: 600;
-            text-align: right;
-        }
-
-        .reference-chip {
-            font-family: var(--font-mono);
-            background: var(--primary-light);
-            color: var(--primary);
-            padding: 3px 9px;
-            border-radius: var(--radius-sm);
-            font-weight: 700;
-            font-size: 0.88rem;
-            border: 1px solid var(--primary-border);
-        }
-
-        /* ─── Payment Mode Options ────────────────────────── */
-        .payment-options-group {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 24px;
-        }
-
-        .payment-option-label {
-            display: flex;
-            align-items: flex-start;
-            gap: 14px;
-            background: #ffffff;
-            border: 2px solid var(--border-color);
-            border-radius: var(--radius-md);
-            padding: 16px 18px;
-            cursor: pointer;
-            transition: all 0.15s ease;
-        }
-
-        .payment-option-label:hover {
-            border-color: var(--border-hover);
-            background: var(--bg-subtle);
-        }
-
-        .payment-option-label.active {
-            border-color: var(--primary);
-            background: #faf5ff;
-            box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.1);
-        }
-
-        .payment-radio {
-            margin-top: 3px;
-            accent-color: var(--primary);
-            cursor: pointer;
-            width: 18px;
-            height: 18px;
-        }
-
-        .payment-option-content {
-            flex: 1;
-        }
-
-        .payment-name {
-            font-size: 0.98rem;
-            font-weight: 700;
-            color: var(--text-title);
-            margin-bottom: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .payment-desc {
-            font-size: 0.84rem;
-            color: var(--text-muted);
-            line-height: 1.45;
-        }
-
-        .payment-instruction-box {
-            display: none;
-            background: var(--bg-subtle);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-sm);
-            padding: 10px 14px;
-            margin-top: 10px;
-            font-size: 0.82rem;
-            color: var(--text-body);
-            font-family: var(--font-mono);
-        }
-
-        .payment-option-label.active .payment-instruction-box {
-            display: block;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 11px 22px;
-            border-radius: var(--radius-sm);
-            font-size: 0.92rem;
-            font-weight: 700;
-            text-decoration: none;
-            cursor: pointer;
-            border: 1px solid transparent;
-            transition: all 0.2s;
-        }
-
-        .btn-primary {
-            background: var(--primary);
-            color: #ffffff;
-            box-shadow: 0 2px 6px rgba(79, 70, 229, 0.25);
-            width: 100%;
-        }
-
-        .btn-primary:hover {
-            background: var(--primary-hover);
-            box-shadow: 0 4px 14px rgba(79, 70, 229, 0.35);
-            transform: translateY(-1px);
-        }
-
-        .btn-outline {
-            background: #ffffff;
-            border-color: var(--border-color);
-            color: var(--text-body);
-            box-shadow: var(--shadow-sm);
-        }
-
-        .btn-outline:hover {
-            background: var(--bg-subtle);
-            border-color: var(--border-hover);
-            color: var(--text-title);
-        }
-
-        /* ─── Confirmed State Styling ─────────────────────── */
-        .confirmed-card {
-            text-align: center;
-            padding: 44px 32px;
-        }
-
-        .success-icon-box {
-            width: 64px;
-            height: 64px;
-            border-radius: var(--radius-full);
-            background: var(--success-bg);
-            border: 2px solid var(--success-border);
-            color: var(--success-text);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px auto;
-        }
-
-        .print-btn {
-            background: #ffffff;
-            border: 1px solid var(--border-color);
-            color: var(--text-title);
-            padding: 8px 16px;
-            border-radius: var(--radius-sm);
-            cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            box-shadow: var(--shadow-sm);
-            transition: all 0.15s;
-        }
-
-        .print-btn:hover {
-            background: var(--bg-subtle);
-            border-color: var(--border-hover);
-        }
-
-        /* ─── Passcode PIN Inputs ─────────────────────────── */
-        .pin-inputs-wrapper {
-            display: flex;
-            gap: 8px;
-            justify-content: center;
-            margin: 18px 0 14px 0;
-        }
-
-        .pin-box {
-            width: 46px;
-            height: 56px;
-            text-align: center;
-            font-size: 1.5rem;
-            font-weight: 800;
-            font-family: var(--font-mono);
-            color: var(--text-title);
-            background: #ffffff;
-            border: 2px solid var(--border-color);
-            border-radius: 10px;
-            transition: all 0.18s ease;
-            outline: none;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .pin-box:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.18);
-            transform: translateY(-2px);
-        }
-
-        .pin-box.filled {
-            border-color: var(--primary);
-            background: var(--primary-light);
-            color: var(--primary);
-        }
-
-        @media print {
-            .site-header, .btn-wrapper, .print-btn, footer { display: none !important; }
-            body { background: #fff !important; color: #000 !important; }
-            .card, .summary-box { background: #fff !important; color: #000 !important; border: 1px solid #ccc !important; box-shadow: none !important; }
-            .card-title, .summary-value { color: #000 !important; }
-            .reference-chip { background: #eee !important; color: #000 !important; border: none !important; }
-        }
+        ::-webkit-scrollbar { display: none; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
-<body>
-    <header class="site-header">
-        <div class="header-container">
-            <a href="{{ url('/') }}" class="brand-link">
-                <div class="brand-logo-icon">
-                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                    </svg>
-                </div>
-                <span class="brand-title">Truant Enterprises</span>
-            </a>
-            <div>
-                <a href="{{ route('court-booking.index') }}" class="btn btn-outline" style="padding: 7px 16px; font-size: 0.85rem;">
-                    &larr; Back to Booking
-                </a>
+<body class="bg-surface font-body-md text-on-surface antialiased flex flex-col min-h-screen">
+
+    <!-- Global Header Partial (Desktop + Mobile) -->
+    @include('partials.header', ['active' => 'book-a-court'])
+
+    <!-- ═══ 3. MAIN CONTENT (pt-16 pb-20 on mobile, lg:pb-12) ═══ -->
+    <main class="w-full pt-16 pb-20 lg:pb-12 bg-surface min-h-[calc(100vh-16rem)] flex-1">
+        <div class="max-w-4xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+
+            <!-- Breadcrumb Navigation -->
+            <div class="flex items-center gap-2 text-on-surface-variant font-label-md text-label-md mb-6">
+                <a href="{{ url('/') }}" class="hover:text-primary cursor-pointer transition-colors">Truant Recreation</a>
+                <span class="material-symbols-outlined text-[14px] text-outline">chevron_right</span>
+                <a href="{{ route('court-booking.index') }}" class="hover:text-primary cursor-pointer transition-colors">Book a Court</a>
+                <span class="material-symbols-outlined text-[14px] text-outline">chevron_right</span>
+                <span class="text-primary font-semibold">Verification &amp; Payment</span>
             </div>
+
+            @if(isset($error) || !$booking)
+                <!-- ═══ ERROR / EXPIRED STATE ═══ -->
+                <div class="p-8 sm:p-12 rounded-2xl bg-surface-container-lowest border border-error/30 shadow-sm text-center flex flex-col items-center gap-4">
+                    <div class="w-16 h-16 rounded-full bg-error-container text-on-error-container flex items-center justify-center">
+                        <span class="material-symbols-outlined text-[32px]">warning</span>
+                    </div>
+                    <h2 class="font-headline-md text-headline-md text-on-surface font-bold">Invalid or Expired Link</h2>
+                    <p class="font-body-md text-body-md text-on-surface-variant max-w-md">
+                        {{ $error ?? 'This court reservation link is invalid, cancelled, or has expired. Please make a new reservation.' }}
+                    </p>
+                    <a href="{{ route('court-booking.index') }}" class="mt-2 inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary text-on-primary font-label-lg text-label-lg font-bold hover:bg-primary-container transition-all shadow-md">
+                        <span class="material-symbols-outlined text-[18px]">sports_tennis</span>
+                        <span>Book a Court Now</span>
+                    </a>
+                </div>
+
+            @elseif ($isConfirmed)
+                <!-- ═══ CONFIRMED RESERVATION RECEIPT STATE ═══ -->
+                <div class="p-6 sm:p-8 rounded-2xl bg-surface-container-lowest border border-tertiary-container/30 shadow-md flex flex-col gap-6">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-outline-variant/20">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 rounded-xl bg-tertiary-fixed text-on-tertiary-fixed flex items-center justify-center shrink-0">
+                                <span class="material-symbols-outlined text-[28px] text-tertiary-container">check_circle</span>
+                            </div>
+                            <div>
+                                <h1 class="font-headline-md text-headline-md text-on-surface font-bold">Court Reservation Confirmed!</h1>
+                                <p class="font-body-sm text-body-sm text-tertiary-container font-semibold">Schedule is officially secured in real time.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-surface-container font-mono text-sm font-bold text-primary">
+                            <span>Ref:</span>
+                            <span>#{{ $booking->reference_code }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Breakdown Table -->
+                    <div class="bg-surface-container-low p-5 rounded-xl border border-outline-variant/20 flex flex-col gap-3 font-body-sm text-body-sm">
+                        <div class="flex justify-between items-center pb-2 border-b border-surface-container-high">
+                            <span class="text-on-surface-variant">Court Facility:</span>
+                            <span class="font-bold text-on-surface">{{ $booking->court->name }}</span>
+                        </div>
+                        <div class="flex justify-between items-center pb-2 border-b border-surface-container-high">
+                            <span class="text-on-surface-variant">Booking Date:</span>
+                            <span class="font-semibold text-on-surface">{{ $booking->booking_date->format('l, F d, Y') }}</span>
+                        </div>
+                        <div class="flex justify-between items-center pb-2 border-b border-surface-container-high">
+                            <span class="text-on-surface-variant">Time Slot:</span>
+                            <span class="font-bold text-primary">{{ $booking->time_slot }}</span>
+                        </div>
+                        <div class="flex justify-between items-center pb-2 border-b border-surface-container-high">
+                            <span class="text-on-surface-variant">Customer Name:</span>
+                            <span class="font-semibold text-on-surface">{{ $booking->customer_name }}</span>
+                        </div>
+                        <div class="flex justify-between items-center pb-2 border-b border-surface-container-high">
+                            <span class="text-on-surface-variant">Email Address:</span>
+                            <span class="font-semibold text-on-surface">{{ $booking->customer_email }}</span>
+                        </div>
+                        <div class="flex justify-between items-center pb-2 border-b border-surface-container-high">
+                            <span class="text-on-surface-variant">Payment Mode:</span>
+                            <span class="font-bold text-tertiary-container">{{ $booking->payment_mode_label }}</span>
+                        </div>
+                        @if ($booking->payment_notes)
+                            <div class="flex justify-between items-center pb-2 border-b border-surface-container-high">
+                                <span class="text-on-surface-variant">Payment Note:</span>
+                                <span class="font-semibold text-on-surface">{{ $booking->payment_notes }}</span>
+                            </div>
+                        @endif
+                        <div class="flex justify-between items-center pt-2">
+                            <span class="font-headline-sm text-headline-sm text-on-surface">Total Amount Paid</span>
+                            <span class="font-headline-sm text-headline-sm text-primary font-bold">₱{{ number_format($booking->total_amount, 2) }}</span>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row items-center gap-3 justify-end pt-2">
+                        <a href="{{ route('court-booking.index') }}" class="w-full sm:w-auto px-5 py-3 rounded-xl bg-surface-container-low hover:bg-surface-container text-on-surface font-label-md text-label-md font-semibold text-center transition-colors">
+                            Book Another Court
+                        </a>
+                        <a href="{{ route('customer.bookings') }}" class="w-full sm:w-auto px-5 py-3 rounded-xl bg-primary text-on-primary font-label-md text-label-md font-bold text-center hover:bg-primary-container transition-all shadow-sm">
+                            View My Registrations &rarr;
+                        </a>
+                    </div>
+                </div>
+
+            @elseif (!$isVerified)
+                <!-- ═══ UNVERIFIED STATE: PASSCODE REQUIRED ═══ -->
+                <div class="p-6 sm:p-10 rounded-2xl bg-surface-container-lowest border border-outline-variant/30 shadow-md flex flex-col items-center text-center gap-5 max-w-lg mx-auto">
+                    <div class="w-14 h-14 rounded-2xl bg-primary-container text-on-primary flex items-center justify-center shadow-sm">
+                        <span class="material-symbols-outlined text-[28px]">mail_lock</span>
+                    </div>
+                    <div>
+                        <h1 class="font-headline-md text-headline-md text-on-surface font-bold">Enter Verification Passcode</h1>
+                        <p class="font-body-sm text-body-sm text-on-surface-variant mt-1.5 max-w-sm">
+                            A 6-digit verification code was sent to <strong>{{ $maskedEmail }}</strong>. Enter it below to unlock payment options.
+                        </p>
+                    </div>
+
+                    <form id="verify-passcode-form" onsubmit="submitPagePasscode(event)" class="w-full flex flex-col items-center gap-4">
+                        @csrf
+                        <input type="hidden" id="page-token" value="{{ $booking->verification_token }}"/>
+                        <input type="hidden" id="page-ref" value="{{ $booking->reference_code }}"/>
+
+                        <div class="flex items-center gap-2 sm:gap-2.5 my-1" id="page-pin-inputs">
+                            <input type="text" maxlength="1" class="page-pin w-11 h-14 text-center font-headline-md text-headline-md font-bold rounded-xl bg-surface-container-low border border-outline-variant/30 outline-none focus:ring-2 focus:ring-primary focus:bg-surface-container-lowest" data-index="0" inputmode="numeric" autofocus/>
+                            <input type="text" maxlength="1" class="page-pin w-11 h-14 text-center font-headline-md text-headline-md font-bold rounded-xl bg-surface-container-low border border-outline-variant/30 outline-none focus:ring-2 focus:ring-primary focus:bg-surface-container-lowest" data-index="1" inputmode="numeric"/>
+                            <input type="text" maxlength="1" class="page-pin w-11 h-14 text-center font-headline-md text-headline-md font-bold rounded-xl bg-surface-container-low border border-outline-variant/30 outline-none focus:ring-2 focus:ring-primary focus:bg-surface-container-lowest" data-index="2" inputmode="numeric"/>
+                            <input type="text" maxlength="1" class="page-pin w-11 h-14 text-center font-headline-md text-headline-md font-bold rounded-xl bg-surface-container-low border border-outline-variant/30 outline-none focus:ring-2 focus:ring-primary focus:bg-surface-container-lowest" data-index="3" inputmode="numeric"/>
+                            <input type="text" maxlength="1" class="page-pin w-11 h-14 text-center font-headline-md text-headline-md font-bold rounded-xl bg-surface-container-low border border-outline-variant/30 outline-none focus:ring-2 focus:ring-primary focus:bg-surface-container-lowest" data-index="4" inputmode="numeric"/>
+                            <input type="text" maxlength="1" class="page-pin w-11 h-14 text-center font-headline-md text-headline-md font-bold rounded-xl bg-surface-container-low border border-outline-variant/30 outline-none focus:ring-2 focus:ring-primary focus:bg-surface-container-lowest" data-index="5" inputmode="numeric"/>
+                        </div>
+
+                        <p id="err-page-passcode" class="font-label-sm text-label-sm text-error hidden"></p>
+
+                        <button type="submit" id="btn-page-verify" class="w-full py-3.5 px-4 rounded-xl bg-primary text-on-primary font-label-lg text-label-lg font-bold hover:bg-primary-container transition-all shadow-md">
+                            <span id="btn-page-verify-text">Verify Passcode &amp; Unlock Payment &rarr;</span>
+                        </button>
+
+                        <div class="text-label-sm font-label-sm text-on-surface-variant pt-2">
+                            Didn't receive the email?
+                            <button type="button" id="btn-page-resend" onclick="resendPagePasscode()" class="text-primary hover:underline font-bold ml-1">
+                                Resend Passcode
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+            @else
+                <!-- ═══ VERIFIED STATE: SCHEDULE SUMMARY & PAYMENT MODE ═══ -->
+                <div class="p-6 sm:p-8 rounded-2xl bg-surface-container-lowest border border-outline-variant/30 shadow-md flex flex-col gap-6">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-outline-variant/20">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-tertiary-container animate-pulse"></span>
+                            <span class="font-label-md text-label-md text-tertiary-container font-bold">Email Verified &bull; Ref #{{ $booking->reference_code }}</span>
+                        </div>
+                        <span class="px-2.5 py-1 rounded-full bg-surface-container font-label-sm text-label-sm font-semibold text-on-surface-variant">
+                            Live Reservation Active
+                        </span>
+                    </div>
+
+                    <div>
+                        <h1 class="font-headline-md text-headline-md text-on-surface font-bold">Schedule Summary &amp; Payment</h1>
+                        <p class="font-body-sm text-body-sm text-on-surface-variant mt-1">
+                            Your reservation is on hold. Select your preferred payment mode below to finalize confirmation.
+                        </p>
+                    </div>
+
+                    <!-- Summary Box -->
+                    <div class="bg-surface-container-low p-5 rounded-xl border border-outline-variant/20 flex flex-col gap-3 font-body-sm text-body-sm">
+                        <div class="flex justify-between items-center pb-2 border-b border-surface-container-high">
+                            <span class="text-on-surface-variant">Court Facility:</span>
+                            <span class="font-bold text-on-surface">{{ $booking->court->name }}</span>
+                        </div>
+                        <div class="flex justify-between items-center pb-2 border-b border-surface-container-high">
+                            <span class="text-on-surface-variant">Date:</span>
+                            <span class="font-semibold text-on-surface">{{ $booking->booking_date->format('l, F d, Y') }}</span>
+                        </div>
+                        <div class="flex justify-between items-center pb-2 border-b border-surface-container-high">
+                            <span class="text-on-surface-variant">Time Slot:</span>
+                            <span class="font-bold text-primary">{{ $booking->time_slot }}</span>
+                        </div>
+                        @if($booking->court_fee > 0)
+                            <div class="flex justify-between items-center pb-2 border-b border-surface-container-high">
+                                <span class="text-on-surface-variant">Court Slot Fee:</span>
+                                <span class="font-semibold text-on-surface">₱{{ number_format($booking->court_fee, 2) }}</span>
+                            </div>
+                        @endif
+                        @if($booking->rentals && $booking->rentals->isNotEmpty())
+                            <div class="flex justify-between items-start pb-2 border-b border-surface-container-high">
+                                <span class="text-on-surface-variant">Equipment Rentals:</span>
+                                <div class="text-right">
+                                    @foreach($booking->rentals as $rental)
+                                        <div class="font-semibold text-on-surface">{{ $rental->item->name ?? 'Equipment' }} &times; {{ $rental->quantity }} (₱{{ number_format($rental->subtotal, 2) }})</div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
+                        @if(($booking->discount_amount ?? 0) > 0 || !empty($booking->voucher_code))
+                            <div class="flex justify-between items-center pb-2 border-b border-surface-container-high text-tertiary-container font-semibold">
+                                <span>Voucher Discount{{ !empty($booking->voucher_code) ? ' (' . $booking->voucher_code . ')' : '' }}:</span>
+                                <span>-₱{{ number_format($booking->discount_amount ?? 0, 2) }}</span>
+                            </div>
+                        @endif
+                        <div class="flex justify-between items-center pt-2">
+                            <span class="font-headline-sm text-headline-sm text-on-surface">Total Due</span>
+                            <span class="font-headline-sm text-headline-sm text-primary font-bold">₱{{ number_format($booking->total_amount, 2) }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Payment Mode Form -->
+                    <form action="{{ route('court-booking.confirmPayment', ['token' => $booking->verification_token]) }}" method="POST" class="flex flex-col gap-4">
+                        @csrf
+                        <div class="font-headline-sm text-headline-sm text-on-surface">
+                            Select Mode of Payment <span class="text-error">*</span>
+                        </div>
+
+                        <div class="grid grid-cols-1 gap-3" id="paymentOptionsGroup">
+                            <!-- Option 1: Cash on Site -->
+                            <label class="payment-option-card p-4 rounded-xl border-2 border-primary bg-primary-fixed/15 flex items-start gap-3 cursor-pointer transition-all" onclick="setPaymentOption(this)">
+                                <input type="radio" name="payment_mode" value="cash_on_site" checked class="mt-1 accent-primary w-4 h-4"/>
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between">
+                                        <span class="font-label-lg text-label-lg font-bold text-on-surface">Cash on Site / Over the Counter</span>
+                                        <span class="px-2 py-0.5 rounded text-label-sm font-label-sm bg-tertiary-container text-on-tertiary-container font-semibold">Recommended</span>
+                                    </div>
+                                    <p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Pay at our reception desk when you arrive at Truant Enterprises for your court session.</p>
+                                </div>
+                            </label>
+
+                            <!-- Option 2: GCash -->
+                            <label class="payment-option-card p-4 rounded-xl border border-outline-variant/30 bg-surface-container-low hover:bg-surface-container flex items-start gap-3 cursor-pointer transition-all" onclick="setPaymentOption(this)">
+                                <input type="radio" name="payment_mode" value="gcash" class="mt-1 accent-primary w-4 h-4"/>
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between">
+                                        <span class="font-label-lg text-label-lg font-bold text-on-surface">GCash / E-Wallet</span>
+                                        <span class="px-2 py-0.5 rounded text-label-sm font-label-sm bg-surface-container-high text-primary font-semibold">Fast E-Wallet</span>
+                                    </div>
+                                    <p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Instant mobile transfer. Transaction reference will be recorded.</p>
+                                    <div class="mt-2 p-2.5 rounded-lg bg-surface-container-lowest border border-outline-variant/20 font-mono text-xs text-on-surface">
+                                        GCash No: <strong>0917-123-4567</strong> &bull; Name: <strong>Truant Enterprises Inc.</strong>
+                                    </div>
+                                </div>
+                            </label>
+
+                            <!-- Option 3: Bank Transfer -->
+                            <label class="payment-option-card p-4 rounded-xl border border-outline-variant/30 bg-surface-container-low hover:bg-surface-container flex items-start gap-3 cursor-pointer transition-all" onclick="setPaymentOption(this)">
+                                <input type="radio" name="payment_mode" value="bank_transfer" class="mt-1 accent-primary w-4 h-4"/>
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between">
+                                        <span class="font-label-lg text-label-lg font-bold text-on-surface">Bank Transfer (BDO / BPI)</span>
+                                    </div>
+                                    <p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Direct bank deposit or online fund transfer.</p>
+                                    <div class="mt-2 p-2.5 rounded-lg bg-surface-container-lowest border border-outline-variant/20 font-mono text-xs text-on-surface">
+                                        Bank: <strong>BDO Unibank</strong> &bull; Acct: <strong>0012-3456-7890</strong> &bull; Name: <strong>Truant Enterprises Inc.</strong>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+
+                        <div class="flex flex-col gap-1 mt-2">
+                            <label for="payment-notes" class="font-label-md text-label-md text-on-surface font-semibold">
+                                Payment Notes / Reference No. (Optional)
+                            </label>
+                            <input type="text" id="payment-notes" name="payment_notes" class="w-full px-3.5 py-2.5 rounded-xl bg-surface-container-low text-on-surface border border-outline-variant/30 outline-none focus:ring-2 focus:ring-primary font-body-md text-body-md" placeholder="e.g. GCash Ref #123456789 or expected arrival time"/>
+                        </div>
+
+                        <button type="submit" class="w-full mt-2 py-3.5 px-4 rounded-xl bg-primary text-on-primary font-label-lg text-label-lg font-bold hover:bg-primary-container transition-all flex items-center justify-center gap-2 shadow-md active:scale-95">
+                            <span>Confirm &amp; Finalize Reservation &rarr;</span>
+                        </button>
+                    </form>
+                </div>
+            @endif
+
         </div>
-    </header>
-
-    <main class="verify-main">
-        @if (isset($error) || !$booking)
-            <!-- Error State -->
-            <div class="card" style="text-align: center; padding: 48px 32px;">
-                <div style="width: 56px; height: 56px; border-radius: 50%; background: var(--danger-bg); color: var(--danger-text); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px auto; border: 1px solid var(--danger-border);">
-                    <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
-                    </svg>
-                </div>
-                <h2 class="card-title">Reservation Not Found</h2>
-                <p class="card-desc">{{ $error ?? 'This verification link is invalid or has expired.' }}</p>
-                <div>
-                    <a href="{{ route('court-booking.index') }}" class="btn btn-primary" style="display: inline-flex; width: auto;">
-                        Start a New Court Booking
-                    </a>
-                </div>
-            </div>
-        @elseif ($isConfirmed || $booking->isConfirmed())
-            <!-- CONFIRMED STATE (RECEIPT) -->
-            <div class="card confirmed-card">
-                <div class="success-icon-box">
-                    <svg width="34" height="34" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
-                    </svg>
-                </div>
-                <div class="badge-verified">
-                    &#9989; Email Validated &amp; Schedule Confirmed
-                </div>
-                <h1 class="card-title">Court Reservation Confirmed!</h1>
-                <p class="card-desc">
-                    Your reservation has been recorded in the system. The admin has been notified of your schedule.
-                </p>
-
-                <!-- Receipt Summary Box -->
-                <div class="summary-box" style="text-align: left;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                        <span class="summary-title" style="margin-bottom: 0;">Reservation Receipt</span>
-                        <button type="button" class="print-btn" onclick="window.print()">
-                            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4H7v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
-                            </svg>
-                            Print Receipt
-                        </button>
-                    </div>
-
-                    <div class="summary-row">
-                        <span class="summary-label">Reference Number:</span>
-                        <span class="reference-chip">{{ $booking->reference_code }}</span>
-                    </div>
-                    <div class="summary-row">
-                        <span class="summary-label">Court:</span>
-                        <span class="summary-value" style="color: var(--primary);">{{ $booking->court->name }}</span>
-                    </div>
-                    <div class="summary-row">
-                        <span class="summary-label">Date:</span>
-                        <span class="summary-value">{{ $booking->booking_date->format('l, F d, Y') }}</span>
-                    </div>
-                    <div class="summary-row">
-                        <span class="summary-label">Time Slot:</span>
-                        <span class="summary-value" style="color: var(--primary);">{{ $booking->time_slot }}</span>
-                    </div>
-                    <div class="summary-row">
-                        <span class="summary-label">Reserved Slots:</span>
-                        <span class="summary-value">{{ $booking->slots_count }} slot</span>
-                    </div>
-                    <div class="summary-row">
-                        <span class="summary-label">Customer Name:</span>
-                        <span class="summary-value">{{ $booking->customer_name }}</span>
-                    </div>
-                    <div class="summary-row">
-                        <span class="summary-label">Email:</span>
-                        <span class="summary-value">{{ $booking->customer_email }}</span>
-                    </div>
-                    <div class="summary-row">
-                        <span class="summary-label">Contact Number:</span>
-                        <span class="summary-value">{{ $booking->customer_contact }}</span>
-                    </div>
-                    <div class="summary-row">
-                        <span class="summary-label">Payment Mode:</span>
-                        <span class="summary-value" style="color: #065f46;">{{ $booking->payment_mode_label }}</span>
-                    </div>
-                    @if ($booking->payment_notes)
-                    <div class="summary-row">
-                        <span class="summary-label">Payment Note:</span>
-                        <span class="summary-value">{{ $booking->payment_notes }}</span>
-                    </div>
-                    @endif
-                </div>
-
-                <div class="btn-wrapper" style="display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;">
-                    <a href="{{ route('court-booking.index') }}" class="btn btn-outline" style="width: auto;">
-                        Book Another Court
-                    </a>
-                    <a href="{{ url('/') }}" class="btn btn-primary" style="width: auto;">
-                        Back to Homepage &rarr;
-                    </a>
-                </div>
-            </div>
-        @elseif (!$isVerified)
-            <!-- UNVERIFIED STATE: PASSCODE REQUIRED -->
-            <div class="card" style="text-align: center; padding: 44px 32px; max-width: 580px; margin: 0 auto;">
-                <div style="width: 56px; height: 56px; border-radius: 50%; background: var(--primary-light); color: var(--primary); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px auto; border: 1px solid var(--primary-border);">
-                    <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
-                    </svg>
-                </div>
-                <h1 class="card-title">Enter Verification Passcode</h1>
-                <p class="card-desc" style="max-width: 440px; margin: 0 auto 20px auto;">
-                    A 6-digit verification passcode was sent to <strong>{{ $maskedEmail }}</strong>.<br>Enter it below to verify your email and unlock payment options.
-                </p>
-
-                <!-- Passcode Input Form -->
-                <form id="verify-passcode-form" onsubmit="submitPagePasscode(event)" style="max-width: 380px; margin: 0 auto;">
-                    @csrf
-                    <input type="hidden" id="page-token" value="{{ $booking->verification_token }}">
-                    <input type="hidden" id="page-ref" value="{{ $booking->reference_code }}">
-
-                    <div class="pin-inputs-wrapper" id="page-pin-inputs">
-                        <input type="text" maxlength="1" class="pin-box page-pin" data-index="0" inputmode="numeric" autocomplete="one-time-code" autofocus>
-                        <input type="text" maxlength="1" class="pin-box page-pin" data-index="1" inputmode="numeric">
-                        <input type="text" maxlength="1" class="pin-box page-pin" data-index="2" inputmode="numeric">
-                        <input type="text" maxlength="1" class="pin-box page-pin" data-index="3" inputmode="numeric">
-                        <input type="text" maxlength="1" class="pin-box page-pin" data-index="4" inputmode="numeric">
-                        <input type="text" maxlength="1" class="pin-box page-pin" data-index="5" inputmode="numeric">
-                    </div>
-
-                    <div class="form-error" id="err-page-passcode" style="color: var(--danger-text); font-size: 0.85rem; margin-bottom: 14px; display: none;"></div>
-
-                    <button type="submit" class="btn btn-primary" id="btn-page-verify" style="width: 100%; justify-content: center; padding: 13px 20px;">
-                        <span id="btn-page-verify-text">Verify Passcode &amp; Unlock Payment &rarr;</span>
-                    </button>
-
-                    <div style="margin-top: 18px; font-size: 0.88rem; color: var(--text-muted);">
-                        Didn't receive the email?
-                        <button type="button" id="btn-page-resend" onclick="resendPagePasscode()" style="background: none; border: none; color: var(--primary); font-weight: 700; cursor: pointer; text-decoration: underline; padding: 0;">
-                            Resend Passcode
-                        </button>
-                    </div>
-                </form>
-            </div>
-        @else
-            <!-- VERIFIED STATE: SUMMARY & PAYMENT MODE SELECTION -->
-            <div class="card">
-                <div class="badge-verified">
-                    &#9989; Email Verified &mdash; Ref #{{ $booking->reference_code }}
-                </div>
-                <h1 class="card-title">Schedule Summary &amp; Payment</h1>
-                <p class="card-desc">
-                    Your email address has been verified. Please review your schedule details below and select your preferred payment mode to finalize the reservation.
-                </p>
-
-                <!-- Schedule Summary Box -->
-                <div class="summary-box">
-                    <div class="summary-title">Reservation Summary</div>
-                    <div class="summary-row">
-                        <span class="summary-label">Court:</span>
-                        <span class="summary-value" style="color: var(--primary);">{{ $booking->court->name }}</span>
-                    </div>
-                    <div class="summary-row">
-                        <span class="summary-label">Date:</span>
-                        <span class="summary-value">{{ $booking->booking_date->format('l, F d, Y') }}</span>
-                    </div>
-                    <div class="summary-row">
-                        <span class="summary-label">Time Slot:</span>
-                        <span class="summary-value" style="color: var(--primary);">{{ $booking->time_slot }}</span>
-                    </div>
-                    <div class="summary-row">
-                        <span class="summary-label">Slots:</span>
-                        <span class="summary-value">{{ $booking->slots_count }} slot</span>
-                    </div>
-                    <div class="summary-row">
-                        <span class="summary-label">Customer Name:</span>
-                        <span class="summary-value">{{ $booking->customer_name }}</span>
-                    </div>
-                    <div class="summary-row">
-                        <span class="summary-label">Email:</span>
-                        <span class="summary-value">{{ $booking->customer_email }}</span>
-                    </div>
-                    <div class="summary-row">
-                        <span class="summary-label">Contact:</span>
-                        <span class="summary-value">{{ $booking->customer_contact }}</span>
-                    </div>
-                </div>
-
-                <!-- Form: Select Mode of Payment -->
-                <form action="{{ route('court-booking.confirmPayment', ['token' => $booking->verification_token]) }}" method="POST">
-                    @csrf
-                    <div style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; color: var(--text-title); margin-bottom: 14px;">
-                        Select Mode of Payment <span style="color: var(--danger-text);">*</span>
-                    </div>
-
-                    <div class="payment-options-group">
-                        <!-- Option 1: Cash on Site -->
-                        <label class="payment-option-label active" onclick="setPaymentOption(this)">
-                            <input type="radio" name="payment_mode" value="cash_on_site" class="payment-radio" checked>
-                            <div class="payment-option-content">
-                                <div class="payment-name">
-                                    <span>Cash on Site / Over the Counter</span>
-                                    <span style="font-size: 0.78rem; color: #065f46; font-weight: 600;">Recommended</span>
-                                </div>
-                                <div class="payment-desc">
-                                    Pay at our reception desk when you arrive at Truant Enterprises for your court schedule.
-                                </div>
-                            </div>
-                        </label>
-
-                        <!-- Option 2: GCash -->
-                        <label class="payment-option-label" onclick="setPaymentOption(this)">
-                            <input type="radio" name="payment_mode" value="gcash" class="payment-radio">
-                            <div class="payment-option-content">
-                                <div class="payment-name">
-                                    <span>GCash / E-Wallet</span>
-                                    <span style="font-size: 0.78rem; color: var(--primary); font-weight: 600;">Fast E-Wallet</span>
-                                </div>
-                                <div class="payment-desc">
-                                    Send payment via GCash. Transaction reference will be recorded.
-                                </div>
-                                <div class="payment-instruction-box">
-                                    GCash Number: 0917-123-4567<br>
-                                    Account Name: Truant Enterprises Inc.
-                                </div>
-                            </div>
-                        </label>
-
-                        <!-- Option 3: Bank Transfer -->
-                        <label class="payment-option-label" onclick="setPaymentOption(this)">
-                            <input type="radio" name="payment_mode" value="bank_transfer" class="payment-radio">
-                            <div class="payment-option-content">
-                                <div class="payment-name">
-                                    <span>Bank Transfer (BDO / BPI)</span>
-                                </div>
-                                <div class="payment-desc">
-                                    Direct bank deposit or online fund transfer.
-                                </div>
-                                <div class="payment-instruction-box">
-                                    Bank: BDO Unibank<br>
-                                    Account No: 0012-3456-7890<br>
-                                    Account Name: Truant Enterprises Inc.
-                                </div>
-                            </div>
-                        </label>
-                    </div>
-
-                    <div style="margin-bottom: 24px;">
-                        <label for="payment-notes" style="display: block; font-size: 0.85rem; font-weight: 600; color: var(--text-body); margin-bottom: 6px;">
-                            Payment Notes / Reference No. (Optional)
-                        </label>
-                        <input type="text"
-                               id="payment-notes"
-                               name="payment_notes"
-                               class="form-input"
-                               style="width: 100%; background: #ffffff; border: 1.5px solid var(--border-color); border-radius: var(--radius-sm); padding: 10px 14px; font-size: 0.92rem; color: var(--text-title); outline: none;"
-                               placeholder="e.g. GCash Ref #123456789 or expected arrival time">
-                    </div>
-
-                    <button type="submit" class="btn btn-primary" id="btn-confirm-payment">
-                        <span>Confirm &amp; Finalize Reservation &rarr;</span>
-                    </button>
-                </form>
-            </div>
-        @endif
     </main>
 
-    <footer style="background: #ffffff; border-top: 1px solid var(--border-color); padding: 24px; text-align: center; font-size: 0.82rem; color: var(--text-muted); margin-top: auto;">
-        &copy; {{ date('Y') }} Truant Enterprises. All rights reserved.
-    </footer>
+    <!-- Global Footer Partial (Desktop Footer + Mobile Bottom Navigation) -->
+    @include('partials.footer', ['active' => 'book-a-court'])
 
+    <!-- ═══ 6. CLIENT SCRIPTS ═══ -->
     <script>
         function setPaymentOption(labelEl) {
-            document.querySelectorAll('.payment-option-label').forEach(el => el.classList.remove('active'));
-            labelEl.classList.add('active');
+            document.querySelectorAll('.payment-option-card').forEach(el => {
+                el.classList.remove('border-primary', 'bg-primary-fixed/15', 'border-2');
+                el.classList.add('border-outline-variant/30', 'bg-surface-container-low', 'border');
+            });
+            labelEl.classList.remove('border-outline-variant/30', 'bg-surface-container-low', 'border');
+            labelEl.classList.add('border-primary', 'bg-primary-fixed/15', 'border-2');
             const radio = labelEl.querySelector('input[type="radio"]');
             if (radio) radio.checked = true;
         }
@@ -704,12 +427,12 @@
 
             const errEl = document.getElementById('err-page-passcode');
             if (!errEl) return;
-            errEl.style.display = 'none';
+            errEl.classList.add('hidden');
             errEl.textContent = '';
 
             if (passcode.length < 6) {
                 errEl.textContent = 'Please enter all 6 digits of the passcode.';
-                errEl.style.display = 'block';
+                errEl.classList.remove('hidden');
                 return;
             }
 
@@ -738,11 +461,11 @@
                     window.location.reload();
                 } else {
                     errEl.textContent = data.message || 'Invalid passcode. Please try again.';
-                    errEl.style.display = 'block';
+                    errEl.classList.remove('hidden');
                 }
             } catch (err) {
                 errEl.textContent = 'A network error occurred. Please try again.';
-                errEl.style.display = 'block';
+                errEl.classList.remove('hidden');
             } finally {
                 if (btn) btn.disabled = false;
                 if (btnText) btnText.textContent = 'Verify Passcode & Unlock Payment \u2192';
@@ -774,17 +497,11 @@
                     startPageResendTimer(60);
                 } else {
                     alert(data.message || 'Unable to resend passcode.');
-                    if (btn) {
-                        btn.disabled = false;
-                        btn.textContent = 'Resend Passcode';
-                    }
+                    if (btn) btn.disabled = false;
                 }
             } catch (err) {
                 alert('A network error occurred while resending.');
-                if (btn) {
-                    btn.disabled = false;
-                    btn.textContent = 'Resend Passcode';
-                }
+                if (btn) btn.disabled = false;
             }
         }
 
@@ -816,17 +533,12 @@
                     input.addEventListener('input', (e) => {
                         const val = e.target.value.replace(/\D/g, '');
                         e.target.value = val ? val[0] : '';
-                        if (e.target.value) {
-                            e.target.classList.add('filled');
-                            if (idx < pagePins.length - 1) {
-                                pagePins[idx + 1].focus();
-                            } else {
-                                let allFilled = true;
-                                pagePins.forEach(p => { if (!p.value) allFilled = false; });
-                                if (allFilled) submitPagePasscode();
-                            }
-                        } else {
-                            e.target.classList.remove('filled');
+                        if (e.target.value && idx < pagePins.length - 1) {
+                            pagePins[idx + 1].focus();
+                        } else if (idx === pagePins.length - 1 && e.target.value) {
+                            let allFilled = true;
+                            pagePins.forEach(p => { if (!p.value) allFilled = false; });
+                            if (allFilled) submitPagePasscode();
                         }
                     });
 
@@ -842,8 +554,6 @@
                         if (!text) return;
                         pagePins.forEach((inp, i) => {
                             inp.value = text[i] || '';
-                            if (text[i]) inp.classList.add('filled');
-                            else inp.classList.remove('filled');
                         });
                         const nextIdx = Math.min(text.length, pagePins.length - 1);
                         pagePins[nextIdx]?.focus();

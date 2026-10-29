@@ -41,7 +41,14 @@ class CourtBookingsTable
                     ->label('Customer')
                     ->searchable()
                     ->weight('bold')
-                    ->description(fn (CourtBooking $record): string => $record->customer_contact),
+                    ->description(function (CourtBooking $record): string {
+                        $contact = $record->customer_contact;
+                        if ($record->user_id && $record->user) {
+                            $provider = !empty($record->user->google_id) ? 'Google User' : 'Registered User';
+                            return "{$contact} • [{$provider}]";
+                        }
+                        return $contact;
+                    }),
                 TextColumn::make('customer_email')
                     ->label('Email')
                     ->searchable()
@@ -61,6 +68,10 @@ class CourtBookingsTable
                     ->badge()
                     ->color('gray')
                     ->alignCenter(),
+                TextColumn::make('total_amount')
+                    ->label('Total')
+                    ->money('PHP')
+                    ->sortable(),
                 TextColumn::make('payment_mode')
                     ->label('Payment')
                     ->badge()

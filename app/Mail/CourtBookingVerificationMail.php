@@ -30,8 +30,12 @@ class CourtBookingVerificationMail extends Mailable
      */
     public function envelope(): Envelope
     {
+        $subject = $this->booking->isVerified()
+            ? 'Court Reservation Confirmation — ' . ($this->booking->court->name ?? 'Court') . ' (' . $this->booking->reference_code . ')'
+            : 'Your Court Reservation Passcode: ' . $this->booking->verification_passcode . ' — Truant Enterprises (' . $this->booking->reference_code . ')';
+
         return new Envelope(
-            subject: 'Your Court Reservation Passcode: ' . $this->booking->verification_passcode . ' — Truant Enterprises (' . $this->booking->reference_code . ')',
+            subject: $subject,
         );
     }
 

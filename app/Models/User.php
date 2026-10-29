@@ -20,7 +20,7 @@ class User extends Authenticatable implements FilamentUser
      */
     public function canAccessPanel(Panel $panel): bool
     {
-        return true;
+        return $this->role === 'admin' || str_contains(strtolower($this->email ?? ''), 'admin');
     }
 
     /**
@@ -32,6 +32,10 @@ class User extends Authenticatable implements FilamentUser
         'name',
         'email',
         'password',
+        'role',
+        'google_id',
+        'avatar',
+        'phone_number',
     ];
 
     /**
@@ -55,5 +59,28 @@ class User extends Authenticatable implements FilamentUser
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function courtBookings(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(CourtBooking::class);
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin' || str_contains(strtolower($this->email ?? ''), 'admin');
+    }
+
+    public function isCustomer(): bool
+    {
+        return $this->role === 'customer';
+    }
+
+    public function getAvatarUrlAttribute(): string
+    {
+        if ($this->avatar) {
+            return $this->avatar;
+        }
+        return 'https://ui-avatars.com/api/?name=' . urlencode($this->name) . '&background=4f46e5&color=fff&bold=true';
     }
 }

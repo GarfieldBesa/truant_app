@@ -29,6 +29,21 @@ class Court extends Model
         ];
     }
 
+    protected static function booted(): void
+    {
+        static::creating(function (Court $court) {
+            if (empty($court->slug)) {
+                $baseSlug = \Illuminate\Support\Str::slug($court->name);
+                $slug = $baseSlug;
+                $counter = 1;
+                while (self::where('slug', $slug)->exists()) {
+                    $slug = $baseSlug . '-' . (++$counter);
+                }
+                $court->slug = $slug;
+            }
+        });
+    }
+
     public function unavailabilities(): HasMany
     {
         return $this->hasMany(CourtUnavailability::class);

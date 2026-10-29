@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
 class CourtBooking extends Model
@@ -12,12 +13,20 @@ class CourtBooking extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'reference_code',
         'court_id',
         'booking_date',
         'start_hour',
         'end_hour',
         'slots_count',
+        'court_fee',
+        'rentals_fee',
+        'voucher_id',
+        'voucher_code',
+        'discount_amount',
+        'total_amount',
+        'terms_agreed',
         'customer_name',
         'customer_email',
         'customer_contact',
@@ -37,10 +46,17 @@ class CourtBooking extends Model
     protected function casts(): array
     {
         return [
+            'user_id' => 'integer',
+            'voucher_id' => 'integer',
             'booking_date' => 'date:Y-m-d',
             'start_hour' => 'integer',
             'end_hour' => 'integer',
             'slots_count' => 'integer',
+            'court_fee' => 'decimal:2',
+            'rentals_fee' => 'decimal:2',
+            'discount_amount' => 'decimal:2',
+            'total_amount' => 'decimal:2',
+            'terms_agreed' => 'boolean',
             'passcode_attempts' => 'integer',
             'passcode_expires_at' => 'datetime',
             'verified_at' => 'datetime',
@@ -90,6 +106,21 @@ class CourtBooking extends Model
     public function court(): BelongsTo
     {
         return $this->belongsTo(Court::class);
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function rentals(): HasMany
+    {
+        return $this->hasMany(CourtBookingRental::class);
+    }
+
+    public function voucher(): BelongsTo
+    {
+        return $this->belongsTo(Voucher::class);
     }
 
     public function getTimeSlotAttribute(): string
