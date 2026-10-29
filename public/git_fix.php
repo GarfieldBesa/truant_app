@@ -59,6 +59,28 @@ foreach ($candidatePaths as $repoPath) {
     $pull = run("git -C " . escapeshellarg($repoPath) . " pull origin main");
     $steps[] = ['label' => "[$repoPath] git pull origin main", 'result' => $pull];
 
+    // 3.5 Check and run Composer if available
+    $composerCandidates = [
+        'composer',
+        '/opt/cpanel/composer/bin/composer',
+        '/usr/local/bin/composer',
+        '/usr/bin/composer',
+    ];
+    $foundComposer = null;
+    foreach ($composerCandidates as $candidate) {
+        $check = run("$candidate --version");
+        if ($check['code'] === 0) {
+            $foundComposer = $candidate;
+            break;
+        }
+    }
+    if ($foundComposer) {
+        $cInstall = run("cd " . escapeshellarg($repoPath) . " && php -d memory_limit=512M $foundComposer install --no-dev --optimize-autoloader --no-interaction");
+        $steps[] = ['label' => "[$repoPath] $foundComposer install", 'result' => $cInstall];
+    } else {
+        $steps[] = ['label' => "[$repoPath] Composer Check", 'result' => ['out' => 'Composer CLI not detected in system path. Native Google OAuth is active.', 'code' => 0]];
+    }
+
     // 4. Update .env APP_NAME, APP_URL, Mail, and Google OAuth configuration
     $envFile = $repoPath . '/.env';
     if (file_exists($envFile)) {
