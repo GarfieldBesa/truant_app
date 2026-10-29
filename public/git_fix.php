@@ -59,13 +59,19 @@ foreach ($candidatePaths as $repoPath) {
     $pull = run("git -C " . escapeshellarg($repoPath) . " pull origin main");
     $steps[] = ['label' => "[$repoPath] git pull origin main", 'result' => $pull];
 
-    // 4. Update .env APP_NAME and Mail configuration
+    // 4. Update .env APP_NAME, APP_URL, Mail, and Google OAuth configuration
     $envFile = $repoPath . '/.env';
     if (file_exists($envFile)) {
         $env = file_get_contents($envFile);
 
-        $mailUpdates = [
+        $submittedPass = trim((string)($_POST['mail_password'] ?? $_GET['mail_password'] ?? ''));
+        $submittedGoogleId = trim((string)($_POST['google_client_id'] ?? $_GET['google_client_id'] ?? ''));
+        $submittedGoogleSecret = trim((string)($_POST['google_client_secret'] ?? $_GET['google_client_secret'] ?? ''));
+        $submittedAppUrl = trim((string)($_POST['app_url'] ?? $_GET['app_url'] ?? ''));
+
+        $envUpdates = [
             'APP_NAME' => '"Truant Enterprises"',
+            'APP_URL' => $submittedAppUrl !== '' ? $submittedAppUrl : 'https://truantenterprises.com',
             'MAIL_MAILER' => 'smtp',
             'MAIL_SCHEME' => 'smtps',
             'MAIL_HOST' => 'truantenterprises.com',
@@ -73,26 +79,40 @@ foreach ($candidatePaths as $repoPath) {
             'MAIL_USERNAME' => 'info@truantenterprises.com',
             'MAIL_FROM_ADDRESS' => '"info@truantenterprises.com"',
             'MAIL_FROM_NAME' => '"Truant Enterprises"',
+            'GOOGLE_REDIRECT_URI' => 'https://truantenterprises.com/auth/google/callback',
         ];
 
         // If mail_password was submitted via POST or GET, update MAIL_PASSWORD
-        $submittedPass = trim((string)($_POST['mail_password'] ?? $_GET['mail_password'] ?? ''));
         if ($submittedPass !== '') {
-            $mailUpdates['MAIL_PASSWORD'] = '"' . addcslashes($submittedPass, '"$\\') . '"';
+            $envUpdates['MAIL_PASSWORD'] = '"' . addcslashes($submittedPass, '"$\\') . '"';
+        }
+
+        // GOOGLE_CLIENT_ID
+        if ($submittedGoogleId !== '') {
+            $envUpdates['GOOGLE_CLIENT_ID'] = $submittedGoogleId;
+        } elseif (!preg_match('/^GOOGLE_CLIENT_ID=\S+/m', $env)) {
+            $envUpdates['GOOGLE_CLIENT_ID'] = 'your_production_google_client_id';
+        }
+
+        // GOOGLE_CLIENT_SECRET
+        if ($submittedGoogleSecret !== '') {
+            $envUpdates['GOOGLE_CLIENT_SECRET'] = $submittedGoogleSecret;
+        } elseif (!preg_match('/^GOOGLE_CLIENT_SECRET=\S+/m', $env)) {
+            $envUpdates['GOOGLE_CLIENT_SECRET'] = 'your_production_google_client_secret';
         }
 
         $applied = [];
-        foreach ($mailUpdates as $key => $val) {
+        foreach ($envUpdates as $key => $val) {
             if (preg_match("/^{$key}=.*$/m", $env)) {
                 $env = preg_replace("/^{$key}=.*$/m", "{$key}={$val}", $env);
             } else {
                 $env .= "\n{$key}={$val}\n";
             }
-            $applied[] = "{$key}=" . (str_contains(strtolower($key), 'pass') ? '***hidden***' : $val);
+            $applied[] = "{$key}=" . (str_contains(strtolower($key), 'pass') || str_contains(strtolower($key), 'secret') ? '***hidden***' : $val);
         }
 
         file_put_contents($envFile, $env);
-        $steps[] = ['label' => "[$repoPath] Update .env (APP & MAIL settings)", 'result' => ['out' => implode("\n", $applied), 'code' => 0]];
+        $steps[] = ['label' => "[$repoPath] Update .env (APP, MAIL, & GOOGLE OAuth settings)", 'result' => ['out' => implode("\n", $applied), 'code' => 0]];
     }
 
     // 5. Clear views and cache
@@ -150,8 +170,24 @@ if (is_dir($prodPublic)) {
 $smtpCheckResult = 'Not tested';
 $smtpCheckStatus = 'neutral';
 $prodEnvPath = '/home/uq7hadnu944q/production/truant_app/.env';
+$currentAppUrl = '';
+$currentGoogleClientId = '';
+$currentGoogleClientSecret = '';
+$currentGoogleRedirect = '';
 if (file_exists($prodEnvPath)) {
     $envContent = file_get_contents($prodEnvPath);
+    if (preg_match('/^APP_URL=(.*)$/m', $envContent, $m)) {
+        $currentAppUrl = trim($m[1], " \t\n\r\0\x0B\"'");
+    }
+    if (preg_match('/^GOOGLE_CLIENT_ID=(.*)$/m', $envContent, $m)) {
+        $currentGoogleClientId = trim($m[1], " \t\n\r\0\x0B\"'");
+    }
+    if (preg_match('/^GOOGLE_CLIENT_SECRET=(.*)$/m', $envContent, $m)) {
+        $currentGoogleClientSecret = trim($m[1], " \t\n\r\0\x0B\"'");
+    }
+    if (preg_match('/^GOOGLE_REDIRECT_URI=(.*)$/m', $envContent, $m)) {
+        $currentGoogleRedirect = trim($m[1], " \t\n\r\0\x0B\"'");
+    }
     $mailPass = '';
     if (preg_match('/^MAIL_PASSWORD=(.*)$/m', $envContent, $m)) {
         $mailPass = trim($m[1], " \t\n\r\0\x0B\"'");
@@ -265,6 +301,27 @@ button.btn-primary:hover{background:#4338ca}
     <form method="POST" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
       <input type="password" name="mail_password" placeholder="Enter password for info@truantenterprises.com" style="flex:1;min-width:240px;" required />
       <button type="submit" class="btn-primary">Save &amp; Test SMTP</button>
+    </form>
+  </div>
+
+  <!-- Google OAuth Card -->
+  <div class="card" style="border-color: <?= !empty($currentGoogleClientId) && $currentGoogleClientId !== 'your_production_google_client_id' ? 'var(--green)' : 'var(--blue)' ?>;">
+    <h3 style="color:var(--blue);">&#128273; Google OAuth Configuration</h3>
+    <p style="font-size:13px;color:var(--gray);margin-bottom:10px;">
+      APP_URL: <code><?= htmlspecialchars($currentAppUrl ?: 'https://truantenterprises.com') ?></code> &bull; Redirect URI: <code><?= htmlspecialchars($currentGoogleRedirect ?: 'https://truantenterprises.com/auth/google/callback') ?></code>
+    </p>
+    <div style="font-size:12px;margin-bottom:12px;padding:8px 12px;border-radius:6px;background:rgba(0,0,0,0.4);display:flex;flex-direction:column;gap:4px;">
+      <div>Client ID: <code><?= htmlspecialchars($currentGoogleClientId ?: 'your_production_google_client_id') ?></code></div>
+      <div>Client Secret: <code><?= !empty($currentGoogleClientSecret) ? (strlen($currentGoogleClientSecret) > 8 ? substr($currentGoogleClientSecret, 0, 4) . '••••••••' . substr($currentGoogleClientSecret, -4) : '••••••••') : 'your_production_google_client_secret' ?></code></div>
+    </div>
+    <form method="POST" style="display:flex;flex-direction:column;gap:10px;">
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <input type="text" name="google_client_id" placeholder="Enter Google Client ID" value="<?= htmlspecialchars($currentGoogleClientId !== 'your_production_google_client_id' ? $currentGoogleClientId : '') ?>" style="flex:1;min-width:260px;background:#080f1e;border:1px solid var(--border);color:#fff;padding:9px 12px;border-radius:6px;font-size:13px;" />
+        <input type="password" name="google_client_secret" placeholder="Enter Google Client Secret" style="flex:1;min-width:260px;background:#080f1e;border:1px solid var(--border);color:#fff;padding:9px 12px;border-radius:6px;font-size:13px;" />
+      </div>
+      <div>
+        <button type="submit" class="btn-primary">Save Google OAuth Credentials</button>
+      </div>
     </form>
   </div>
 
